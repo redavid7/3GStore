@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">3GStore</string>
+    <string name="stringa_benvenuto">MarangiGGNegozio</string>
+    <string name="stringa_benvenuto2">Hi, i\'m mr MEESEEK</string>
 </resources>
