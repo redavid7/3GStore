@@ -11,8 +11,4 @@ public class loginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_page);
     }
-
-
-
-
 }
