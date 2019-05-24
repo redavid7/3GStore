@@ -1,5 +1,6 @@
 package com.QUeM.TreGStore;
 
+
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 
 public class MainActivity extends AppCompatActivity {
+
     //dichiarazione variabili
     private ImageButton bottoneMario;
     private TextView testo1;
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         switchaActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent login=new Intent(MainActivity.this, loginActivity.class);
+                Intent login=new Intent( MainActivity.this, loginActivity.class);
                 startActivity(login);
             }
         });

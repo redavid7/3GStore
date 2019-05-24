@@ -9,4 +9,13 @@
     <style name="AppTheme" parent="AppBaseTheme">
     </style>
 
+    <style name="titoloSplashPageStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:capitalize">characters</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">30pt</item>
+        <item name="android:textColor">#d21920</item>/>
+    </style>
+
 </resources>
