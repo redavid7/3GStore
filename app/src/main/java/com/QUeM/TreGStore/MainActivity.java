@@ -3,6 +3,7 @@ package com.QUeM.TreGStore;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -21,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
         //inizializzazione activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //inizializzazione della toolbar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setSubtitle("TOOLBAR");
 
         //inizializzazione delle variabili
         bottoneMario= (ImageButton) findViewById(R.id.malio);
