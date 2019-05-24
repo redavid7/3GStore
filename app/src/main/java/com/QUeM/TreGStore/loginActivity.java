@@ -3,6 +3,7 @@ package com.QUeM.TreGStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+
 public class loginActivity extends AppCompatActivity {
 
     @Override
@@ -10,6 +11,8 @@ public class loginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_page);
     }
+
+
 
 
 }
