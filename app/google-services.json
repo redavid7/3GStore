@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "710071751209",
+    "firebase_url": "https://tregstore-7285f.firebaseio.com",
+    "project_id": "tregstore-7285f",
+    "storage_bucket": "tregstore-7285f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:710071751209:android:b8d84a2e0fe3aaeb",
+        "android_client_info": {
+          "package_name": "com.QUeM.TreGStore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "710071751209-8s7dlpnh894t9p1tmqtkva3nfu4hulr3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBcwNJtLJZfdrj7qiEFVokgvDoPpyF3uO8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "710071751209-8s7dlpnh894t9p1tmqtkva3nfu4hulr3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
