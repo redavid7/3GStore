@@ -1,0 +1,11 @@
+<!--background usato per l'header nel menu laterale-->
+
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="135"
+        android:startColor="#69140E"
+        android:centerColor="#d21920"
+        android:endColor="#E44A50"
+        android:type="linear" />
+</shape>

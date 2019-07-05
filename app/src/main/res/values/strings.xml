@@ -4,5 +4,24 @@
     <string name="stringa_benvenuto2">Hi, i\'m mr MEESEEK</string>
     <string name="bottone_switcha_activity">Switch Activity</string>
     <string name="nomeAppSpashPage">3G STORE</string>
+    <string name="password">Password</string>
+    <string name="email">E-Mail</string>
+
+    <string name="title_activity_nav">Shopping Cart</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Name Surname</string>
+    <string name="nav_header_subtitle">N. Points</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Shopping Cart</string>
+    <string name="menu_promozioni">Promotions</string>
+    <string name="menu_marangicoin">Yours MarangiCoin</string>
+    <string name="menu_contatti">Yours contacts</string>
+    <string name="menu_quit">Quit</string>
+    <string name="menu_gioco">MarangiMan</string>
+    <string name="menu_informazioni">Products Info</string>
+
 
 </resources>

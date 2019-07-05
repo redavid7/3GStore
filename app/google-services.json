@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "710071751209",
-    "firebase_url": "https://tregstore-7285f.firebaseio.com",
-    "project_id": "tregstore-7285f",
-    "storage_bucket": "tregstore-7285f.appspot.com"
+    "project_number": "309173111521",
+    "firebase_url": "https://tregstore19.firebaseio.com",
+    "project_id": "tregstore19",
+    "storage_bucket": "tregstore19.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:710071751209:android:b8d84a2e0fe3aaeb",
+        "mobilesdk_app_id": "1:309173111521:android:b8d84a2e0fe3aaeb",
         "android_client_info": {
           "package_name": "com.QUeM.TreGStore"
         }
       },
       "oauth_client": [
         {
-          "client_id": "710071751209-8s7dlpnh894t9p1tmqtkva3nfu4hulr3.apps.googleusercontent.com",
+          "client_id": "309173111521-f8714ovl7cc19ktkdl7j2aiuo1bb22d9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.QUeM.TreGStore",
+            "certificate_hash": "c403468da374d52773ac85c52957a4f7c5f663c8"
+          }
+        },
+        {
+          "client_id": "309173111521-s3g06e54ohj1p3bd4pflk6ffana0f5lm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBcwNJtLJZfdrj7qiEFVokgvDoPpyF3uO8"
+          "current_key": "AIzaSyC5t2_r7RfQyfEaviVLGrEY3tLghd1SBQE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "710071751209-8s7dlpnh894t9p1tmqtkva3nfu4hulr3.apps.googleusercontent.com",
+              "client_id": "309173111521-s3g06e54ohj1p3bd4pflk6ffana0f5lm.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

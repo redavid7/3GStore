@@ -5,4 +5,22 @@
     <string name="stringa_benvenuto2">Ciao sono mister mi guardi</string>
     <string name="bottone_switcha_activity">Switcha Activity</string>
     <string name="nomeAppSpashPage">3G STORE</string>
+    <string name="password">Password</string>
+    <string name="email">E-Mail</string>
+    <string name="title_activity_nav">Carrello</string>
+    <string name="navigation_drawer_open">Apri menu laterale</string>
+    <string name="navigation_drawer_close">Chiudi menu laterale</string>
+    <string name="nav_header_title">Nome Cognome</string>
+    <string name="nav_header_subtitle">Punti: XXX</string>
+    <string name="nav_header_desc">Testa Navigazione</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="menu_home">Carrello</string>
+    <string name="menu_promozioni">Promozioni</string>
+    <string name="menu_marangicoin">I tuoi MarangiCoin</string>
+    <string name="menu_informazioni">Informazioni sui prodotti</string>
+    <string name="menu_quit">Esci</string>
+    <string name="menu_gioco">MarangiMan</string>
+    <string name="menu_contatti">I tuoi contatti</string>
+
+
 </resources>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeActivity">
+
+    <!-- toolbar -->
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppBaseTheme">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppBaseTheme" >
+
+            <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="0px"
+                android:layout_height="0px"/>
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/searchview_info"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:nextFocusUp="@id/search"
+                android:nextFocusLeft="@id/search"
+                android:layout_gravity="center"
+                android:iconifiedByDefault="false"
+                android:queryHint="C cov vè?"
+                />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <!-- navigation menu -->
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/contenitore_navigation_drawer" />
+
+    <!-- Button + -->
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/aggiungi_prodotto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_margin="@dimen/fab_margin"
+        android:backgroundTint="#D21920"
+        app:srcCompat="@drawable/ic_menu_aggiungi_prodotto" />
+
+
+    <include
+        android:id="@+id/include_fab_option"
+        layout="@layout/floating_action_button_option"/>
+
+</android.support.design.widget.CoordinatorLayout>
+

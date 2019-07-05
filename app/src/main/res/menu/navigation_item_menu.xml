@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--definizione degli elementi del menu-->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_carrello"
+            android:title="@string/menu_home" />
+                <item
+            android:id="@+id/nav_promozioni"
+            android:icon="@drawable/logo3gstore"
+            android:title="@string/menu_promozioni" />
+        <item
+            android:id="@+id/nav_game"
+            android:icon="@drawable/ic_menu_gioco"
+            android:title="@string/menu_gioco" />
+        <item
+            android:id="@+id/nav_marangicoin"
+            android:icon="@drawable/ic_menu_marangicoin"
+            android:title="@string/menu_marangicoin" />
+        <item
+            android:id="@+id/nav_contatti"
+            android:icon="@drawable/ic_menu_contatti"
+            android:title="@string/menu_contatti" />
+
+    </group>
+
+    <item tools:ignore="MenuTitle">
+        <menu>
+            <item
+                android:id="@+id/nav_quit"
+                android:icon="@drawable/ic_menu_quit"
+                android:title="@string/menu_quit" />
+
+        </menu>
+    </item>
+
+</menu>

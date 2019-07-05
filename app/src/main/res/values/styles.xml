@@ -1,13 +1,16 @@
 <resources>
 
     <color name="window_background">#FFFFFF</color>
+
+    <!--utilizzare questo tema per i colori standard dell'app-->
+
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#d21920</item>
         <item name="colorPrimaryDark">#69140E</item>
         <item name="android:windowBackground">@color/window_background</item>
     </style>
-    <style name="AppTheme" parent="AppBaseTheme">
-    </style>
+
+    <style name="AppTheme" parent="AppBaseTheme"></style>
 
     <style name="titoloSplashPageStyle">
         <item name="android:layout_width">fill_parent</item>
@@ -16,6 +19,12 @@
         <item name="android:typeface">monospace</item>
         <item name="android:textSize">30pt</item>
         <item name="android:textColor">#d21920</item>/>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
 </resources>
