@@ -33,8 +33,7 @@
                 android:nextFocusUp="@id/search"
                 android:nextFocusLeft="@id/search"
                 android:layout_gravity="center"
-                android:iconifiedByDefault="false"
-                android:queryHint="C cov vè?"
+
                 />
 
         </android.support.v7.widget.Toolbar>
@@ -53,7 +52,7 @@
         android:id="@+id/aggiungi_prodotto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="#D21920"
         app:srcCompat="@drawable/ic_menu_aggiungi_prodotto" />

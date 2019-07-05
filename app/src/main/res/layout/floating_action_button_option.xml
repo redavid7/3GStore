@@ -10,10 +10,9 @@
         android:id="@+id/aggiungi_codice_barre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="#D21920"
-        android:visibility="invisible"
         app:srcCompat="@drawable/barcode_icon" />
 
     <!-- button NFC -->
@@ -22,10 +21,9 @@
         android:id="@+id/aggiungi_nfc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="#D21920"
-        android:visibility="invisible"
         app:srcCompat="@drawable/nfc_icon" />
 
     <!-- button QR Code -->
@@ -34,10 +32,9 @@
         android:id="@+id/aggiungi_qr_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="#D21920"
-        android:visibility="invisible"
         app:srcCompat="@drawable/qrcode_icon" />
 
 </FrameLayout>

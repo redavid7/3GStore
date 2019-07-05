@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 
 public class HomeActivity extends AppCompatActivity
@@ -39,6 +40,8 @@ public class HomeActivity extends AppCompatActivity
 
         //--------------------FINE SEARCHBAR-------------------------------
 
+
+
         //--------------------INIZIO FLOATING ACTION BUTTON-------------------------------
 
         //inizializza il pulsante floating action button che fa da menù
@@ -54,83 +57,42 @@ public class HomeActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
 
-                //inizializzo parametri di layout per muovere i foating action point
-                FrameLayout.LayoutParams lpQR = (FrameLayout.LayoutParams) fabQR.getLayoutParams();
-                FrameLayout.LayoutParams lpNFC = (FrameLayout.LayoutParams) fabNFC.getLayoutParams();
-                FrameLayout.LayoutParams lpBC = (FrameLayout.LayoutParams) fabBC.getLayoutParams();
-
                 if(fabBC.isClickable() && fabNFC.isClickable() && fabQR.isClickable()){
-
-                    //reimposto i margini per ogni bottone per tornare nella posizione iniziale
-                    //QR CODE
-                    lpQR.rightMargin -= 90;
-                    lpQR.bottomMargin -= 54;
-
-                    //BARCODE
-                    lpBC.bottomMargin -= 100;
-
-                    //NFC
-                    lpNFC.leftMargin -= 90;
-                    lpNFC.bottomMargin -= 54;
-
-
-                    //inizializzo la variabile che contiene le informazioni dell'animazione
-                    Animation hide_fab_ltc = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_hide_animation_left_to_center);
-                    Animation hide_fab_utc = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_hide_animation_up_to_center);
-                    Animation hide_fab_rtc = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_hide_animation_right_to_center);
-
-                    //imposto la nuova posizione dei floating action buttons
-                    fabQR.setLayoutParams(lpQR);
-                    fabNFC.setLayoutParams(lpNFC);
-                    fabBC.setLayoutParams(lpBC);
-
-                    //faccio partire l'animazione per nascondere i floating action buttons
-                    fabQR.startAnimation(hide_fab_ltc);
-                    fabNFC.startAnimation(hide_fab_rtc);
-                    fabBC.startAnimation(hide_fab_utc);
-
-                    //faccio diventare non cliccabili i floating action buttons
-                    fabQR.setClickable(false);
-                    fabNFC.setClickable(false);
-                    fabBC.setClickable(false);
-
+                    closeFABMenu(fabQR, fabNFC, fabBC);
                 }else{
-
-                    //imposto i nuovi margini per ogni bottone
-                    //QR CODE
-                    lpQR.rightMargin += 90;
-                    lpQR.bottomMargin += 54;
-
-                    //BARCODE
-                    lpBC.bottomMargin += 100;
-
-                    //NFC
-                    lpNFC.leftMargin += 90;
-                    lpNFC.bottomMargin += 54;
-
-                    //inizializzo la variabile che contiene le informazioni dell'animazione
-                    Animation show_fab_ctl = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_show_animation_center_to_left);
-                    Animation show_fab_ctu = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_show_animation_center_to_up);
-                    Animation show_fab_ctr = AnimationUtils.loadAnimation(getApplication(), R.anim.fab_show_animation_center_to_right);
-
-                    //imposto la nuova posizione dei floating action buttons
-                    fabQR.setLayoutParams(lpQR);
-                    fabNFC.setLayoutParams(lpNFC);
-                    fabBC.setLayoutParams(lpBC);
-
-                    //faccio partire l'animazione per renderli visibili
-                    fabQR.startAnimation(show_fab_ctl);
-                    fabNFC.startAnimation(show_fab_ctr);
-                    fabBC.startAnimation(show_fab_ctu);
-
-                    //faccio diventare cliccabili le opzioni
-                    fabQR.setClickable(true);
-                    fabNFC.setClickable(true);
-                    fabBC.setClickable(true);
+                    showFABMenu(fabQR, fabNFC, fabBC);
                 }
 
             }
         });
+
+        //azione (provvisoria) del fab quando clicchi
+        fabQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Metodo QR", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+
+        //azione (provvisoria) del fab quando clicchi
+        fabNFC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Metodo NFC", Toast.LENGTH_LONG);
+                toast.show();
+            }
+
+        //azione (provvisoria) del fab quando clicchi
+        });fabBC.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(getApplicationContext(), "Metodo BarCode", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+
+
 
         //--------------------FINE FLOATING ACTION BUTTON-------------------------------
 
@@ -205,5 +167,36 @@ public class HomeActivity extends AppCompatActivity
     }
     */
 
+
+    //metodo per mostrare i floating action point
+    private void showFABMenu(FloatingActionButton fab1, FloatingActionButton fab2, FloatingActionButton fab3){
+
+        //animazione per fare uscire i 3 buttons
+        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_60));
+        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_120));
+        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_180));
+
+        //faccio diventare non cliccabili i floating action buttons
+        fab1.setClickable(true);
+        fab2.setClickable(true);
+        fab3.setClickable(true);
+
+    }
+
+
+    //metodo per nascondere i floating action point
+    private void closeFABMenu(FloatingActionButton fab1, FloatingActionButton fab2, FloatingActionButton fab3){
+
+        //animazione per farli tornare dietro il pulsante +
+        fab1.animate().translationY(0);
+        fab2.animate().translationY(0);
+        fab3.animate().translationY(0);
+
+        //faccio diventare non cliccabili i floating action buttons
+        fab1.setClickable(false);
+        fab2.setClickable(false);
+        fab3.setClickable(false);
+
+    }
 
 }
