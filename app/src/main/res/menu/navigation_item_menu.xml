@@ -13,7 +13,7 @@
             android:title="@string/menu_home" />
                 <item
             android:id="@+id/nav_promozioni"
-            android:icon="@drawable/logo3gstore"
+            android:icon="@drawable/info_icon"
             android:title="@string/menu_promozioni" />
         <item
             android:id="@+id/nav_game"

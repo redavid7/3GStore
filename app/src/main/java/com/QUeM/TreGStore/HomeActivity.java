@@ -1,11 +1,12 @@
 package com.QUeM.TreGStore;
 
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,43 +15,40 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
+
 
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+
+    //inizializzazioni variabili fab
+    FloatingActionButton fabMenu;
+    FloatingActionButton fabQR;
+    FloatingActionButton fabNFC;
+    FloatingActionButton fabBC;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //inizializza Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        //--------------------INIZIO SEARCHBAR-------------------------------
-
-        // expand searchView as EditText (default is a search icon)
-        SearchView simpleSearchView = (SearchView) findViewById(R.id.searchview_info);
-        CharSequence query = simpleSearchView.getQuery();
-
-
-
-
-
-        //--------------------FINE SEARCHBAR-------------------------------
-
 
 
         //--------------------INIZIO FLOATING ACTION BUTTON-------------------------------
 
         //inizializza il pulsante floating action button che fa da menù
-        FloatingActionButton fabMenu = findViewById(R.id.aggiungi_prodotto);
+        fabMenu = findViewById(R.id.aggiungi_prodotto);
 
         //inizializza i pulsanti floating action button che fanno da opzioni
-        final FloatingActionButton fabQR = findViewById(R.id.aggiungi_qr_code);
-        final FloatingActionButton fabNFC = findViewById(R.id.aggiungi_nfc);
-        final FloatingActionButton fabBC = findViewById(R.id.aggiungi_codice_barre);
+        fabQR = findViewById(R.id.aggiungi_qr_code);
+        fabNFC = findViewById(R.id.aggiungi_nfc);
+        fabBC = findViewById(R.id.aggiungi_codice_barre);
 
         //azione del floating action button menu quando cliccato
         fabMenu.setOnClickListener(new View.OnClickListener() {
@@ -70,8 +68,8 @@ public class HomeActivity extends AppCompatActivity
         fabQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Metodo QR", Toast.LENGTH_LONG);
-                toast.show();
+                Toast.makeText(getApplicationContext(), "Metodo QR", Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -79,22 +77,20 @@ public class HomeActivity extends AppCompatActivity
         fabNFC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Metodo NFC", Toast.LENGTH_LONG);
-                toast.show();
+                Toast.makeText(getApplicationContext(), "Metodo NFC", Toast.LENGTH_LONG).show();
             }
 
         //azione (provvisoria) del fab quando clicchi
         });fabBC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Metodo BarCode", Toast.LENGTH_LONG);
-                toast.show();
+                Toast.makeText(getApplicationContext(), "Metodo BarCode", Toast.LENGTH_LONG).show();
             }
         });
 
-
-
         //--------------------FINE FLOATING ACTION BUTTON-------------------------------
+
+
 
 
 
@@ -120,42 +116,129 @@ public class HomeActivity extends AppCompatActivity
         //funzione che gestisce la scelta effettuata nel menu
         navigationView.setNavigationItemSelectedListener(this);
 
+        //Add this line of code here to open the default selected menu on app start time.
+        ShowFragment(R.id.nav_home);
+
+        //creo possibilità di usare l'icona profilo come pulsante per accedere al fragment profilo
+        View headerView= navigationView.getHeaderView(0);
+        ImageView imageViewProfile= (ImageView) headerView.findViewById(R.id.nav_profilo);
+        imageViewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShowFragment(R.id.nav_profilo);
+            }
+        });
+
         //--------------------FINE TOOLBAR E NAVIGATION DRAWER-------------------------------
 
-    }
+    } //------------------------------FINE BLOCCO HOMEACTIVITY-----------------------------------
+
+    //---------------------------------------------------------------------------
+    //-------------------------INIZIO FUNZIONI MENU------------------------------
+    //---------------------------------------------------------------------------
 
     //gestisce il comportamento di ogni sezione per ogni item del menu
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // raccoglie la scelta dell'utente
-        int id = item.getItemId();
 
-        //definisce azione per ogni voce del menu
-        if (id == R.id.nav_home) {
-            //gestisce la selezione Carrello (home)
+        if(item.getItemId()==R.id.nav_game){
+            //inserire l'activity del gioco
 
-        } else if (id == R.id.nav_promozioni) {
-            //gestisce la selezione Promozioni
+            //https://stackoverflow.com/questions/7074097/how-to-pass-integer-from-one-activity-to-another
+            //guida al passaggio di int tramite intent tra activity
 
-        } else if (id == R.id.nav_game) {
-            //gestisce la selezione I Tuoi Marangicoin
-
-        } else if (id == R.id.nav_marangicoin) {
-            //gestisce la selezione MarangiMan
-
-        } else if (id == R.id.nav_contatti) {
-            //gestisce la selezione I tuoi Contatti
-
-        }else if (id == R.id.nav_quit) {
-            //gestisce la selezione Esci
+            //Intent switchActivityGame= new Intent(HomeActivity.this, MainActivity.class);
+            //startActivity(switchActivityGame);
+        }else{
+            //chiamo il metodo che gestisce i fragment per la scelta degli elementi del menu
+            ShowFragment(item.getItemId());
         }
 
-        //reimposta a lato il menu chiudendolo e mantanendo selezionata la sezione scelta
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
+
+    @SuppressLint("RestrictedApi")
+    private void ShowFragment(int itemId) {
+
+        //inizializzo la variabile che conterrà il fragment da mostrare
+        Fragment fragment = null;
+
+        //in base alla selezione del menu assegno il fragment da mostrare
+        switch (itemId) {
+            case R.id.nav_home:
+                fragment = new FragmentHome();
+                if(!fabMenu.isClickable()){
+                    showFABs();
+                }
+                break;
+            case R.id.nav_promozioni:
+                fragment = new FragmentPromozioni();
+                if(fabMenu.isClickable()) {
+                    hideFABs();
+                }
+                break;
+            case R.id.nav_marangicoin:
+                fragment = new FragmentMarangicoin();
+                if(fabMenu.isClickable()) {
+                    hideFABs();
+                }
+                break;
+            case R.id.nav_contatti:
+                fragment = new FragmentContatti();
+                if(fabMenu.isClickable()) {
+                    hideFABs();
+                }
+                break;
+            case R.id.nav_profilo:
+                fragment = new FragmentProfilo();
+                if(fabMenu.isClickable()) {
+                    hideFABs();
+                }
+                break;
+
+        }
+
+        //imposta il nuovo fragment
+        if (fragment != null) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.frame_layout, fragment);
+            fragmentTransaction.commit();
+        }
+
+
+        //reimposto il menù laterale
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+
+
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void showFABs(){
+        fabMenu.setClickable(true);
+        fabMenu.setVisibility(View.VISIBLE);
+        fabNFC.setVisibility(View.VISIBLE);
+        fabBC.setVisibility(View.VISIBLE);
+        fabQR.setVisibility(View.VISIBLE);
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void hideFABs(){
+        fabMenu.setClickable(false);
+        fabMenu.setVisibility(View.INVISIBLE);
+        fabNFC.setVisibility(View.INVISIBLE);
+        fabBC.setVisibility(View.INVISIBLE);
+        fabQR.setVisibility(View.INVISIBLE);
+        if(fabNFC.isClickable()){
+            closeFABMenu(fabQR, fabNFC, fabBC);
+        }
+    }
+
+
+    //---------------------------------------------------------------------------
+    //-------------------------FINE FUNZIONI MENU--------------------------------
+    //---------------------------------------------------------------------------
 
     /*
     //metodo per mostrare la searchBar
@@ -167,6 +250,9 @@ public class HomeActivity extends AppCompatActivity
     }
     */
 
+    //----------------------------------------------------------------------------
+    //-------------------------INIZIO FUNZIONI FAB--------------------------------
+    //----------------------------------------------------------------------------
 
     //metodo per mostrare i floating action point
     private void showFABMenu(FloatingActionButton fab1, FloatingActionButton fab2, FloatingActionButton fab3){
@@ -198,5 +284,10 @@ public class HomeActivity extends AppCompatActivity
         fab3.setClickable(false);
 
     }
+
+    //----------------------------------------------------------------------------
+    //-------------------------FINE FUNZIONI FAB----------------------------------
+    //----------------------------------------------------------------------------
+
 
 }

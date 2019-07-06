@@ -26,15 +26,6 @@
                 android:layout_width="0px"
                 android:layout_height="0px"/>
 
-            <android.support.v7.widget.SearchView
-                android:id="@+id/searchview_info"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:nextFocusUp="@id/search"
-                android:nextFocusLeft="@id/search"
-                android:layout_gravity="center"
-
-                />
 
         </android.support.v7.widget.Toolbar>
 
@@ -44,23 +35,13 @@
 
     <include
         android:id="@+id/include2"
-        layout="@layout/contenitore_navigation_drawer" />
-
-    <!-- Button + -->
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/aggiungi_prodotto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="#D21920"
-        app:srcCompat="@drawable/ic_menu_aggiungi_prodotto" />
+        layout="@layout/content_main" />
 
 
     <include
         android:id="@+id/include_fab_option"
         layout="@layout/floating_action_button_option"/>
+
 
 </android.support.design.widget.CoordinatorLayout>
 
