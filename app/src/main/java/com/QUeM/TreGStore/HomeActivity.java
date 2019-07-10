@@ -68,8 +68,7 @@ public class HomeActivity extends AppCompatActivity
         fabQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Metodo QR", Toast.LENGTH_LONG).show();
-
+                startActivity(new Intent(HomeActivity.this, ScannedBarcodeActivity.class));
             }
         });
 
@@ -77,14 +76,13 @@ public class HomeActivity extends AppCompatActivity
         fabNFC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Metodo NFC", Toast.LENGTH_LONG).show();
-            }
+                Toast.makeText(getApplicationContext(), "Metodo NFC", Toast.LENGTH_LONG).show(); }
 
-        //azione (provvisoria) del fab quando clicchi
+            //azione (provvisoria) del fab quando clicchi
         });fabBC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Metodo BarCode", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Metodo BC", Toast.LENGTH_LONG).show();
             }
         });
 
