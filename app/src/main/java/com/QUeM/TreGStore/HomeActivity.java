@@ -29,7 +29,7 @@ public class HomeActivity extends AppCompatActivity
     FloatingActionButton fabMenu;
     FloatingActionButton fabQR;
     FloatingActionButton fabNFC;
-    FloatingActionButton fabBC;
+
 
 
     @Override
@@ -48,17 +48,17 @@ public class HomeActivity extends AppCompatActivity
         //inizializza i pulsanti floating action button che fanno da opzioni
         fabQR = findViewById(R.id.aggiungi_qr_code);
         fabNFC = findViewById(R.id.aggiungi_nfc);
-        fabBC = findViewById(R.id.aggiungi_codice_barre);
+
 
         //azione del floating action button menu quando cliccato
         fabMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(fabBC.isClickable() && fabNFC.isClickable() && fabQR.isClickable()){
-                    closeFABMenu(fabQR, fabNFC, fabBC);
+                if(fabNFC.isClickable() && fabQR.isClickable()){
+                    closeFABMenu(fabQR, fabNFC);
                 }else{
-                    showFABMenu(fabQR, fabNFC, fabBC);
+                    showFABMenu(fabQR, fabNFC);
                 }
 
             }
@@ -79,11 +79,6 @@ public class HomeActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Metodo NFC", Toast.LENGTH_LONG).show(); }
 
             //azione (provvisoria) del fab quando clicchi
-        });fabBC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Metodo BC", Toast.LENGTH_LONG).show();
-            }
         });
 
         //--------------------FINE FLOATING ACTION BUTTON-------------------------------
@@ -217,7 +212,6 @@ public class HomeActivity extends AppCompatActivity
         fabMenu.setClickable(true);
         fabMenu.setVisibility(View.VISIBLE);
         fabNFC.setVisibility(View.VISIBLE);
-        fabBC.setVisibility(View.VISIBLE);
         fabQR.setVisibility(View.VISIBLE);
     }
 
@@ -226,10 +220,9 @@ public class HomeActivity extends AppCompatActivity
         fabMenu.setClickable(false);
         fabMenu.setVisibility(View.INVISIBLE);
         fabNFC.setVisibility(View.INVISIBLE);
-        fabBC.setVisibility(View.INVISIBLE);
         fabQR.setVisibility(View.INVISIBLE);
         if(fabNFC.isClickable()){
-            closeFABMenu(fabQR, fabNFC, fabBC);
+            closeFABMenu(fabQR, fabNFC);
         }
     }
 
@@ -253,33 +246,29 @@ public class HomeActivity extends AppCompatActivity
     //----------------------------------------------------------------------------
 
     //metodo per mostrare i floating action point
-    private void showFABMenu(FloatingActionButton fab1, FloatingActionButton fab2, FloatingActionButton fab3){
+    private void showFABMenu(FloatingActionButton fab1, FloatingActionButton fab2){
 
         //animazione per fare uscire i 3 buttons
         fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_60));
         fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_120));
-        fab3.animate().translationY(-getResources().getDimension(R.dimen.standard_180));
 
         //faccio diventare non cliccabili i floating action buttons
         fab1.setClickable(true);
         fab2.setClickable(true);
-        fab3.setClickable(true);
 
     }
 
 
     //metodo per nascondere i floating action point
-    private void closeFABMenu(FloatingActionButton fab1, FloatingActionButton fab2, FloatingActionButton fab3){
+    private void closeFABMenu(FloatingActionButton fab1, FloatingActionButton fab2){
 
         //animazione per farli tornare dietro il pulsante +
         fab1.animate().translationY(0);
         fab2.animate().translationY(0);
-        fab3.animate().translationY(0);
 
         //faccio diventare non cliccabili i floating action buttons
         fab1.setClickable(false);
         fab2.setClickable(false);
-        fab3.setClickable(false);
 
     }
 

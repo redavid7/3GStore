@@ -5,18 +5,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
-    <!-- button Bar Code -->
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/aggiungi_codice_barre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="#D21920"
-        app:srcCompat="@drawable/barcode_icon" />
-
     <!-- button NFC -->
 
     <android.support.design.widget.FloatingActionButton
@@ -37,7 +25,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="#D21920"
-        app:srcCompat="@drawable/qrcode_icon" />
+        app:srcCompat="@drawable/camera_icon" />
 
     <!-- Button + -->
 
