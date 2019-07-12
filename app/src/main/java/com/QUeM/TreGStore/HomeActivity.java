@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.QUeM.TreGStore.GiocoPacman.GooglePacman;
 
 
 public class HomeActivity extends AppCompatActivity
@@ -140,17 +141,14 @@ public class HomeActivity extends AppCompatActivity
             //https://stackoverflow.com/questions/7074097/how-to-pass-integer-from-one-activity-to-another
             //guida al passaggio di int tramite intent tra activity
 
-            //Intent switchActivityGame= new Intent(HomeActivity.this, MainActivity.class);
-            //startActivity(switchActivityGame);
+            Intent switchActivityGame= new Intent(HomeActivity.this, GooglePacman.class);
+            startActivity(switchActivityGame);
         }else{
             //chiamo il metodo che gestisce i fragment per la scelta degli elementi del menu
             ShowFragment(item.getItemId());
         }
-
-
         return true;
     }
-
     @SuppressLint("RestrictedApi")
     private void ShowFragment(int itemId) {
 
@@ -225,8 +223,6 @@ public class HomeActivity extends AppCompatActivity
             closeFABMenu(fabQR, fabNFC);
         }
     }
-
-
     //---------------------------------------------------------------------------
     //-------------------------FINE FUNZIONI MENU--------------------------------
     //---------------------------------------------------------------------------
