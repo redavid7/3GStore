@@ -1,8 +1,7 @@
 package com.QUeM.TreGStore;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
@@ -12,12 +11,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.QUeM.TreGStore.DatabaseClass.Prodotti;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 
 
 public class FragmentHome extends Fragment {
@@ -44,24 +43,30 @@ public class FragmentHome extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
         final TextView nulla=(TextView) view.findViewById(R.id.textCarrelloVuoto);
         ImageView carr=(ImageView) view.findViewById(R.id.immagineCarrelloVuoto);
-
-
-
-
-
         carr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String text= String.valueOf(((HomeActivity) getActivity()).getItemFromList(0));
+                if(text==null){
+                    nulla.setText("gg");
+                }else{
+                    nulla.setText(text);
+                }
 
-                nulla.setText(text);
             }
         });
 
+
+        FirebaseFirestore root = FirebaseFirestore.getInstance();
+        CollectionReference prodotto= root.collection("prodotti");
+        root.collection("prodotti").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                //
+            }
+        });
 
     }
 

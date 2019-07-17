@@ -360,8 +360,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     public String getItemFromList(int index){
         String risultato="";
-        int codicelista=prodottiCarrello.get(index);
-        risultato=String.valueOf(codicelista);
+        if(prodottiCarrello.isEmpty()){
+            risultato="Lista Vuota";
+        }else{
+            int codicelista=prodottiCarrello.get(index);
+            risultato=String.valueOf(codicelista);
+        }
         return risultato;
     }
 
