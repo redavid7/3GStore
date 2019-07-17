@@ -7,15 +7,26 @@
 
 
     <TextView
-        android:id="@+id/textViewPromozioni"
+        android:id="@+id/textCarrelloVuoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
         android:layout_centerInParent="true"
         android:text="Il Carrello è vuoto"
+        android:layout_marginTop="5dp"
         android:textAlignment="center"
         android:textSize="25dp" />
 
-
+    <ImageView
+        android:id="@+id/immagineCarrelloVuoto"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:alpha="0.3"
+        app:srcCompat="@drawable/empty_shopping_kart" />
 
 
 </RelativeLayout>

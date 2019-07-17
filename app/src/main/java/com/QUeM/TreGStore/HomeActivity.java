@@ -20,28 +20,41 @@ import android.widget.Toast;
 
 import com.QUeM.TreGStore.GiocoPacman.GooglePacman;
 
+import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+//debug message
+//Toast.makeText(getContext(), "debug", Toast.LENGTH_LONG).show();
 
 
+//GESTIRE LISTA E INTENT DELLA CAMERA
+
+
+public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //inizializzazioni variabili fab
     FloatingActionButton fabMenu;
     FloatingActionButton fabQR;
     FloatingActionButton fabNFC;
 
-
+    //arraylist con codici dei prodotti del carrello
+    public ArrayList<Integer> prodottiCarrello=new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //--------------------INIZIO GESTIONE SETUP ACTIVITY-------------------------------
 
         //inizializza Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        //--------------------FINE GESTIONE SETUP ACTIVITY-------------------------------
 
-        //--------------------INIZIO FLOATING ACTION BUTTON-------------------------------
+
+
+
+
+        //--------------------INIZIO GESTIONE FLOATING ACTION BUTTON-------------------------------
 
         //inizializza il pulsante floating action button che fa da menù
         fabMenu = findViewById(R.id.aggiungi_prodotto);
@@ -69,6 +82,7 @@ public class HomeActivity extends AppCompatActivity
         fabQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //fab che passa all'activity dello scanner tramite camera
                 startActivity(new Intent(HomeActivity.this, ScannedBarcodeActivity.class));
             }
         });
@@ -82,13 +96,13 @@ public class HomeActivity extends AppCompatActivity
             //azione (provvisoria) del fab quando clicchi
         });
 
-        //--------------------FINE FLOATING ACTION BUTTON-------------------------------
+        //--------------------FINE GESTIONE FLOATING ACTION BUTTON-------------------------------
 
 
 
 
 
-        //--------------------INIZIO TOOLBAR E NAVIGATION DRAWER-------------------------------
+        //--------------------INIZIO GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
 
         //inizializza toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -110,7 +124,16 @@ public class HomeActivity extends AppCompatActivity
         //funzione che gestisce la scelta effettuata nel menu
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Add this line of code here to open the default selected menu on app start time.
+
+
+        //--------------------FINE GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
+
+
+
+
+        //--------------------INIZIO GESTIONE FRAGMENT-------------------------------
+
+        //carica il fragment di default
         ShowFragment(R.id.nav_home);
 
         //creo possibilità di usare l'icona profilo come pulsante per accedere al fragment profilo
@@ -123,9 +146,57 @@ public class HomeActivity extends AppCompatActivity
             }
         });
 
-        //--------------------FINE TOOLBAR E NAVIGATION DRAWER-------------------------------
+        //--------------------FINE GESTIONE FRAGMENT---------------------------------
 
-    } //------------------------------FINE BLOCCO HOMEACTIVITY-----------------------------------
+    }
+
+    //--------------------------------------------------------------------------------------------------
+    //------------------------------FINE BLOCCO ONCREATE HOMEACTIVITY-----------------------------------
+    //--------------------------------------------------------------------------------------------------
+
+
+
+
+
+    //--------------------------------------------------------------------------------------------------
+    //------------------------------INIZIO BLOCCO GESTIONE VITA HOMEACTIVITY----------------------------
+    //--------------------------------------------------------------------------------------------------
+
+    @Override
+    public void onPause() {
+        super.onPause();  // Always call the superclass method first
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+        Intent cam=getIntent();
+        String stringCode="";
+
+
+        if(cam.hasExtra("code")){
+            stringCode = cam.getStringExtra("code");
+            Toast.makeText(getBaseContext(), stringCode, Toast.LENGTH_LONG).show();
+            Integer codice = Integer.valueOf(stringCode);
+            if(codice.intValue()!=0){
+                prodottiCarrello.add(codice);
+            }
+        }
+
+
+        //
+
+        /*
+
+        */
+        ShowFragment(R.id.nav_home);
+    }
+
+
+    //--------------------------------------------------------------------------------------------------
+    //------------------------------FINE BLOCCO GESTIONE VITA HOMEACTIVITY------------------------------
+    //--------------------------------------------------------------------------------------------------
+
 
     //---------------------------------------------------------------------------
     //-------------------------INIZIO FUNZIONI MENU------------------------------
@@ -158,7 +229,16 @@ public class HomeActivity extends AppCompatActivity
         //in base alla selezione del menu assegno il fragment da mostrare
         switch (itemId) {
             case R.id.nav_home:
+                /*
+                Bundle data = new Bundle();//create bundle instance
+                if(prodottiCarrello.isEmpty()){
+                    data.putString("switch", "0");//put string to pass with a key value
+                }else{
+                    data.putString("switch", "1");//put string to pass with a key value
+                }
+                */
                 fragment = new FragmentHome();
+                //fragment.setArguments(data);
                 if(!fabMenu.isClickable()){
                     showFABs();
                 }
@@ -197,32 +277,12 @@ public class HomeActivity extends AppCompatActivity
             fragmentTransaction.commit();
         }
 
-
         //reimposto il menù laterale
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-
-
     }
 
-    @SuppressLint("RestrictedApi")
-    public void showFABs(){
-        fabMenu.setClickable(true);
-        fabMenu.setVisibility(View.VISIBLE);
-        fabNFC.setVisibility(View.VISIBLE);
-        fabQR.setVisibility(View.VISIBLE);
-    }
 
-    @SuppressLint("RestrictedApi")
-    public void hideFABs(){
-        fabMenu.setClickable(false);
-        fabMenu.setVisibility(View.INVISIBLE);
-        fabNFC.setVisibility(View.INVISIBLE);
-        fabQR.setVisibility(View.INVISIBLE);
-        if(fabNFC.isClickable()){
-            closeFABMenu(fabQR, fabNFC);
-        }
-    }
     //---------------------------------------------------------------------------
     //-------------------------FINE FUNZIONI MENU--------------------------------
     //---------------------------------------------------------------------------
@@ -268,9 +328,47 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
+    @SuppressLint("RestrictedApi")
+    public void showFABs(){
+        fabMenu.setClickable(true);
+        fabMenu.setVisibility(View.VISIBLE);
+        fabNFC.setVisibility(View.VISIBLE);
+        fabQR.setVisibility(View.VISIBLE);
+    }
+
+    @SuppressLint("RestrictedApi")
+    public void hideFABs(){
+        fabMenu.setClickable(false);
+        fabMenu.setVisibility(View.INVISIBLE);
+        fabNFC.setVisibility(View.INVISIBLE);
+        fabQR.setVisibility(View.INVISIBLE);
+        if(fabNFC.isClickable()){
+            closeFABMenu(fabQR, fabNFC);
+        }
+    }
+
+
     //----------------------------------------------------------------------------
     //-------------------------FINE FUNZIONI FAB----------------------------------
     //----------------------------------------------------------------------------
 
 
+    //----------------------------------------------------------------------------
+    //-------------------------INIZIO FUNZIONI CARRELLO---------------------------
+    //----------------------------------------------------------------------------
+
+
+    public String getItemFromList(int index){
+        String risultato="";
+        int codicelista=prodottiCarrello.get(index);
+        risultato=String.valueOf(codicelista);
+        return risultato;
+    }
+
+    //----------------------------------------------------------------------------
+    //-------------------------FINE FUNZIONI CARRELLO-----------------------------
+    //----------------------------------------------------------------------------
+
+
 }
+//////////////////////////////////////////////////FINE CLASSE ACTIVITY//////////////////////////////////

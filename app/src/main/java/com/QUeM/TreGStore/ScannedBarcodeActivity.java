@@ -3,7 +3,6 @@ package com.QUeM.TreGStore;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -50,7 +49,10 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (intentData.length() > 0) {
-                        startActivity(new Intent(ScannedBarcodeActivity.this, HomeActivity.class));
+                    Intent cameraIntent=new Intent(ScannedBarcodeActivity.this, HomeActivity.class);
+                    //aggiungo passaggio del codice all'activity home
+                    cameraIntent.putExtra("code", String.valueOf(intentData));
+                    startActivity(cameraIntent);
                 }
             }
         });
