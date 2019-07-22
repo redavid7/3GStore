@@ -7,10 +7,20 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <supports-screens
+        android:anyDensity="false"
+        android:largeScreens="false"
+        android:normalScreens="true"
+        android:smallScreens="false"
+        android:xlargeScreens="false" />
+
+    <uses-configuration android:reqTouchScreen="finger" />
 
     <application
         android:allowBackup="true"
@@ -19,12 +29,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GiocoPacman.GooglePacman"
-            android:screenOrientation="landscape"></activity>
+        <activity android:name=".AuthenticationActivity"></activity>
+        <activity
+            android:name=".GiocoPacman.GooglePacman"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".ScannedBarcodeActivity"/>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ScannedBarcodeActivity" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,6 +48,7 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -46,11 +59,5 @@
                 android:resource="@xml/provider_paths" />
         </provider>
     </application>
-    <supports-screens android:smallScreens="false"
-        android:normalScreens="true"
-        android:largeScreens="false"
-        android:xlargeScreens="false"
-        android:anyDensity="false" />
-    <uses-configuration android:reqTouchScreen="finger" />
 
 </manifest>
