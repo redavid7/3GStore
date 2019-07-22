@@ -59,41 +59,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //inizializza il pulsante floating action button che fa da menù
         fabMenu = findViewById(R.id.aggiungi_prodotto);
 
-        //inizializza i pulsanti floating action button che fanno da opzioni
-        fabQR = findViewById(R.id.aggiungi_qr_code);
-        fabNFC = findViewById(R.id.aggiungi_nfc);
-
-
         //azione del floating action button menu quando cliccato
         fabMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(fabNFC.isClickable() && fabQR.isClickable()){
-                    closeFABMenu(fabQR, fabNFC);
-                }else{
-                    showFABMenu(fabQR, fabNFC);
-                }
-
-            }
-        });
-
-        //azione (provvisoria) del fab quando clicchi
-        fabQR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //fab che passa all'activity dello scanner tramite camera
                 startActivity(new Intent(HomeActivity.this, ScannedBarcodeActivity.class));
             }
-        });
-
-        //azione (provvisoria) del fab quando clicchi
-        fabNFC.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "Metodo NFC", Toast.LENGTH_LONG).show(); }
-
-            //azione (provvisoria) del fab quando clicchi
         });
 
         //--------------------FINE GESTIONE FLOATING ACTION BUTTON-------------------------------
@@ -183,12 +154,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 
-
-        //
-
-        /*
-
-        */
         ShowFragment(R.id.nav_home);
     }
 
@@ -255,12 +220,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     hideFABs();
                 }
                 break;
-            case R.id.nav_contatti:
-                fragment = new FragmentContatti();
-                if(fabMenu.isClickable()) {
-                    hideFABs();
-                }
-                break;
             case R.id.nav_profilo:
                 fragment = new FragmentProfilo();
                 if(fabMenu.isClickable()) {
@@ -301,50 +260,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //-------------------------INIZIO FUNZIONI FAB--------------------------------
     //----------------------------------------------------------------------------
 
-    //metodo per mostrare i floating action point
-    private void showFABMenu(FloatingActionButton fab1, FloatingActionButton fab2){
 
-        //animazione per fare uscire i 3 buttons
-        fab1.animate().translationY(-getResources().getDimension(R.dimen.standard_60));
-        fab2.animate().translationY(-getResources().getDimension(R.dimen.standard_120));
-
-        //faccio diventare non cliccabili i floating action buttons
-        fab1.setClickable(true);
-        fab2.setClickable(true);
-
-    }
-
-
-    //metodo per nascondere i floating action point
-    private void closeFABMenu(FloatingActionButton fab1, FloatingActionButton fab2){
-
-        //animazione per farli tornare dietro il pulsante +
-        fab1.animate().translationY(0);
-        fab2.animate().translationY(0);
-
-        //faccio diventare non cliccabili i floating action buttons
-        fab1.setClickable(false);
-        fab2.setClickable(false);
-
-    }
 
     @SuppressLint("RestrictedApi")
     public void showFABs(){
         fabMenu.setClickable(true);
         fabMenu.setVisibility(View.VISIBLE);
-        fabNFC.setVisibility(View.VISIBLE);
-        fabQR.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("RestrictedApi")
     public void hideFABs(){
         fabMenu.setClickable(false);
         fabMenu.setVisibility(View.INVISIBLE);
-        fabNFC.setVisibility(View.INVISIBLE);
-        fabQR.setVisibility(View.INVISIBLE);
-        if(fabNFC.isClickable()){
-            closeFABMenu(fabQR, fabNFC);
-        }
     }
 
 

@@ -23,10 +23,7 @@
             android:id="@+id/nav_marangicoin"
             android:icon="@drawable/ic_menu_marangicoin"
             android:title="@string/menu_marangicoin" />
-        <item
-            android:id="@+id/nav_contatti"
-            android:icon="@drawable/ic_menu_contatti"
-            android:title="@string/menu_contatti" />
+
 
     </group>
 

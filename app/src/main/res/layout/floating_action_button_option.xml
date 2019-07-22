@@ -4,29 +4,6 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-    <!-- button NFC -->
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/aggiungi_nfc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="#D21920"
-        app:srcCompat="@drawable/nfc_icon" />
-
-    <!-- button QR Code -->
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/aggiungi_qr_code"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:backgroundTint="#D21920"
-        app:srcCompat="@drawable/camera_icon" />
-
     <!-- Button + -->
 
     <android.support.design.widget.FloatingActionButton
@@ -36,6 +13,6 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:backgroundTint="#D21920"
-        app:srcCompat="@drawable/ic_menu_aggiungi_prodotto" />
+        app:srcCompat="@drawable/camera_icon" />
 
 </FrameLayout>
