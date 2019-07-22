@@ -42,8 +42,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //startActivity(new Intent(this, AuthenticationActivity.class));
-
         //--------------------INIZIO GESTIONE SETUP ACTIVITY-------------------------------
 
         //inizializza Activity
