@@ -1,21 +1,32 @@
 package com.QUeM.TreGStore.DatabaseClass;
 
+import java.util.Date;
+
 public class Prodotti {
 
-    public int id;
+    public String id;
     public String nome;
     public boolean disponibile;
     public int ndisp;
+    public double prezzo;
+    public boolean promozione;
+    public Date tempoPromozione;
+    public int totalePezziCarrello;
+
+
 
     public Prodotti(){
         //chiamate da dataSnapshot
     }
 
-    public Prodotti(int fid, String fnome, boolean fdisp, int fndisp){
-        this.id=fid;
-        this.nome=fnome;
-        this.ndisp=fndisp;
-        this.disponibile=fdisp;
+    public Prodotti(String codiceProdotto){
+        this.id=codiceProdotto;
+    }
+
+    public String toString(){
+        String text="Codice="+this.id+", Nome= "+this.nome+", Disponibile? "+this.disponibile+ ", Numero pezzi= "+this.ndisp+", Prezzo Singolo= "+
+                this.prezzo+", Totale pezzi nel carrello= "+this.totalePezziCarrello+", Promozione? "+this.promozione+ ", Tempo Promozione Rimanente= "+this.tempoPromozione;
+        return text;
     }
 
 }

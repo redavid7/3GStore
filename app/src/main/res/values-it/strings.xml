@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">3GStore</string>
-    <string name="stringa_benvenuto">MarangiGGNegozio</string>
-    <string name="stringa_benvenuto2">Ciao sono mister mi guardi</string>
-    <string name="bottone_switcha_activity">Switcha Activity</string>
     <string name="nomeAppSpashPage">3G STORE</string>
     <string name="password">Password</string>
     <string name="email">E-Mail</string>
-    <string name="title_activity_nav">Carrello</string>
     <string name="navigation_drawer_open">Apri menu laterale</string>
     <string name="navigation_drawer_close">Chiudi menu laterale</string>
     <string name="nav_header_title">Nome Cognome</string>
@@ -24,12 +20,13 @@
     <string name="new_game_label">Insert Coin</string>
     <string name="killscreen_label">Kill Screen</string>
     <string name="exit_label">Exit</string>
+    <string name="lista_vuota">Lista Vuota</string>
 
     <!-- Login e Registrazione -->
     <string name="login">Login</string>
     <string name="register">Registrati</string>
     <string name="forgot_password">Password dimenticata?</string>
-    <string name="back_login">Già registrato? Effuttua il login!</string>
+    <string name="back_login">Già registrato? Effettua il login!</string>
     <string name="auth_failed">Autenticazione fallita. Controlla email e password oppure registrati!</string>
     <string name="minimum_password">Password troppo corta, inserisci almeno 6 caratteri!</string>
 

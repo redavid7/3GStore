@@ -4,9 +4,11 @@ package com.QUeM.TreGStore;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -16,14 +18,22 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.QUeM.TreGStore.GiocoPacman.GooglePacman;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
+import static android.support.constraint.Constraints.TAG;
+
 //debug message
 //Toast.makeText(getContext(), "debug", Toast.LENGTH_LONG).show();
+//Log.d(TAG, "GIOGIO "+ stringCode);
 
 
 //GESTIRE LISTA E INTENT DELLA CAMERA
@@ -33,11 +43,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     //inizializzazioni variabili fab
     FloatingActionButton fabMenu;
-    FloatingActionButton fabQR;
-    FloatingActionButton fabNFC;
 
     //arraylist con codici dei prodotti del carrello
-    public ArrayList<Integer> prodottiCarrello=new ArrayList<Integer>();
+    public ArrayList<Prodotti> carrello=new ArrayList<Prodotti>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +84,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-        //--------------------INIZIO GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
+        //--------------------INIZIO GESTIONE TOOLBAR E NAVIGATION DRAWER------------------------
 
         //inizializza toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -142,20 +151,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onResume() {
-        super.onResume();  // Always call the superclass method first
+        // Always call the superclass method first
+        super.onResume();
+
+        //prendo l'intent e prendo il codice del prodotto scannerizzato se lo trovo
         Intent cam=getIntent();
         String stringCode="";
-
-
         if(cam.hasExtra("code")){
+            //se c'è un extra lo aggiungo alla itemlist del carrello
             stringCode = cam.getStringExtra("code");
-            Toast.makeText(getBaseContext(), stringCode, Toast.LENGTH_LONG).show();
-            Integer codice = Integer.valueOf(stringCode);
-            if(codice.intValue()!=0){
-                prodottiCarrello.add(codice);
+            if(!stringCode.equals("0")){
+                aggiungiProdottoCarrello(stringCode);
             }
         }
-
         ShowFragment(R.id.nav_home);
     }
 
@@ -187,6 +195,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
+
+
     @SuppressLint("RestrictedApi")
     private void ShowFragment(int itemId) {
 
@@ -196,16 +206,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //in base alla selezione del menu assegno il fragment da mostrare
         switch (itemId) {
             case R.id.nav_home:
-                /*
-                Bundle data = new Bundle();//create bundle instance
-                if(prodottiCarrello.isEmpty()){
-                    data.putString("switch", "0");//put string to pass with a key value
+                //sceglie il fragment da mostrare in base al carrello
+                if(checkCarrelloVuoto()){
+                    //se il carrello è vuoto
+                    fragment = new FragmentHomeVuoto();
                 }else{
-                    data.putString("switch", "1");//put string to pass with a key value
+                    //se il carrello è pieno
+                    fragment = new FragmentHomePieno();
                 }
-                */
-                fragment = new FragmentHome();
-                //fragment.setArguments(data);
                 if(!fabMenu.isClickable()){
                     showFABs();
                 }
@@ -263,13 +271,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //----------------------------------------------------------------------------
 
 
-
+    //metodo che rende visibile il bottone fotocamera
     @SuppressLint("RestrictedApi")
     public void showFABs(){
         fabMenu.setClickable(true);
         fabMenu.setVisibility(View.VISIBLE);
     }
 
+    //metodo che rende invisibile il bottone fotocamera
     @SuppressLint("RestrictedApi")
     public void hideFABs(){
         fabMenu.setClickable(false);
@@ -286,16 +295,71 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //-------------------------INIZIO FUNZIONI CARRELLO---------------------------
     //----------------------------------------------------------------------------
 
-
-    public String getItemFromList(int index){
-        String risultato="";
-        if(prodottiCarrello.isEmpty()){
-            risultato="Lista Vuota";
+    //metodo che permette di prendere il codice di un prodotto dalla lista
+    public Prodotti prendiProdottoDallaLista(int index){
+        Prodotti risultato;
+        if(carrello.isEmpty()){
+            //se la lista è vuota, restituisce la stringa "Lista vuota"
+            risultato=null;
         }else{
-            int codicelista=prodottiCarrello.get(index);
-            risultato=String.valueOf(codicelista);
+            //se la lista è piena, restituisce il codice identificativo del prodotto
+            risultato = carrello.get(index);
         }
         return risultato;
+    }
+
+
+    //metodo che risponde alla domanda "Il carrello è vuoto?"
+    public boolean checkCarrelloVuoto(){
+        boolean risposta=true;
+        //se il carrello non è vuoto restituisce Falso
+        if(!carrello.isEmpty()){
+            risposta=false;
+        }
+        return risposta;
+    }
+
+
+    public void aggiungiProdottoCarrello(final String codiceProdotto){
+
+        //if che controlla se il codice sta già nel carrello ---------------------->
+
+        //DA SPOSTARE IN HOME ACTIVITY
+        // Access a Cloud Firestore instance from your Activity
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection("prodotti").document(codiceProdotto);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Prodotti prod=document.toObject(Prodotti.class);
+                        prod.id=codiceProdotto;
+                        prod.totalePezziCarrello=1;
+                        Log.d(TAG, "PRODOTTO: " + prod.toString());
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
+    }
+
+
+
+
+
+    //TODO <-----------------
+    public boolean checkProdottoNelCarrello(){
+        boolean risposta=false;
+
+        return risposta;
     }
 
     //----------------------------------------------------------------------------
