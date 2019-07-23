@@ -67,8 +67,8 @@ public class SplashActivity extends Activity {
 
         //metodo che attiva l'intent e permette di passare alla nuova activity
         private void goAhead() {
-            final Intent intent = new Intent(this, HomeActivity.class);
-            startActivity(intent);
+            //final Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(new Intent(this, LoginActivity.class));
             finish();
         }
     }

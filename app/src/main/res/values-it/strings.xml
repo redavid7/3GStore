@@ -25,5 +25,13 @@
     <string name="killscreen_label">Kill Screen</string>
     <string name="exit_label">Exit</string>
 
+    <!-- Login e Registrazione -->
+    <string name="login">Login</string>
+    <string name="register">Registrati</string>
+    <string name="forgot_password">Password dimenticata?</string>
+    <string name="back_login">Già registrato? Effuttua il login!</string>
+    <string name="auth_failed">Autenticazione fallita. Controlla email e password oppure registrati!</string>
+    <string name="minimum_password">Password troppo corta, inserisci almeno 6 caratteri!</string>
+
 
 </resources>
