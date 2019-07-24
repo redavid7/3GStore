@@ -18,11 +18,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.QUeM.TreGStore.GiocoPacman.GooglePacman;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,11 +51,30 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //arraylist con codici dei prodotti del carrello
     public ArrayList<Prodotti> carrello=new ArrayList<Prodotti>();
 
+    private FirebaseAuth.AuthStateListener authListener;
+    private FirebaseAuth auth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        //startActivity(new Intent(this, LoginActivity.class));
+        //--------------------------INIZIO GESTIONE UTENTE------------------------------------
+        auth = FirebaseAuth.getInstance();
+
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    //lo stato di auth è cambiato oppure user è nullo
+                    startActivity(new Intent(HomeActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        };
+        //-----------------------------FINE GESTIONE UTENTE------------------------------------
+
 
         //--------------------INIZIO GESTIONE SETUP ACTIVITY-------------------------------
 
@@ -96,6 +119,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //inizializzazione del menu laterale
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        //TextView profilo = drawer.findViewById(R.id.nomeCognome);
+        //profilo.setText(user.getDisplayName());
+
 
         //azione quando clicco l'icona del menù laterale
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -131,6 +157,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //--------------------FINE GESTIONE FRAGMENT---------------------------------
 
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
+        }
+    }
+
 
     //--------------------------------------------------------------------------------------------------
     //------------------------------FINE BLOCCO ONCREATE HOMEACTIVITY-----------------------------------
@@ -189,9 +230,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             Intent switchActivityGame= new Intent(HomeActivity.this, GooglePacman.class);
             startActivity(switchActivityGame);
-        }else{
-            //chiamo il metodo che gestisce i fragment per la scelta degli elementi del menu
-            ShowFragment(item.getItemId());
+        }
+        else if (item.getItemId() == R.id.nav_quit) {
+            auth.signOut();
+        }
+        else {
+                //chiamo il metodo che gestisce i fragment per la scelta degli elementi del menu
+                ShowFragment(item.getItemId());
         }
         return true;
     }
@@ -256,7 +301,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //-------------------------FINE FUNZIONI MENU--------------------------------
     //---------------------------------------------------------------------------
 
-    /*
+    /**
     //metodo per mostrare la searchBar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
