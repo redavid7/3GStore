@@ -22,4 +22,6 @@ public class FragmentMarangicoin extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
+
+    public void change_marangiCoin(){}
 }

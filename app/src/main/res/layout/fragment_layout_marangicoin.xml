@@ -1,19 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:ignore="ExtraText">
 
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/marangiCoin_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
 
     <TextView
-        android:id="@+id/textViewMarangicoin"
-        android:layout_width="wrap_content"
+        android:layout_width="374dp"
+        android:layout_height="60dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="2dp"
+        android:layout_marginBottom="636dp"
+        android:text="MarangiCoin"
+        android:textAlignment="center"
+        android:textColor="#bd4848"
+        android:textSize="25dp" />
+    />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/marangiCoin_available"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:textSize="25dp"
-        android:text="This is Marangicoin Menu Layout."
-        android:textAlignment="center"/>
+
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="80dp"
+        android:layout_height="64dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="307dp"
+        android:layout_marginBottom="568dp"
+        android:background="@drawable/ic_menu_marangicoin" />
+
+    <TextView
+        android:layout_width="249dp"
+        android:layout_height="55dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="36dp"
+        android:layout_marginBottom="571dp"
+        android:text="MarangiCoin Amount"
+        android:textAlignment="center"
+        android:textSize="20dp" />
+    />
+
+    <android.support.design.widget.TextInputEditText
+        android:id="@+id/marangiCoin_exchange"
+        android:layout_width="360dp"
+        android:layout_height="43dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="387dp">
+
+        <android.support.design.widget.TextInputEditText
+            style="@style/Base.Widget.MaterialComponents.TextInputEditText"
+
+            android:layout_alignStart="@+id/marangiCoin_exchange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Your MarangiCoin"
+            android:inputType="numberDecimal"
+            app:errorEnabled="true" />
+    </android.support.design.widget.TextInputEditText>
+
+    <Button
+
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="29dp"
+        android:layout_marginBottom="302dp"
+        android:hint="CHANGE"
+        android:onClick="change_marangiCoin"
+        android:textSize="25dp" />
+
+
 
 
 </RelativeLayout>
