@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,38 +17,24 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 
-import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.QUeM.TreGStore.GiocoPacman.GooglePacman;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-
-import static android.support.constraint.Constraints.TAG;
 
 //debug message
 //Toast.makeText(getContext(), "debug", Toast.LENGTH_LONG).show();
-//Log.d(TAG, "GIOGIO "+ stringCode);
+//Log.d(TAG, "PRODOTTO "+ stringCode);
 
 
-//GESTIRE LISTA E INTENT DELLA CAMERA
 
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //inizializzazioni variabili fab
     FloatingActionButton fabMenu;
-
-    //arraylist con codici dei prodotti del carrello
-    public ArrayList<Prodotti> carrello=new ArrayList<Prodotti>();
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -158,19 +143,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        auth.addAuthStateListener(authListener);
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (authListener != null) {
-            auth.removeAuthStateListener(authListener);
-        }
-    }
 
 
     //--------------------------------------------------------------------------------------------------
@@ -188,25 +161,31 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onPause() {
         super.onPause();  // Always call the superclass method first
+
     }
 
     @Override
     public void onResume() {
         // Always call the superclass method first
         super.onResume();
-
-        //prendo l'intent e prendo il codice del prodotto scannerizzato se lo trovo
-        Intent cam=getIntent();
-        String stringCode="";
-        if(cam.hasExtra("code")){
-            //se c'è un extra lo aggiungo alla itemlist del carrello
-            stringCode = cam.getStringExtra("code");
-            if(!stringCode.equals("0")){
-                aggiungiProdottoCarrello(stringCode);
-            }
-        }
         ShowFragment(R.id.nav_home);
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        auth.addAuthStateListener(authListener);
+        ShowFragment(R.id.nav_home);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (authListener != null) {
+            auth.removeAuthStateListener(authListener);
+        }
+    }
+
 
 
     //--------------------------------------------------------------------------------------------------
@@ -230,13 +209,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
             Intent switchActivityGame= new Intent(HomeActivity.this, GooglePacman.class);
             startActivity(switchActivityGame);
-        }
-        else if (item.getItemId() == R.id.nav_quit) {
+        } else if (item.getItemId() == R.id.nav_quit) {
             auth.signOut();
-        }
-        else {
-                //chiamo il metodo che gestisce i fragment per la scelta degli elementi del menu
-                ShowFragment(item.getItemId());
+        } else {
+            //chiamo il metodo che gestisce i fragment per la scelta degli elementi del menu
+            ShowFragment(item.getItemId());
         }
         return true;
     }
@@ -252,13 +229,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switch (itemId) {
             case R.id.nav_home:
                 //sceglie il fragment da mostrare in base al carrello
-                if(checkCarrelloVuoto()){
+                /*
+                if(carrello.isEmpty()){
                     //se il carrello è vuoto
                     fragment = new FragmentHomeVuoto();
                 }else{
                     //se il carrello è pieno
                     fragment = new FragmentHomePieno();
                 }
+                */
+                fragment=new FragmentHomeVuoto();
                 if(!fabMenu.isClickable()){
                     showFABs();
                 }
@@ -301,15 +281,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //-------------------------FINE FUNZIONI MENU--------------------------------
     //---------------------------------------------------------------------------
 
-    /**
-    //metodo per mostrare la searchBar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.option_menu, menu);
-        return true;
-    }
-    */
+
 
     //----------------------------------------------------------------------------
     //-------------------------INIZIO FUNZIONI FAB--------------------------------
@@ -340,34 +312,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //-------------------------INIZIO FUNZIONI CARRELLO---------------------------
     //----------------------------------------------------------------------------
 
-    //metodo che permette di prendere il codice di un prodotto dalla lista
-    public Prodotti prendiProdottoDallaLista(int index){
-        Prodotti risultato;
-        if(carrello.isEmpty()){
-            //se la lista è vuota, restituisce la stringa "Lista vuota"
-            risultato=null;
-        }else{
-            //se la lista è piena, restituisce il codice identificativo del prodotto
-            risultato = carrello.get(index);
-        }
-        return risultato;
-    }
-
-
-    //metodo che risponde alla domanda "Il carrello è vuoto?"
-    public boolean checkCarrelloVuoto(){
-        boolean risposta=true;
-        //se il carrello non è vuoto restituisce Falso
-        if(!carrello.isEmpty()){
-            risposta=false;
-        }
-        return risposta;
-    }
-
-
+    /*
     public void aggiungiProdottoCarrello(final String codiceProdotto){
 
-        //if che controlla se il codice sta già nel carrello ---------------------->
+
 
         //DA SPOSTARE IN HOME ACTIVITY
         // Access a Cloud Firestore instance from your Activity
@@ -395,17 +343,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
-
-
-
-
-    //TODO <-----------------
-    public boolean checkProdottoNelCarrello(){
-        boolean risposta=false;
-
-        return risposta;
-    }
+     */
 
     //----------------------------------------------------------------------------
     //-------------------------FINE FUNZIONI CARRELLO-----------------------------

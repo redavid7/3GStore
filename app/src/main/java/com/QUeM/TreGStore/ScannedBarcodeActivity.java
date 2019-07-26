@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -13,10 +15,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import static android.support.constraint.Constraints.TAG;
+
+import com.QUeM.TreGStore.DatabaseClass.Carrello;
+import com.QUeM.TreGStore.DatabaseClass.Prodotti;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Transaction;
 
 
 import java.io.IOException;
@@ -50,8 +66,65 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (intentData.length() > 0) {
                     Intent cameraIntent=new Intent(ScannedBarcodeActivity.this, HomeActivity.class);
-                    //aggiungo passaggio del codice all'activity home
-                    cameraIntent.putExtra("code", String.valueOf(intentData));
+
+//---------------------------------------------------------------------
+                    //non mette nel carrello
+
+
+                    //prendo l'utente
+                    FirebaseAuth auth= FirebaseAuth.getInstance();
+
+                    //mi salvo il codice del prodotto scannerizzato
+                    final String codiceProdottoScannerizzato=String.valueOf(intentData);
+                    final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    final DocumentReference docRef = db.collection("carrelli").document(auth.getUid());
+                    final DocumentReference docrefprodotti = db.collection("prodotti").document(codiceProdottoScannerizzato);
+                    db.runTransaction(new Transaction.Function<Void>() {
+                        @Override
+                        public Void apply(Transaction transaction) throws FirebaseFirestoreException {
+                            DocumentSnapshot snapshot = transaction.get(docRef);
+                            final Carrello carrelloAttuale = snapshot.toObject(Carrello.class);
+
+                            docrefprodotti.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
+                                            Prodotti prod=document.toObject(Prodotti.class);
+                                            prod.id=codiceProdottoScannerizzato;
+                                            prod.totalePezziCarrello=1;
+                                            carrelloAttuale.prodotti.add(prod);
+                                            Log.d(TAG, "PRODOTTO: " + prod.toString());
+                                        } else {
+                                            Log.d(TAG, "No such document");
+
+                                        }
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task.getException());
+                                    }
+                                }
+                            });
+
+                            Log.d(TAG, "CARRELLO FB: " + carrelloAttuale.size());
+                            transaction.update(docRef, "prodotti", carrelloAttuale.getProdotti());
+
+                            // Success
+                            return null;
+                        }
+                    }).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "Transaction success!");
+                        }
+                    })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Transaction failure.", e);
+                                }
+                            });
+
                     startActivity(cameraIntent);
                 }
             }
