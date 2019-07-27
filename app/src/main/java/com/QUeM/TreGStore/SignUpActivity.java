@@ -107,7 +107,6 @@ public class SignUpActivity extends AppCompatActivity {
                                             // ...
                                         }
                                     });
-
                                     startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
                                     finish();
                                 }

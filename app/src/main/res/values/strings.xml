@@ -19,6 +19,7 @@
     <string name="new_game_label">Insert Coin</string>
     <string name="killscreen_label">Kill Screen</string>
     <string name="exit_label">Exit</string>
+    <string name="menu_settings">Settings</string>
 
     <!-- Login e Registrazione -->
     <string name="login">Login</string>
