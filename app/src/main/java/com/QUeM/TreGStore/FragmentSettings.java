@@ -27,8 +27,6 @@ public class FragmentSettings extends Fragment {
         View fragmentHomeView;
         fragmentHomeView=inflater.inflate(R.layout.fragment_layout_home_vuoto, container, false);
         return fragmentHomeView;
-        };
+        }
 
     }
-
-}

@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,9 +20,17 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 
 
+import com.QUeM.TreGStore.DatabaseClass.Carrello;
 import com.QUeM.TreGStore.GiocoPacman.GooglePacman;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import static android.support.constraint.Constraints.TAG;
 
 
 //debug message
@@ -38,6 +47,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+    //inizializzo la variabile che conterrà il fragment da mostrare
+    Fragment fragment = null;
 
 
     @Override
@@ -222,12 +233,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @SuppressLint("RestrictedApi")
     private void ShowFragment(int itemId) {
 
-        //inizializzo la variabile che conterrà il fragment da mostrare
-        Fragment fragment = null;
+
 
         //in base alla selezione del menu assegno il fragment da mostrare
         switch (itemId) {
             case R.id.nav_home:
+
                 //sceglie il fragment da mostrare in base al carrello
                 /*
                 if(carrello.isEmpty()){
@@ -277,6 +288,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+
+
+
     //---------------------------------------------------------------------------
     //-------------------------FINE FUNZIONI MENU--------------------------------
     //---------------------------------------------------------------------------
@@ -305,48 +319,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     //----------------------------------------------------------------------------
     //-------------------------FINE FUNZIONI FAB----------------------------------
-    //----------------------------------------------------------------------------
-
-
-    //----------------------------------------------------------------------------
-    //-------------------------INIZIO FUNZIONI CARRELLO---------------------------
-    //----------------------------------------------------------------------------
-
-    /*
-    public void aggiungiProdottoCarrello(final String codiceProdotto){
-
-
-
-        //DA SPOSTARE IN HOME ACTIVITY
-        // Access a Cloud Firestore instance from your Activity
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection("prodotti").document(codiceProdotto);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Prodotti prod=document.toObject(Prodotti.class);
-                        prod.id=codiceProdotto;
-                        prod.totalePezziCarrello=1;
-                        Log.d(TAG, "PRODOTTO: " + prod.toString());
-                    } else {
-                        Log.d(TAG, "No such document");
-
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-
-
-    }
-     */
-
-    //----------------------------------------------------------------------------
-    //-------------------------FINE FUNZIONI CARRELLO-----------------------------
     //----------------------------------------------------------------------------
 
 

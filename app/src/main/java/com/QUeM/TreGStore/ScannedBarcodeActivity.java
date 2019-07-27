@@ -16,12 +16,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import static android.support.constraint.Constraints.TAG;
-
 import com.QUeM.TreGStore.DatabaseClass.Carrello;
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -31,8 +28,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.Transaction;
+import com.google.firebase.firestore.WriteBatch;
 
 
 import java.io.IOException;
@@ -66,64 +62,42 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (intentData.length() > 0) {
                     Intent cameraIntent=new Intent(ScannedBarcodeActivity.this, HomeActivity.class);
-
-//---------------------------------------------------------------------
-                    //non mette nel carrello
-
-
-                    //prendo l'utente
-                    FirebaseAuth auth= FirebaseAuth.getInstance();
-
-                    //mi salvo il codice del prodotto scannerizzato
+                    //-------------------------------------------------
+                    //Inizio a inserire nel carrello online il prodotto
+                    //-------------------------------------------------
+                    //mi salvo il codice del prodotto scannerizzato (dichiarati final per via del metodo AddOnCompleteListener, dato che è asincrono
                     final String codiceProdottoScannerizzato=String.valueOf(intentData);
+
+                    //creo la connessione al documento dell'utente che contiene il carrello
                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    final DocumentReference docRef = db.collection("carrelli").document(auth.getUid());
                     final DocumentReference docrefprodotti = db.collection("prodotti").document(codiceProdottoScannerizzato);
-                    db.runTransaction(new Transaction.Function<Void>() {
+
+                    //provo ad aprire la connessione
+                    docrefprodotti.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
-                        public Void apply(Transaction transaction) throws FirebaseFirestoreException {
-                            DocumentSnapshot snapshot = transaction.get(docRef);
-                            final Carrello carrelloAttuale = snapshot.toObject(Carrello.class);
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                //se la connessione è riuscita, vedo se il documento esiste o meno
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    //se il documento esiste, creo un oggetto che corrisponde al prodotto legato al codice a barre
+                                    Prodotti prod=document.toObject(Prodotti.class);
+                                    //inizializzo l'id del prodotto
+                                    prod.id=codiceProdottoScannerizzato;
+                                    //imposto il contatore del numero di prodotti di quel tipo presenti nel carrello
+                                    prod.totalePezziCarrello=1;
+                                    //chiamo la funzione per inserirlo nel carrello dell'utente
+                                    prendiCarrello(prod, db);
 
-                            docrefprodotti.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            Prodotti prod=document.toObject(Prodotti.class);
-                                            prod.id=codiceProdottoScannerizzato;
-                                            prod.totalePezziCarrello=1;
-                                            carrelloAttuale.prodotti.add(prod);
-                                            Log.d(TAG, "PRODOTTO: " + prod.toString());
-                                        } else {
-                                            Log.d(TAG, "No such document");
+                                } else {
+                                    Log.d(TAG, "No such document");
 
-                                        }
-                                    } else {
-                                        Log.d(TAG, "get failed with ", task.getException());
-                                    }
                                 }
-                            });
-
-                            Log.d(TAG, "CARRELLO FB: " + carrelloAttuale.size());
-                            transaction.update(docRef, "prodotti", carrelloAttuale.getProdotti());
-
-                            // Success
-                            return null;
+                            } else {
+                                Log.d(TAG, "get failed with ", task.getException());
+                            }
                         }
-                    }).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Log.d(TAG, "Transaction success!");
-                        }
-                    })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "Transaction failure.", e);
-                                }
-                            });
+                    });
 
                     startActivity(cameraIntent);
                 }
@@ -205,5 +179,61 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         super.onResume();
         initialiseDetectorsAndSources();
     }
+
+
+
+    public void prendiCarrello(Prodotti prod, FirebaseFirestore db1){
+        //prendo l'utente attualmente connesso
+        FirebaseAuth auth= FirebaseAuth.getInstance();
+        //imposto la variabile Prodotto da usare nella funzione asincrona
+        final Prodotti prodottoUtente=prod;
+        //imposto la variabile del collegamento del FireStore da usare nella funzione asincrona
+        final FirebaseFirestore db=db1;
+        //creo il riferimento al carrello dell'utente attualmento connesso
+        DocumentReference carrello = db.collection("carrelli").document(auth.getUid());
+        //leggo il carrello
+        carrello.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        //prendo il carrello
+                        Carrello carrelloUtente=document.toObject(Carrello.class);
+                        //aggiungo il prodotto scannerizzato
+                        carrelloUtente.prodotti.add(prodottoUtente);
+                        //chiamo il metodo per aggiornare il carrello su FireStore
+                        aggiungiCarrello(carrelloUtente, db);
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+
+
+    public void aggiungiCarrello(Carrello carrelloUtenteAggiornato, FirebaseFirestore db){
+        //prendo l'utente
+        FirebaseAuth auth= FirebaseAuth.getInstance();
+        //operazione per scrivere sul db
+        WriteBatch batch = db.batch();
+        //creo riferimento da aggiornare
+        DocumentReference carrello = db.collection("carrelli").document(auth.getUid());
+        //imposto il comando con il nuovo carrello
+        batch.set(carrello, carrelloUtenteAggiornato);
+        //eseguo il comando di aggiornamento
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                // ...
+            }
+        });
+    }
+
 }
 
