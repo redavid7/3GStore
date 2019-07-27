@@ -10,10 +10,7 @@
     tools:ignore="ExtraText">
 
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/marangiCoin_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+
 
     <TextView
         android:layout_width="374dp"
@@ -24,16 +21,9 @@
         android:layout_marginBottom="636dp"
         android:text="MarangiCoin"
         android:textAlignment="center"
-        android:textColor="#bd4848"
         android:textSize="25dp" />
-    />
 
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/marangiCoin_available"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-    <android.support.v7.widget.AppCompatImageView
+    <ImageView
         android:layout_width="80dp"
         android:layout_height="64dp"
         android:layout_alignParentEnd="true"
@@ -52,7 +42,6 @@
         android:text="MarangiCoin Amount"
         android:textAlignment="center"
         android:textSize="20dp" />
-    />
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/marangiCoin_exchange"
