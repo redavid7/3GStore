@@ -31,5 +31,9 @@
     <string name="auth_failed">Autenticazione fallita. Controlla email e password oppure registrati!</string>
     <string name="minimum_password">Password troppo corta, inserisci almeno 6 caratteri!</string>
 
+    <!-- MarangiCoin -->
+    <string name="your_marangiCoin">Quanti MarangiCoin hai (qui andrà il numero)</string>
+    <string name="exchange_marangiCoin">Ogni 100 MarangiCoin puoi ottenere 1€ di spesa gratis in uno qualsiasi dei nostri negozi</string>
+
 
 </resources>
