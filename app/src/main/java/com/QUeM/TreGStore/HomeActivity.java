@@ -272,6 +272,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     hideFABs();
                 }
                 break;
+            case R.id.nav_settings:
+                fragment = new FragmentSettings();
+                if(fabMenu.isClickable()) {
+                    hideFABs();
+                }
+                break;
 
         }
 

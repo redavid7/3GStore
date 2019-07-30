@@ -1,27 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".FragmentSettings.java">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="first_preferencescreen"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <!-- TODO: Completare il layout! -->
+    <EditTextPreference
+        android:key = "Change Username"
+        android:title ="Username"
+        android:summary= "Change your Username"></EditTextPreference>
 
-    <include
-        layout="@layout/toolbar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <EditTextPreference
+        android:key = "Change Password"
+        android:title ="Password"
+        android:summary= "Change your Password"></EditTextPreference>
 
-        />
+    <EditTextPreference
+        android:key = "Change Photo"
+        android:title ="Photo"
+        android:summary= "Change your Photo"></EditTextPreference>
 
-    <TextView
-        android:id="@+id/textViewMarangicoin"
-        android:textSize="28dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="This is the Settings menù layout" />
+    <EditTextPreference
+        android:key = "Manage Cards"
+        android:title ="Cards"
+        android:summary= "Manage Cards"></EditTextPreference>
 
-</FrameLayout>
+    <EditTextPreference
+        android:key = "Recent Purchases"
+        android:title ="Purchases"
+        android:summary= "See recent purchases"></EditTextPreference>
+
+    <EditTextPreference
+        android:key = "Personal Data"
+        android:title ="Data"
+        android:summary= "See Your Personal Data"></EditTextPreference>
+
+    <SwitchPreference>
+        android:key = "Touch ID"
+        android:title = "Touch ID"
+        android:defaultValue= "true"
+        android:summary = "Abilita touch ID"></SwitchPreference>
+
+    <SwitchPreference>
+        android:key = "Offerte"
+        android:title = "Offerte"
+        android:defaultValue= "true"
+        android:summary = "Abilita notifiche per prodotti scontati nelle vicinanze"></SwitchPreference>
+
+</PreferenceScreen>

@@ -24,9 +24,11 @@ public class FragmentSettings extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View fragmentHomeView;
-        fragmentHomeView=inflater.inflate(R.layout.fragment_layout_home_vuoto, container, false);
-        return fragmentHomeView;
+        return inflater.inflate(R.layout.fragment_fragment_settings, container, false);
         }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        }
     }
