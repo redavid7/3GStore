@@ -21,7 +21,6 @@ import android.widget.ImageView;
 
 
 import com.QUeM.TreGStore.DatabaseClass.Carrello;
-import com.QUeM.TreGStore.GiocoPacman.GooglePacman;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -212,15 +211,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        if(item.getItemId()==R.id.nav_game){
-            //inserire l'activity del gioco
-
-            //https://stackoverflow.com/questions/7074097/how-to-pass-integer-from-one-activity-to-another
-            //guida al passaggio di int tramite intent tra activity
-
-            Intent switchActivityGame= new Intent(HomeActivity.this, GooglePacman.class);
-            startActivity(switchActivityGame);
-        } else if (item.getItemId() == R.id.nav_quit) {
+         if (item.getItemId() == R.id.nav_quit) {
             auth.signOut();
         } else {
             //chiamo il metodo che gestisce i fragment per la scelta degli elementi del menu
@@ -272,13 +263,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     hideFABs();
                 }
                 break;
-            case R.id.nav_settings:
-                fragment = new FragmentSettings();
-                if(fabMenu.isClickable()) {
+            case R.id.nav_game:
+                fragment = new FragmentQuiz();
+                if(fabMenu.isClickable()){
                     hideFABs();
                 }
                 break;
-
         }
 
         //imposta il nuovo fragment

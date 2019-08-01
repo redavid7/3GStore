@@ -39,4 +39,7 @@
     <string name="marangiCoin_exchange">MarangiCoin to exchange</string>
     <string name="euro_exchange">Money you can get</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>
