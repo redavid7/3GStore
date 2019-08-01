@@ -32,8 +32,12 @@
     <string name="minimum_password">Password troppo corta, inserisci almeno 6 caratteri!</string>
 
     <!-- MarangiCoin -->
-    <string name="your_marangiCoin">Quanti MarangiCoin hai (qui andrà il numero)</string>
+    <string name="your_marangiCoin">Hai *** MarangiCoin</string>
     <string name="exchange_marangiCoin">Ogni 100 MarangiCoin puoi ottenere 1€ di spesa gratis in uno qualsiasi dei nostri negozi</string>
+    <string name="exchange_button">Scambia</string>
+    <string name="marangiCoin">Simbolo dei MarangiCoin</string>
+    <string name="marangiCoin_exchange">MarangiCoin da scambiare</string>
+    <string name="euro_exchange">Euro che puoi ottenere</string>
 
 
 </resources>

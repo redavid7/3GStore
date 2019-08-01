@@ -32,7 +32,11 @@
     <string name="lista_vuota">Empty List</string>
 
     <!-- MarangiCoin -->
-    <string name="your_marangiCoin">MarangiCoin amount</string>
+    <string name="your_marangiCoin">You have *** MarangiCoin</string>
     <string name="exchange_marangiCoin">Every 100 MarangiCoin you get 1€ of discount on any of our products</string>
+    <string name="exchange_button">Exchange</string>
+    <string name="marangiCoin">MarangiCoin symbol</string>
+    <string name="marangiCoin_exchange">MarangiCoin to exchange</string>
+    <string name="euro_exchange">Money you can get</string>
 
 </resources>

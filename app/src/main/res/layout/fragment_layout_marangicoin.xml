@@ -1,65 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:orientation="vertical"
-    android:padding="16dp"
     tools:ignore="ExtraText">
 
-    <LinearLayout
+    <android.support.constraint.ConstraintLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/window_background"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        tools:ignore="MissingConstraints">>
+        tools:layout_editor_absoluteY="0dp">>
+
         <ImageView
             android:id="@+id/marangiCoinImageView"
-            android:layout_width="100dp"
+            android:layout_width="102dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:contentDescription="@string/marangiCoin"
             android:src="@mipmap/ic_launcher"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.050000012" />
+
         <TextView
             android:id="@+id/marangiCoinTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/your_marangiCoin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/marangiCoinImageView"
-            app:layout_constraintVertical_bias="0.100000024"
-            tools:layout_editor_absoluteX="0dp" />
-
-        <ImageView
-            android:id="@+id/marangiCoinImageView2"
-            app:srcCompat="@drawable/ic_exchange_icon"
-            android:layout_width="70dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_horizontal"
+            android:layout_width="339dp"
+            android:layout_height="54dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:text="@string/your_marangiCoin"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/marangiCoinImageView"
+            app:layout_constraintVertical_bias="0.061" />
+
+        <ImageView
+            android:id="@+id/marangiCoinImageView2"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/marangiCoinTextView"
-            />
+            app:layout_constraintVertical_bias="0.145"
+            app:srcCompat="@drawable/ic_exchange_icon"
+            tools:layout_editor_absoluteX="155dp" />
 
         <TextView
             android:id="@+id/marangiCoinTextView2"
@@ -70,12 +73,53 @@
             android:text="@string/exchange_marangiCoin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/marangiCoinImageView2"
-            app:layout_constraintVertical_bias="0.100000024"
-            tools:layout_editor_absoluteX="0dp" />
+            app:layout_constraintVertical_bias="0.175"
+            tools:layout_editor_absoluteX="16dp" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/exchange_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="@string/exchange_button"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="495dp" />
 
+        <EditText
+            android:id="@+id/marangiCoin_amount"
+            android:layout_width="105dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/marangiCoin_exchange"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@+id/marangiCoinTextView2"
+            app:layout_constraintEnd_toStartOf="@+id/marangiCoinImageView2"
+            app:layout_constraintHorizontal_bias="0.518"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/marangiCoinTextView"
+            app:layout_constraintVertical_bias="0.547" />
 
+        <EditText
+            android:id="@+id/marangiCoin_exchange"
+            android:layout_width="105dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/euro_exchange"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toTopOf="@+id/marangiCoinTextView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.481"
+            app:layout_constraintStart_toEndOf="@+id/marangiCoinImageView2"
+            app:layout_constraintTop_toBottomOf="@+id/marangiCoinTextView"
+            app:layout_constraintVertical_bias="0.544" />
+    </android.support.constraint.ConstraintLayout>
 
 
 </android.support.constraint.ConstraintLayout>
