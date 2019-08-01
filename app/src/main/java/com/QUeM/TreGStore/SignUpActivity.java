@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.QUeM.TreGStore.DatabaseClass.Carrello;
+import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -107,6 +108,19 @@ public class SignUpActivity extends AppCompatActivity {
                                             // ...
                                         }
                                     });
+
+                                    //aggiungo Conti al DB per la gestione dei MarangiCoin
+                                    DocumentReference conti = db.collection("conti").document(auth.getUid());
+                                    //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
+                                    batch.set(conti, new Conti());
+                                    //eseguo il comando di creazione
+                                    batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            // ...
+                                        }
+                                    });
+
                                     startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
                                     finish();
                                 }

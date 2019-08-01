@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.QUeM.TreGStore.DatabaseClass.Carrello;
+import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -117,11 +118,12 @@ public class LoginActivity extends AppCompatActivity {
                                     }
                                 } else {
                                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                    // prima di accedere alla Home Activity, controlla che sia stato creato il carrello relativo al cliente
-                                    //accedo al database
+                                    // prima di accedere alla Home Activity, controlla che sia stato creato il carrello relativo al cliente e la sezione MarangiCoin
+                                    // accedo al database
                                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
                                     //creo il riferimento per un documento che abbia come id l'user id dell'utente
                                     DocumentReference docRef = db.collection("carrelli").document(auth.getUid());
+                                    DocumentReference docRef2 = db.collection("conti").document(auth.getUid());
                                     docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -139,6 +141,37 @@ public class LoginActivity extends AppCompatActivity {
                                                     DocumentReference carrello = db.collection("carrelli").document(auth.getUid());
                                                     //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
                                                     batch.set(carrello, new Carrello());
+                                                    //eseguo il comando di creazione
+                                                    batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            // ...
+                                                        }
+                                                    });
+                                                }
+                                            } else {
+                                                Log.d(TAG, "get failed with ", task.getException());
+                                            }
+                                        }
+                                    });
+
+                                    docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot document = task.getResult();
+                                                if (document.exists()) {
+                                                    //se la sezione conti esiste già non fa nulla
+                                                    Log.d(TAG, "CONTI esiste");
+                                                } else {
+                                                    //se non esiste la crea vuota
+                                                    Log.d(TAG, "CONTI non esiste");
+                                                    //operazione per scrivere sul db
+                                                    WriteBatch batch = db.batch();
+                                                    //creo riferimento da creare
+                                                    DocumentReference conti = db.collection("conti").document(auth.getUid());
+                                                    //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
+                                                    batch.set(conti, new Conti());
                                                     //eseguo il comando di creazione
                                                     batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override

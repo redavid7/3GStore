@@ -23,5 +23,6 @@ public class FragmentMarangicoin extends Fragment {
     }
 
 
+
     public void change_marangiCoin(){}
 }
