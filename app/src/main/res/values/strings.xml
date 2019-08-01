@@ -35,4 +35,7 @@
     <string name="your_marangiCoin">MarangiCoin amount</string>
     <string name="exchange_marangiCoin">Every 100 MarangiCoin you get 1€ of discount on any of our products</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

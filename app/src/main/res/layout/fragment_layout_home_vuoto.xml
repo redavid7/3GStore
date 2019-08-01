@@ -7,7 +7,7 @@
 
 
     <TextView
-        android:id="@+id/textCarrelloVuoto"
+        android:id="@+id/textDomanda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
