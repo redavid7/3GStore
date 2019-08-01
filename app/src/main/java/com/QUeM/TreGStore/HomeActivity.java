@@ -8,7 +8,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,18 +19,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
-import com.QUeM.TreGStore.DatabaseClass.Carrello;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import static android.support.constraint.Constraints.TAG;
 
 
 //debug message
@@ -46,9 +40,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
-    //inizializzo la variabile che conterrà il fragment da mostrare
-    Fragment fragment = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +120,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+
+
         //--------------------FINE GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
 
 
@@ -153,7 +146,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.option_menu, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.toolbar_acquista:
+                Toast.makeText(this, "Acquisto", Toast.LENGTH_SHORT)
+                        .show();
+                break;
+        }
+
+        return true;
+    }
 
 
     //--------------------------------------------------------------------------------------------------
@@ -211,7 +222,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-         if (item.getItemId() == R.id.nav_quit) {
+        if (item.getItemId() == R.id.nav_quit) {
             auth.signOut();
         } else {
             //chiamo il metodo che gestisce i fragment per la scelta degli elementi del menu
@@ -224,23 +235,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @SuppressLint("RestrictedApi")
     private void ShowFragment(int itemId) {
 
-
+        //inizializzo la variabile che conterrà il fragment da mostrare
+        Fragment fragment = null;
 
         //in base alla selezione del menu assegno il fragment da mostrare
         switch (itemId) {
             case R.id.nav_home:
-
-                //sceglie il fragment da mostrare in base al carrello
-                /*
-                if(carrello.isEmpty()){
-                    //se il carrello è vuoto
-                    fragment = new FragmentHomeVuoto();
-                }else{
-                    //se il carrello è pieno
-                    fragment = new FragmentHomePieno();
-                }
-                */
-                fragment=new FragmentHomeVuoto();
+                fragment=new FragmentHome();
                 if(!fabMenu.isClickable()){
                     showFABs();
                 }

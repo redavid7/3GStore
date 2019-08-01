@@ -200,8 +200,15 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                     if (document.exists()) {
                         //prendo il carrello
                         Carrello carrelloUtente=document.toObject(Carrello.class);
-                        //aggiungo il prodotto scannerizzato
-                        carrelloUtente.prodotti.add(prodottoUtente);
+
+                        if(carrelloUtente.controllaProdottoNelCarrello(prodottoUtente)){
+                            //incrementa solo il contatore
+                            carrelloUtente.incrementaProdotto(prodottoUtente);
+                        }else{
+                            //aggiungo il prodotto scannerizzato
+                            carrelloUtente.getProdotti().add(prodottoUtente);
+                        }
+
                         //chiamo il metodo per aggiornare il carrello su FireStore
                         aggiungiCarrello(carrelloUtente, db);
                     } else {

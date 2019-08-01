@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/search"
-        android:title="Cerca"
-        android:icon="@drawable/search_icon"
-        app:showAsAction="collapseActionView|ifRoom"
-        app:actionViewClass="android.widget.SearchView" />
+    <item android:id="@+id/toolbar_acquista"
+        android:title="Acquista"
+        android:icon="@drawable/toolbar_acquista"
+        app:showAsAction="ifRoom"
+        android:visible="true"
+        />
 </menu>

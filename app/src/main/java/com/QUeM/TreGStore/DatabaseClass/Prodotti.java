@@ -29,4 +29,12 @@ public class Prodotti {
         return text;
     }
 
+    public boolean compareTo(Prodotti controllo){
+        boolean risposta=false;
+        if(this.id.equals(controllo.id)){
+            risposta=true;
+        }
+        return risposta;
+    }
+
 }

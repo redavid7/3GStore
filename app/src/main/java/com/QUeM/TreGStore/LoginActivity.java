@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.QUeM.TreGStore.DatabaseClass.Carrello;
 import com.QUeM.TreGStore.DatabaseClass.Conti;
-import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
