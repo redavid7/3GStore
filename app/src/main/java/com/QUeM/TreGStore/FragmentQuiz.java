@@ -2,19 +2,32 @@ package com.QUeM.TreGStore;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.QUeM.TreGStore.DatabaseClass.Domanda;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class FragmentQuiz extends Fragment {
     // Dichiarazione variabili
@@ -48,7 +61,7 @@ public class FragmentQuiz extends Fragment {
     public void Controllo(String choiced){
             //Azioni da eseguire se la risposta è corretta
             if (domande.get(tmp).corretta.equals(choiced)) {
-                domanda.setText("Corretto");
+                domanda.setText("Corretto!");
                 A.setVisibility(View.INVISIBLE);
                 B.setVisibility(View.INVISIBLE);
                 C.setVisibility(View.INVISIBLE);
@@ -64,7 +77,8 @@ public class FragmentQuiz extends Fragment {
             }
             //Azioni da eseguire se è sbagliata
             else {
-                domanda.setText("Sbagliato, il gioco è finito il tuo punteggio è: "+point);
+                domanda.setText("Sbagliato! Il gioco è finito hai guadagnato: "+point+" MarangiCoin");
+                updateCoin();
                 A.setVisibility(View.INVISIBLE);
                 B.setVisibility(View.INVISIBLE);
                 C.setVisibility(View.INVISIBLE);
@@ -74,6 +88,11 @@ public class FragmentQuiz extends Fragment {
                 Avanti.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        FragmentMarangicoin frpr = new FragmentMarangicoin();
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(getId(),frpr);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                     }
                 });
             }
@@ -149,7 +168,8 @@ public class FragmentQuiz extends Fragment {
         }
         //Azioni da eseguire a fine gioco
         else{
-            domanda.setText("Il gioco è finito complimenti il tuo punteggio è: "+point);
+            domanda.setText("Il gioco è finito, complimenti! Hai vinto : "+point+" MarangiCoin");
+            updateCoin();
             A.setVisibility(View.INVISIBLE);
             B.setVisibility(View.INVISIBLE);
             C.setVisibility(View.INVISIBLE);
@@ -159,10 +179,47 @@ public class FragmentQuiz extends Fragment {
             Avanti.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    FragmentMarangicoin frpr = new FragmentMarangicoin();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(getId(),frpr);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
                 }
             });
         }
     }//Fine routine di gioco
+
+    // Metodo per aggiornare i coin vinti nel conto
+    public void updateCoin(){
+        //creo la connessione al documento dell'utente che contiene i conti
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        //prendo l'utente attualmente connesso
+        FirebaseAuth auth= FirebaseAuth.getInstance();
+        //prendo il conto dell'utente
+        final DocumentReference docrefconti = db.collection("conti").document(auth.getUid());
+        //leggo il carrello
+        docrefconti.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        //prendo il conti
+                       Conti contoUtente=document.toObject(Conti.class);
+                       int tmp = (contoUtente.getCoinAmount()+point);
+                       contoUtente.setCoinAmount(tmp);
+                       aggiungiConto(contoUtente,db);
+
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }//Fine metodo updateCoin
     public  void Scrivi(){
         try{
         ObjectOutputStream oos = new ObjectOutputStream(getContext().openFileOutput("quiz.txt",Context.MODE_PRIVATE));
@@ -183,4 +240,22 @@ public class FragmentQuiz extends Fragment {
             e.printStackTrace();
         }
     }
+    //Metodo per aggiundere il conto
+    public void aggiungiConto(Conti contoUtenteAggiornato, FirebaseFirestore db){
+        //prendo l'utente
+        FirebaseAuth auth= FirebaseAuth.getInstance();
+        //operazione per scrivere sul db
+        WriteBatch batch = db.batch();
+        //creo riferimento da aggiornare
+        DocumentReference conto = db.collection("conti").document(auth.getUid());
+        //imposto il comando con il nuovo carrello
+        batch.set(conto, contoUtenteAggiornato);
+        //eseguo il comando di aggiornamento
+        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                // ...
+            }
+        });
+    } //Fine metodo per aggiundere il conto
 }
