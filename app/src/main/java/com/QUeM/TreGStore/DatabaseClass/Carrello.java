@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 //https://firebase.google.com/docs/firestore/manage-data/add-data#update_elements_in_an_array
-/*
-City city = new City("Los Angeles", "CA", "USA",
-        false, 5000000L, Arrays.asList("west_coast", "sorcal"));
-        db.collection("cities").document("LA").set(city);
-*/
+
 
 public class Carrello {
 
@@ -52,3 +48,5 @@ public class Carrello {
     }
 
 }
+
+

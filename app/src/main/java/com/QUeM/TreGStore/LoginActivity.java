@@ -12,9 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.QUeM.TreGStore.DatabaseClass.Carrello;
 import com.QUeM.TreGStore.DatabaseClass.Conti;
+import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -38,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance();
+        auth=FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
             //l'utente si è già autenticato
@@ -122,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
                                     //creo il riferimento per un documento che abbia come id l'user id dell'utente
                                     DocumentReference docRef = db.collection("carrelli").document(auth.getUid());
-                                    DocumentReference docRef2 = db.collection("conti").document(auth.getUid());
+
                                     docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -130,16 +129,16 @@ public class LoginActivity extends AppCompatActivity {
                                                 DocumentSnapshot document = task.getResult();
                                                 if (document.exists()) {
                                                     //se il carrello esiste già non fa nulla
-                                                    Log.d(TAG, "LOGIN esiste");
+                                                    Log.d(TAG, "LOGIN carrello esiste");
                                                 } else {
                                                     //se non esiste il carrello lo crea vuoto
-                                                    Log.d(TAG, "LOGIN non esiste");
+                                                    Log.d(TAG, "LOGIN carrello non esiste");
                                                     //operazione per scrivere sul db
                                                     WriteBatch batch = db.batch();
                                                     //creo riferimento da creare
-                                                    DocumentReference carrello = db.collection("carrelli").document(auth.getUid());
+                                                    DocumentReference carrello = db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document("cancellami");
                                                     //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
-                                                    batch.set(carrello, new Carrello());
+                                                    batch.set(carrello, new Prodotti());
                                                     //eseguo il comando di creazione
                                                     batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                         @Override
@@ -147,13 +146,15 @@ public class LoginActivity extends AppCompatActivity {
                                                             // ...
                                                         }
                                                     });
+
+
                                                 }
                                             } else {
                                                 Log.d(TAG, "get failed with ", task.getException());
                                             }
                                         }
                                     });
-
+                                    DocumentReference docRef2 = db.collection("conti").document(auth.getUid());
                                     docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {

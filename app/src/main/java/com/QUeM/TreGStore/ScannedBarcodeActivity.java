@@ -16,9 +16,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import static android.support.constraint.Constraints.TAG;
-import com.QUeM.TreGStore.DatabaseClass.Carrello;
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -27,8 +28,8 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.WriteBatch;
 
 
 import java.io.IOException;
@@ -87,8 +88,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                                     //imposto il contatore del numero di prodotti di quel tipo presenti nel carrello
                                     prod.totalePezziCarrello=1;
                                     //chiamo la funzione per inserirlo nel carrello dell'utente
-                                    prendiCarrello(prod, db);
-
+                                    aggiungiProdottoCarrello(prod, db);
                                 } else {
                                     Log.d(TAG, "No such document");
 
@@ -182,7 +182,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
 
 
 
-    public void prendiCarrello(Prodotti prod, FirebaseFirestore db1){
+    public void aggiungiProdottoCarrello(Prodotti prod, FirebaseFirestore db1){
         //prendo l'utente attualmente connesso
         FirebaseAuth auth= FirebaseAuth.getInstance();
         //imposto la variabile Prodotto da usare nella funzione asincrona
@@ -190,57 +190,51 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         //imposto la variabile del collegamento del FireStore da usare nella funzione asincrona
         final FirebaseFirestore db=db1;
         //creo il riferimento al carrello dell'utente attualmento connesso
-        DocumentReference carrello = db.collection("carrelli").document(auth.getUid());
-        //leggo il carrello
+        final DocumentReference carrello = db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document(prodottoUtente.id);
+
         carrello.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
+                    //se la connessione è riuscita, vedo se il documento esiste o meno
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        //prendo il carrello
-                        Carrello carrelloUtente=document.toObject(Carrello.class);
-
-                        if(carrelloUtente.controllaProdottoNelCarrello(prodottoUtente)){
-                            //incrementa solo il contatore
-                            carrelloUtente.incrementaProdotto(prodottoUtente);
-                        }else{
-                            //aggiungo il prodotto scannerizzato
-                            carrelloUtente.getProdotti().add(prodottoUtente);
-                        }
-
-                        //chiamo il metodo per aggiornare il carrello su FireStore
-                        aggiungiCarrello(carrelloUtente, db);
+                        //se il documento esiste, creo un oggetto che corrisponde al prodotto legato al codice a barre
+                        carrello.update("totalePezziCarrello", (prodottoUtente.totalePezziCarrello+1));
                     } else {
                         Log.d(TAG, "No such document");
-
+                        carrello.set(prodottoUtente).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error writing document", e);
+                            }
+                        });
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
-    }
 
-
-
-    public void aggiungiCarrello(Carrello carrelloUtenteAggiornato, FirebaseFirestore db){
-        //prendo l'utente
-        FirebaseAuth auth= FirebaseAuth.getInstance();
-        //operazione per scrivere sul db
-        WriteBatch batch = db.batch();
-        //creo riferimento da aggiornare
-        DocumentReference carrello = db.collection("carrelli").document(auth.getUid());
-        //imposto il comando con il nuovo carrello
-        batch.set(carrello, carrelloUtenteAggiornato);
-        //eseguo il comando di aggiornamento
-        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+        DocumentReference cancellami=db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document("cancellami");
+        cancellami.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                // ...
+            public void onSuccess(Void aVoid) {
+                Log.d(TAG, "LOGIN cancellami eliminato con successo");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w(TAG, "LOGIN cancellami non trovato/non eliminato", e);
             }
         });
+
     }
 
-}
 
+}

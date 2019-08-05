@@ -31,9 +31,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity"></activity>
         <activity android:name=".SignUpActivity" />
-        <activity
-            android:name=".GiocoPacman.GooglePacman"
-            android:screenOrientation="landscape" />
+
         <activity
             android:name=".HomeActivity"
             android:theme="@style/AppTheme.NoActionBar" />
