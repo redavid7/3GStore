@@ -4,6 +4,7 @@ package com.QUeM.TreGStore;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -61,13 +63,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         };
         //-----------------------------FINE GESTIONE UTENTE------------------------------------
 
-
         //--------------------INIZIO GESTIONE SETUP ACTIVITY-------------------------------
 
         //inizializza Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         //--------------------FINE GESTIONE SETUP ACTIVITY-------------------------------
 
 
@@ -105,8 +105,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //inizializzazione del menu laterale
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        //TextView profilo = drawer.findViewById(R.id.nomeCognome);
-        //profilo.setText(user.getDisplayName());
+        //TextView profilo = findViewById(R.id.nomeCognome);
+        // profilo.setText("ciao");
 
 
         //azione quando clicco l'icona del menù laterale
@@ -182,7 +182,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onPause() {
         super.onPause();  // Always call the superclass method first
-
     }
 
     @Override
@@ -197,6 +196,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
         auth.addAuthStateListener(authListener);
         ShowFragment(R.id.nav_home);
+
     }
 
     @Override
@@ -207,7 +207,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+    }
 
     //--------------------------------------------------------------------------------------------------
     //------------------------------FINE BLOCCO GESTIONE VITA HOMEACTIVITY------------------------------

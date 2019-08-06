@@ -5,9 +5,9 @@
     android:layout_height="wrap_content">
 
     <EditTextPreference
-        android:key = "Change Username"
-        android:title ="Username"
-        android:summary= "Change your Username"></EditTextPreference>
+        android:key="Change Username"
+        android:summary="Change your Username"
+        android:title="Username"></EditTextPreference>
 
     <EditTextPreference
         android:key = "Change Password"
@@ -15,24 +15,24 @@
         android:summary= "Change your Password"></EditTextPreference>
 
     <EditTextPreference
-        android:key = "Change Photo"
-        android:title ="Photo"
-        android:summary= "Change your Photo"></EditTextPreference>
-
-    <EditTextPreference
         android:key = "Manage Cards"
         android:title ="Cards"
         android:summary= "Manage Cards"></EditTextPreference>
 
     <EditTextPreference
-        android:key = "Recent Purchases"
-        android:title ="Purchases"
-        android:summary= "See recent purchases"></EditTextPreference>
+        android:key="Change Photo"
+        android:summary="Change your Photo"
+        android:title="Photo"></EditTextPreference>
 
     <EditTextPreference
         android:key = "Personal Data"
         android:title ="Data"
         android:summary= "See Your Personal Data"></EditTextPreference>
+
+    <EditTextPreference
+        android:key="Recent Purchases"
+        android:summary="See recent purchases"
+        android:title="Purchases"></EditTextPreference>
 
     <SwitchPreference>
         android:key = "Touch ID"

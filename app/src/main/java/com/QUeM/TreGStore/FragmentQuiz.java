@@ -2,6 +2,8 @@ package com.QUeM.TreGStore;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.QUeM.TreGStore.DatabaseClass.Domanda;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -23,9 +25,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -49,16 +55,44 @@ public class FragmentQuiz extends Fragment {
         fragmentHomeView=inflater.inflate(R.layout.fragment_fragment_quiz, container, false);
         return fragmentHomeView;
     }
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Scrivi();
         init();
-        routine();
+        Calendar last = null;
+        Calendar now = Calendar.getInstance();
+        try {
+             last= leggiData();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        int l = 0;
+        int n = 1;
+        if(last!=null){
+         l=last.get(Calendar.MINUTE);
+         n=now.get(Calendar.MINUTE);}
+
+        if(n>l){
+            try {
+                routine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else{
+            domanda.setText("Hai già giocato per oggi ritorna domani");
+            A.setVisibility(View.INVISIBLE);
+            B.setVisibility(View.INVISIBLE);
+            C.setVisibility(View.INVISIBLE);
+            D.setVisibility(View.INVISIBLE);
+            Avanti.setVisibility(View.INVISIBLE);
+        }
     }
     //Metodo controllo risposta corretta
-    public void Controllo(String choiced){
+    public void Controllo(String choiced) throws IOException {
             //Azioni da eseguire se la risposta è corretta
             if (domande.get(tmp).corretta.equals(choiced)) {
                 domanda.setText("Corretto!");
@@ -71,7 +105,11 @@ public class FragmentQuiz extends Fragment {
                     @Override
                     public void onClick(View v) {
                         point++;
-                        routine();
+                        try {
+                            routine();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
             }
@@ -79,6 +117,7 @@ public class FragmentQuiz extends Fragment {
             else {
                 domanda.setText("Sbagliato! Il gioco è finito hai guadagnato: "+point+" MarangiCoin");
                 updateCoin();
+                scriviData();
                 A.setVisibility(View.INVISIBLE);
                 B.setVisibility(View.INVISIBLE);
                 C.setVisibility(View.INVISIBLE);
@@ -121,7 +160,7 @@ public class FragmentQuiz extends Fragment {
         }
     }//Fine inizializzazione variabili
     //Routine del quiz
-    public void routine(){
+    public void routine() throws IOException {
         tmp=(int)(Math.random()*domande.size());
         //Controllo se ho fatto 3 domande in quel caso termino il gioco
         if(point<3) {
@@ -141,28 +180,44 @@ public class FragmentQuiz extends Fragment {
                 @Override
                 public void onClick(View view) {
                     choice = (String) A.getText();
-                    Controllo(choice);
+                    try {
+                        Controllo(choice);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             B.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     choice = (String) B.getText();
-                    Controllo(choice);
+                    try {
+                        Controllo(choice);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             C.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     choice = (String) C.getText();
-                    Controllo(choice);
+                    try {
+                        Controllo(choice);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             D.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     choice = (String) D.getText();
-                    Controllo(choice);
+                    try {
+                        Controllo(choice);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         }
@@ -170,6 +225,7 @@ public class FragmentQuiz extends Fragment {
         else{
             domanda.setText("Il gioco è finito, complimenti! Hai vinto : "+point+" MarangiCoin");
             updateCoin();
+            scriviData();
             A.setVisibility(View.INVISIBLE);
             B.setVisibility(View.INVISIBLE);
             C.setVisibility(View.INVISIBLE);
@@ -197,7 +253,7 @@ public class FragmentQuiz extends Fragment {
         FirebaseAuth auth= FirebaseAuth.getInstance();
         //prendo il conto dell'utente
         final DocumentReference docrefconti = db.collection("conti").document(auth.getUid());
-        //leggo il carrello
+        //leggo i conti
         docrefconti.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -258,4 +314,16 @@ public class FragmentQuiz extends Fragment {
             }
         });
     } //Fine metodo per aggiundere il conto
+    //Scrivi data
+    public void scriviData() throws IOException {
+        Calendar c = Calendar.getInstance();
+        ObjectOutputStream oos = new ObjectOutputStream(getContext().openFileOutput("dat.txt",Context.MODE_PRIVATE));
+        oos.writeObject(c);
+    }
+    //Leggi data
+    public Calendar leggiData() throws IOException, ClassNotFoundException {
+        ObjectInputStream ois = new ObjectInputStream(getContext().openFileInput("dat.txt"));
+        Calendar toRet = (Calendar) ois.readObject();
+        return toRet;
+    }
 }
