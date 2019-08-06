@@ -2,8 +2,6 @@ package com.QUeM.TreGStore;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.QUeM.TreGStore.DatabaseClass.Domanda;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,19 +21,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
-
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import static android.support.constraint.Constraints.TAG;
 
 public class FragmentQuiz extends Fragment {
-    // Dichiarazione variabili
+    //Dichiarazione variabili
     private ArrayList<Domanda> domande = new ArrayList<>();
     private TextView domanda ;
     private Button A;
@@ -58,10 +52,14 @@ public class FragmentQuiz extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //scrivo le domande su fie(provvisorio)
         Scrivi();
+        //inizializzo oggetti a schermo
         init();
+        //creo variabili data corrente e data ultimo quiz
         Calendar last = null;
         Calendar now = Calendar.getInstance();
+        //leggo la data dell'ultimo quiz
         try {
              last= leggiData();
         } catch (IOException e) {
@@ -69,12 +67,13 @@ public class FragmentQuiz extends Fragment {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        //prendo gli interi per fare il confronto delle date in questo caso prendo i minuti per far vedere  che una volta terminato il quiz viene reso prima indisponibile poi rireso disponibile
         int l = 0;
         int n = 1;
         if(last!=null){
          l=last.get(Calendar.MINUTE);
          n=now.get(Calendar.MINUTE);}
-
+        // se la data in cui si sta facendo il quiz e maggiore dell'ultimo quiz eseguito ti viene concesso di eseguire un nuovo quiz
         if(n>l){
             try {
                 routine();
@@ -91,6 +90,7 @@ public class FragmentQuiz extends Fragment {
             Avanti.setVisibility(View.INVISIBLE);
         }
     }
+
     //Metodo controllo risposta corretta
     public void Controllo(String choiced) throws IOException {
             //Azioni da eseguire se la risposta è corretta
@@ -135,7 +135,7 @@ public class FragmentQuiz extends Fragment {
                     }
                 });
             }
-    }//Fine controllo risposto
+    }//Fine controllo e risposte
 
     //Inizializzazione variabili
     public void init(){
@@ -159,10 +159,12 @@ public class FragmentQuiz extends Fragment {
             e.printStackTrace();
         }
     }//Fine inizializzazione variabili
+
     //Routine del quiz
     public void routine() throws IOException {
+        //prendo un valore randomico per prendere una domanda randomica
         tmp=(int)(Math.random()*domande.size());
-        //Controllo se ho fatto 3 domande in quel caso termino il gioco
+        //Controllo se ho fatto 3 domande giuste in quel caso termino il gioco
         if(point<3) {
             Avanti.setVisibility(View.INVISIBLE);
             A.setVisibility(View.VISIBLE);
@@ -175,7 +177,7 @@ public class FragmentQuiz extends Fragment {
             B.setText(domande.get(tmp).risposta2);
             C.setText(domande.get(tmp).risposta3);
             D.setText(domande.get(tmp).risposta4);
-            //Metodi on click per le varie risposte
+            //Metodi on click per le varie risposte imposto il contenuto del bottone come scelta alla domanda su cui effetuo il controllo
             A.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -276,6 +278,7 @@ public class FragmentQuiz extends Fragment {
             }
         });
     }//Fine metodo updateCoin
+
     public  void Scrivi(){
         try{
         ObjectOutputStream oos = new ObjectOutputStream(getContext().openFileOutput("quiz.txt",Context.MODE_PRIVATE));
@@ -314,12 +317,14 @@ public class FragmentQuiz extends Fragment {
             }
         });
     } //Fine metodo per aggiundere il conto
+
     //Scrivi data
     public void scriviData() throws IOException {
         Calendar c = Calendar.getInstance();
         ObjectOutputStream oos = new ObjectOutputStream(getContext().openFileOutput("dat.txt",Context.MODE_PRIVATE));
         oos.writeObject(c);
     }
+
     //Leggi data
     public Calendar leggiData() throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(getContext().openFileInput("dat.txt"));
