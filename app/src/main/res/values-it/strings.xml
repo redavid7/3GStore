@@ -30,6 +30,7 @@
     <string name="back_login">Già registrato? Effettua il login!</string>
     <string name="auth_failed">Autenticazione fallita. Controlla email e password oppure registrati!</string>
     <string name="minimum_password">Password troppo corta, inserisci almeno 6 caratteri!</string>
+    <string name="confirm_password">Conferma password</string>
 
     <!-- MarangiCoin -->
     <string name="your_marangiCoin">Hai *** MarangiCoin</string>
@@ -38,6 +39,8 @@
     <string name="marangiCoin">Simbolo dei MarangiCoin</string>
     <string name="marangiCoin_exchange">MarangiCoin da scambiare</string>
     <string name="euro_exchange">Euro che puoi ottenere</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

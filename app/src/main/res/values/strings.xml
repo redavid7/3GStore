@@ -28,6 +28,7 @@
     <string name="forgot_password">Forgot password?</string>
     <string name="auth_failed">Authentication failed, check your email and password or sign up</string>
     <string name="minimum_password">Password too short, enter minimum 6 characters!</string>
+    <string name="confirm_password">Confirm Password</string>
 
     <string name="lista_vuota">Empty List</string>
 

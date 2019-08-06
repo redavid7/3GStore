@@ -25,7 +25,7 @@ import static android.support.constraint.Constraints.TAG;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword;
+    private EditText inputEmail, inputPassword, inputConfPassword;
     private Button btnSignIn, btnSignUp, btnResetPassword;
     private ProgressBar progressBar;
     private FirebaseAuth auth;
@@ -42,6 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
         btnSignUp = findViewById(R.id.sign_up_button);
         inputEmail = findViewById(R.id.email);
         inputPassword = findViewById(R.id.password);
+        inputConfPassword = findViewById(R.id.confPassword);
         progressBar = findViewById(R.id.progressBar);
         btnResetPassword = findViewById(R.id.btn_reset_password);
 
@@ -65,6 +66,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 String email = inputEmail.getText().toString().trim();
                 String password = inputPassword.getText().toString().trim();
+                String confPassword = inputConfPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
@@ -78,6 +80,11 @@ public class SignUpActivity extends AppCompatActivity {
 
                 if (password.length() < 6) {
                     Toast.makeText(getApplicationContext(), "Password too short, enter minimum 6 characters!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (password.compareTo(confPassword) != 0) {
+                    Toast.makeText(getApplicationContext(), "Passwords are not equals", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

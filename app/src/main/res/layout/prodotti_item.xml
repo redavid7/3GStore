@@ -44,8 +44,7 @@
             android:id="@+id/imageViewProdotto"
             android:layout_width="43dp"
             android:layout_height="49dp"
-            android:layout_alignParentStart="true"
-            app:srcCompat="@drawable/prodotto_latte" />
+            android:layout_alignParentStart="true" />
 
     </RelativeLayout>
 
