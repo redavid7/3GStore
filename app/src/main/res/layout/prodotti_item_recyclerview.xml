@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_toStartOf="@id/text_view_prezzo"
-            android:layout_toEndOf="@+id/imageViewProdotto"
+            android:layout_toEndOf="@+id/image_view_prodotto"
             android:ellipsize="end"
             android:text="Nome Prodotto"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
@@ -37,14 +37,16 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/text_view_nome_prodotto"
             android:layout_marginStart="9dp"
-            android:layout_toEndOf="@+id/imageViewProdotto"
+            android:layout_toEndOf="@+id/image_view_prodotto"
             android:text="Numero Prodotti Carrello" />
 
         <ImageView
-            android:id="@+id/imageViewProdotto"
+            android:id="@+id/image_view_prodotto"
             android:layout_width="43dp"
             android:layout_height="49dp"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            app:srcCompat="@drawable/prodotto_latte" />
+
 
     </RelativeLayout>
 

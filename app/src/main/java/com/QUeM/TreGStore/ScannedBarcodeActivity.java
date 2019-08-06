@@ -84,10 +84,13 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                                     //se il documento esiste, creo un oggetto che corrisponde al prodotto legato al codice a barre
                                     Prodotti prod=document.toObject(Prodotti.class);
                                     //inizializzo l'id del prodotto
-                                    prod.id=codiceProdottoScannerizzato;
+                                    prod.setId(codiceProdottoScannerizzato);
                                     //imposto il contatore del numero di prodotti di quel tipo presenti nel carrello
-                                    prod.totalePezziCarrello=1;
+
+                                    prod.setTotalePezziCarrello(1);
+
                                     //chiamo la funzione per inserirlo nel carrello dell'utente
+
                                     aggiungiProdottoCarrello(prod, db);
                                 } else {
                                     Log.d(TAG, "No such document");
@@ -190,7 +193,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         //imposto la variabile del collegamento del FireStore da usare nella funzione asincrona
         final FirebaseFirestore db=db1;
         //creo il riferimento al carrello dell'utente attualmento connesso
-        final DocumentReference carrello = db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document(prodottoUtente.id);
+        final DocumentReference carrello = db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document(prodottoUtente.getId());
 
         carrello.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -199,8 +202,9 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                     //se la connessione è riuscita, vedo se il documento esiste o meno
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
+                        Prodotti prod=document.toObject(Prodotti.class);
                         //se il documento esiste, creo un oggetto che corrisponde al prodotto legato al codice a barre
-                        carrello.update("totalePezziCarrello", (prodottoUtente.totalePezziCarrello+1));
+                        carrello.update("totalePezziCarrello", prod.getTotalePezziCarrello()+1);
                     } else {
                         Log.d(TAG, "No such document");
                         carrello.set(prodottoUtente).addOnSuccessListener(new OnSuccessListener<Void>() {
