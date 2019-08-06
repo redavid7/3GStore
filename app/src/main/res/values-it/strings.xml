@@ -31,6 +31,10 @@
     <string name="auth_failed">Autenticazione fallita. Controlla email e password oppure registrati!</string>
     <string name="minimum_password">Password troppo corta, inserisci almeno 6 caratteri!</string>
     <string name="confirm_password">Conferma password</string>
+    <string name="lbl_forgot_password">Password dimenticata?</string>
+    <string name="forgot_password_msg">Inserisci la tua Email di registrazione per ricevere le istruzioni di reset password</string>
+    <string name="btn_reset_password">Reset Password</string>
+    <string name="btn_back">Indietro</string>
 
     <!-- MarangiCoin -->
     <string name="your_marangiCoin">Hai *** MarangiCoin</string>

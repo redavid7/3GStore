@@ -131,15 +131,6 @@
             android:textColor="@color/colorPrimary"
             android:textSize="15sp" />
 
-        <Button
-            android:id="@+id/btn_reset_password"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@null"
-            android:text="@string/forgot_password"
-            android:textAllCaps="false"
-            android:textColor="@color/colorPrimary" />
     </LinearLayout>
 
     <ProgressBar

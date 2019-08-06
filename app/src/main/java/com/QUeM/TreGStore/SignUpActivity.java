@@ -44,14 +44,6 @@ public class SignUpActivity extends AppCompatActivity {
         inputPassword = findViewById(R.id.password);
         inputConfPassword = findViewById(R.id.confPassword);
         progressBar = findViewById(R.id.progressBar);
-        btnResetPassword = findViewById(R.id.btn_reset_password);
-
-        btnResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //startActivity(new Intent(this, ResetPasswordActivity.class));
-            }
-        });
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
