@@ -2,7 +2,6 @@
 <resources>
     <string name="app_name">3GStore</string>
     <string name="nomeAppSpashPage">3G STORE</string>
-    <string name="password">Password</string>
     <string name="email">E-Mail</string>
     <string name="navigation_drawer_open">Apri menu laterale</string>
     <string name="navigation_drawer_close">Chiudi menu laterale</string>
@@ -43,6 +42,24 @@
     <string name="marangiCoin">Simbolo dei MarangiCoin</string>
     <string name="marangiCoin_exchange">MarangiCoin da scambiare</string>
     <string name="euro_exchange">Euro che puoi ottenere</string>
+
+    <!-- Settings -->
+    <string name="username">Nome Utente</string>
+    <string name="username_summary">Modifica il tuo Nome Utente</string>
+    <string name="password">Password</string>
+    <string name="password_summary">Modifica la tua Password</string>
+    <string name="photo">Foto Profilo</string>
+    <string name="photo_summary">Modifica la tua Foto Profilo</string>
+    <string name="cards">Carte</string>
+    <string name="cards_summary">Gestisci le tue carte per il pagamento</string>
+    <string name="purchases">Acquisti</string>
+    <string name="purchases_summary">Controlla i tuoi acquisti recenti</string>
+    <string name="personal_data">Informazioni Personali</string>
+    <string name="personal_data_summary">Controlla tutte le tue informazioni personali</string>
+    <string name="touchid">Touch ID</string>
+    <string name="touchid_summary">Abilita/Disabilita Touch ID</string>
+    <string name="offers">Notifiche per le Offerte</string>
+    <string name="offers_summary">Abilita/Disabilita le notifiche per prodotti in offerta nelle tue vicinanze</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">3GStore</string>
     <string name="nomeAppSpashPage">3G STORE</string>
-    <string name="password">Password</string>
     <string name="email">E-Mail</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -46,5 +45,24 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Settings -->
+    <string name="username">Username</string>
+    <string name="username_summary">Change your Username</string>
+    <string name="password">Password</string>
+    <string name="password_summary">Change your Password</string>
+    <string name="photo">Profile Picture</string>
+    <string name="photo_summary">Change your Profile Picture</string>
+    <string name="cards">Cards</string>
+    <string name="cards_summary">Manage your payment cards</string>
+    <string name="purchases">Purchases</string>
+    <string name="purchases_summary">See all your recent purchases</string>
+    <string name="personal_data">Personal Data</string>
+    <string name="personal_data_summary">See your personal data</string>
+    <string name="touchid">Touch ID</string>
+    <string name="touchid_summary">Enable/Disable Touch ID</string>
+    <string name="offers">Offers Notification</string>
+    <string name="offers_summary">Enable/Disable notifications for offers on products near you</string>
+
 
 </resources>

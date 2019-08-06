@@ -224,11 +224,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.nav_quit) {
-            auth.signOut();
-        } else {
-            //chiamo il metodo che gestisce i fragment per la scelta degli elementi del menu
-            ShowFragment(item.getItemId());
+        switch(item.getItemId()){
+            case R.id.nav_quit:
+                //Se viene cliccato il tasto logout, chiamo il metodo signOut()
+                auth.signOut();
+            case R.id.nav_settings:
+                //Se viene cliccato il tasto delle impostazioni, starto SettingsActivity
+                startActivity(new Intent(this, SettingsActivity.class));
+            default:
+                //Se viene cliccato un qualsiasi altro tasto, chiamo il metodo che gestisce
+                // i fragment per la scelta degli elementi del menu
+                ShowFragment(item.getItemId());
         }
         return true;
     }
