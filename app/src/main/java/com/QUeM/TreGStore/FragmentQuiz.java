@@ -26,6 +26,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -52,13 +53,13 @@ public class FragmentQuiz extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //scrivo le domande su fie(provvisorio)
+        //scrivo le domande su file(provvisorio)
         Scrivi();
         //inizializzo oggetti a schermo
         init();
         //creo variabili data corrente e data ultimo quiz
-        Calendar last = null;
-        Calendar now = Calendar.getInstance();
+        Date last = null;
+        Calendar nowc = Calendar.getInstance();
         //leggo la data dell'ultimo quiz
         try {
              last= leggiData();
@@ -68,13 +69,16 @@ public class FragmentQuiz extends Fragment {
             e.printStackTrace();
         }
         //prendo gli interi per fare il confronto delle date in questo caso prendo i minuti per far vedere  che una volta terminato il quiz viene reso prima indisponibile poi rireso disponibile
-        int l = 0;
-        int n = 1;
-        if(last!=null){
-         l=last.get(Calendar.MINUTE);
-         n=now.get(Calendar.MINUTE);}
+        Date now=nowc.getTime();
         // se la data in cui si sta facendo il quiz e maggiore dell'ultimo quiz eseguito ti viene concesso di eseguire un nuovo quiz
-        if(n>l){
+        int n = 0;
+        int l = 0;
+        if(last!=null){
+         n = now.getMinutes();
+         l = last.getMinutes();
+        }
+
+        if(n>l||last==null){
             try {
                 routine();
             } catch (IOException e) {
@@ -147,10 +151,10 @@ public class FragmentQuiz extends Fragment {
         Avanti=getActivity().findViewById(R.id.Avanti);
         try{
             ObjectInputStream ois = new ObjectInputStream(getContext().openFileInput("quiz.txt"));
-            domande.add((Domanda)ois.readObject());
+            Domanda tempo;
             int c=0;
-            while (domande.get(c)!= null){
-                domande.add((Domanda)ois.readObject());
+            while ((tempo=(Domanda)ois.readObject())!=null){
+                domande.add(tempo);
                 c++;
             }
             domande.remove(c);
@@ -290,7 +294,7 @@ public class FragmentQuiz extends Fragment {
             oos.writeObject(new Domanda("Qual'è l'unità di misura dell'energia?","Caloria","Watt","Ampere","Joule","Joule"));
             oos.writeObject(new Domanda("In che anno è caduto l'impero romano d'occidente","476 d.c.","33 d.c.","1453 d.c.","1453 a.c.","476 d.c."));
             oos.writeObject(new Domanda("Chi è stato il primo re d'Italia","Enzo Paolo Turchi II","Vittorio Emanuele II di Savoia","Federico Barbarossa","Vittorio Emanuele","Vittorio Emanuele II di Savoia"));
-            oos.writeObject(new Domanda("Quale nazione è tra le fondatrici dell'ONU?","China","Giappone","Russia","India","India"));
+            oos.writeObject(new Domanda("Quale nazione è tra le fondatrici dell'ONU?","Cina","Giappone","Russia","India","India"));
             oos.writeObject(new Domanda("Quale di questi attori è stato anche un famoso nuotatore italiano?","Prierfrancesco Favino","Silvester Stallone","Bud Spencer","Sossio Aruta","Bud Spencer"));
             oos.writeObject(new Domanda("Quale squadra di serie A detiene più campionati vinti?","Milan","Juventus","Roma","Spal","Juventus"));
             oos.writeObject(new Domanda("Alla nazione italiana di quale sport ci si riferisce con il nome Settebello?","Pallavolo","Calcio","Tennis","Pallanuoto","Pallanuoto"));
@@ -322,13 +326,16 @@ public class FragmentQuiz extends Fragment {
     public void scriviData() throws IOException {
         Calendar c = Calendar.getInstance();
         ObjectOutputStream oos = new ObjectOutputStream(getContext().openFileOutput("dat.txt",Context.MODE_PRIVATE));
-        oos.writeObject(c);
+        Date d = c.getTime();
+        oos.writeObject(d);
+        oos.close();
     }
 
     //Leggi data
-    public Calendar leggiData() throws IOException, ClassNotFoundException {
+    public Date leggiData() throws IOException, ClassNotFoundException {
         ObjectInputStream ois = new ObjectInputStream(getContext().openFileInput("dat.txt"));
-        Calendar toRet = (Calendar) ois.readObject();
+       Date toRet = (Date) ois.readObject();
+       ois.close();
         return toRet;
     }
 }
