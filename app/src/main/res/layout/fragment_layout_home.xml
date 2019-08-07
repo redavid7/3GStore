@@ -3,12 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp">
+    >
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"/>
+
+
+
+    <TextView
+        android:id="@+id/text_view_carrellovuoto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:alpha="0.5"
+        android:text="@string/lista_vuota"
+        android:textSize="@dimen/splash_title"
+        android:visibility="invisible"
+        app:layout_anchor="@+id/image_view_carrellovuoto"
+        app:layout_anchorGravity="bottom|center"
+        android:layout_gravity="bottom|center"
+        />
+
+    <ImageView
+        android:id="@+id/image_view_carrellovuoto"
+        android:layout_width="@dimen/carrellovuoto"
+        android:layout_height="@dimen/carrellovuoto"
+        android:layout_gravity="center"
+        android:scaleType="fitCenter"
+        android:alpha="0.3"
+        android:visibility="invisible"
+        app:srcCompat="@drawable/empty_shopping_kart" />
 
 </android.support.design.widget.CoordinatorLayout>
 

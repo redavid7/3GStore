@@ -19,7 +19,7 @@
     <string name="new_game_label">Insert Coin</string>
     <string name="killscreen_label">Kill Screen</string>
     <string name="exit_label">Exit</string>
-    <string name="lista_vuota">Lista Vuota</string>
+    <string name="lista_vuota">Il tuo carrello è vuoto</string>
     <string name="menu_settings">Impostazioni</string>
 
     <!-- Login e Registrazione -->

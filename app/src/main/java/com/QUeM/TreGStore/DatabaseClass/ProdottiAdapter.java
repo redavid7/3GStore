@@ -20,10 +20,37 @@ public class ProdottiAdapter extends FirestoreRecyclerAdapter<Prodotti, Prodotti
 
     @Override
     protected void onBindViewHolder(ProdottiHolder holder, int position, Prodotti model) {
-        holder.nome.setText(model.getNome());
-        holder.nProdottiCarrello.setText("x"+model.getTotalePezziCarrello());
-        double roundOff = Math.round((model.getPrezzo()*model.getTotalePezziCarrello()) * 100.0) / 100.0;
-        holder.prezzo.setText(String.valueOf(roundOff));
+        if(model.getId()!=null){
+
+            holder.nome.setText(model.getNome());
+            holder.nProdottiCarrello.setText("x"+model.getTotalePezziCarrello());
+            double roundOff = Math.round((model.getPrezzo()*model.getTotalePezziCarrello()) * 100.0) / 100.0;
+            holder.prezzo.setText(String.valueOf(roundOff)+"€");
+            if(model.getTotalePezziCarrello()<2){
+                holder.prezzoCad.setText("");
+            }else{
+                holder.prezzoCad.setText(String.valueOf(model.getPrezzo())+"/cad");
+            }
+            switch(model.getNome()){
+                //per impostare l'immagine
+                case "Nutella":
+                    holder.icona.setImageResource(R.drawable.prodotto_nutella);
+                    break;
+                case "Latte Parmalat":
+                    holder.icona.setImageResource(R.drawable.prodotto_latte);
+                    break;
+                case "Insalata Cappuccio":
+                    holder.icona.setImageResource(R.drawable.prodotto_latte);
+                    break;
+            }
+        }else{
+            holder.nome.setText("");
+            holder.nProdottiCarrello.setText("");
+            holder.prezzo.setText("");
+            holder.prezzoCad.setText("");
+            holder.icona.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @NonNull
@@ -39,7 +66,9 @@ public class ProdottiAdapter extends FirestoreRecyclerAdapter<Prodotti, Prodotti
         TextView nome;
         TextView prezzo;
         TextView nProdottiCarrello;
+        TextView prezzoCad;
         ImageView icona;
+
 
         public ProdottiHolder(@NonNull View itemView) {
             super(itemView);
@@ -47,6 +76,7 @@ public class ProdottiAdapter extends FirestoreRecyclerAdapter<Prodotti, Prodotti
             prezzo=itemView.findViewById(R.id.text_view_prezzo);
             nProdottiCarrello=itemView.findViewById(R.id.text_view_n_prodotti_nel_carrello);
             icona=itemView.findViewById(R.id.image_view_prodotto);
+            prezzoCad=itemView.findViewById(R.id.text_view_cad);
         }
     }
 

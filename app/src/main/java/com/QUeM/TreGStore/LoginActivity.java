@@ -18,9 +18,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.WriteBatch;
 
 import static android.support.constraint.Constraints.TAG;
@@ -42,6 +44,8 @@ public class LoginActivity extends AppCompatActivity {
         if (auth.getCurrentUser() != null) {
             //l'utente si è già autenticato
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            final FirebaseFirestore db = FirebaseFirestore.getInstance();
+            controlloCarrello(db);
             finish();
         }
 
@@ -99,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                 auth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
+                            public void onComplete(@NonNull final Task<AuthResult> task) {
                                 // If sign in fails, display a message to the user. If sign in succeeds
                                 // the auth state listener will be notified and logic to handle the
                                 // signed in user can be handled in the listener.
@@ -112,45 +116,13 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                    final Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                     // prima di accedere alla Home Activity, controlla che sia stato creato il carrello relativo al cliente e la sezione MarangiCoin
                                     // accedo al database
                                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
-                                    //creo il riferimento per un documento che abbia come id l'user id dell'utente
-                                    DocumentReference docRef = db.collection("carrelli").document(auth.getUid());
 
-                                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                DocumentSnapshot document = task.getResult();
-                                                if (document.exists()) {
-                                                    //se il carrello esiste già non fa nulla
-                                                    Log.d(TAG, "LOGIN carrello esiste");
-                                                } else {
-                                                    //se non esiste il carrello lo crea vuoto
-                                                    Log.d(TAG, "LOGIN carrello non esiste");
-                                                    //operazione per scrivere sul db
-                                                    WriteBatch batch = db.batch();
-                                                    //creo riferimento da creare
-                                                    DocumentReference carrello = db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document("cancellami");
-                                                    //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
-                                                    batch.set(carrello, new Prodotti());
-                                                    //eseguo il comando di creazione
-                                                    batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            // ...
-                                                        }
-                                                    });
+                                    controlloCarrello(db);
 
-
-                                                }
-                                            } else {
-                                                Log.d(TAG, "get failed with ", task.getException());
-                                            }
-                                        }
-                                    });
                                     DocumentReference docRef2 = db.collection("conti").document(auth.getUid());
                                     docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
@@ -191,5 +163,58 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void ripristinaCarrrello(final FirebaseFirestore db, DocumentReference docRef){
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    //se non esiste il carrello lo crea vuoto
+                    Log.d(TAG, "CCCC carrello non esiste");
+                    //operazione per scrivere sul db
+                    WriteBatch batch = db.batch();
+                    //creo riferimento da creare
+                    DocumentReference carrello = db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document("cancellami");
+                    //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
+                    batch.set(carrello, new Prodotti());
+                    //eseguo il comando di creazione
+                    batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            // ...
+                        }
+                    });
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
+    public void controlloCarrello(final FirebaseFirestore db){
+        //creo il riferimento per un documento che abbia come id l'user id dell'utente
+        final DocumentReference docRef = db.collection("carrelli").document(auth.getUid());
+        CollectionReference colref=db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello");
+
+        colref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    if(task.getResult().size() >0) {
+                        //se la collezione esiste non faccio nulla
+                        Log.d(TAG, "coll esiste");
+                    }else{
+                        Log.d(TAG, "coll non esiste ");
+
+                        ripristinaCarrrello(db, docRef);
+
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
 }
 

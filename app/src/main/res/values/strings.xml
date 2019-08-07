@@ -33,7 +33,7 @@
     <string name="btn_reset_password">Reset Password</string>
     <string name="btn_back">Back</string>
 
-    <string name="lista_vuota">Empty List</string>
+    <string name="lista_vuota">Your shopping cart is empty</string>
 
     <!-- MarangiCoin -->
     <string name="your_marangiCoin">You have *** MarangiCoin</string>
@@ -43,7 +43,7 @@
     <string name="marangiCoin_exchange">MarangiCoin to exchange</string>
     <string name="euro_exchange">Money you can get</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Settings -->
