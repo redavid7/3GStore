@@ -1,52 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
 
     android:key="first_preferencescreen"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <EditTextPreference
         android:key = "Change Username"
         android:title ="@string/username"
-        android:summary= "@string/username_summary"></EditTextPreference>
+        android:summary= "@string/username_summary"/>
 
     <EditTextPreference
         android:key = "Change Password"
         android:title ="@string/password"
-        android:summary= "@string/password_summary"></EditTextPreference>
+        android:summary= "@string/password_summary"/>
 
     <EditTextPreference
         android:key = "Change Photo"
         android:title ="@string/photo"
-        android:summary= "@string/photo_summary"></EditTextPreference>
+        android:summary= "@string/photo_summary"/>
 
     <EditTextPreference
         android:key = "Manage Cards"
         android:title ="@string/cards"
-        android:summary= "@string/cards_summary"></EditTextPreference>
+        android:summary= "@string/cards_summary"/>
 
     <EditTextPreference
         android:key = "Recent Purchases"
-        android:title ="Purchases"
-        android:summary= "See recent purchases"></EditTextPreference>
+        android:title ="@string/purchases"
+        android:summary= "@string/purchases_summary"/>
 
     <EditTextPreference
         android:key = "Personal Data"
         android:title ="@string/personal_data"
-        android:summary= "@string/personal_data_summary"></EditTextPreference>
+        android:summary= "@string/personal_data_summary"/>
 
-    <SwitchPreference>
+    <SwitchPreference
         android:key = "Touch ID"
         android:title = "@string/touchid"
         android:defaultValue= "true"
-        android:summary = "string/touchid_summary"></SwitchPreference>
+        android:summary = "string/touchid_summary"/>
 
-    <SwitchPreference>
+    <SwitchPreference
         android:key = "Offerte"
         android:title = "@string/offers"
         android:defaultValue= "true"
-        android:summary = "@string/offers_summary"></SwitchPreference>
+        android:summary = "@string/offers_summary"/>
 
 </PreferenceScreen>

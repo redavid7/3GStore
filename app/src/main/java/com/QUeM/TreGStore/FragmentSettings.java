@@ -20,6 +20,9 @@ public class FragmentSettings extends PreferenceFragmentCompat {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //returning our layout file
+
+        addPreferencesFromResource(R.xml.preferences);
+
         return inflater.inflate(R.layout.fragment_fragment_settings, container, false);
     }
 

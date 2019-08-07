@@ -1,49 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="first_preferencescreen"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <EditTextPreference
-        android:key="Change Username"
-        android:summary="Change your Username"
-        android:title="Username"></EditTextPreference>
 
-    <EditTextPreference
-        android:key = "Change Password"
-        android:title ="Password"
-        android:summary= "Change your Password"></EditTextPreference>
 
-    <EditTextPreference
-        android:key = "Manage Cards"
-        android:title ="Cards"
-        android:summary= "Manage Cards"></EditTextPreference>
 
-    <EditTextPreference
-        android:key="Change Photo"
-        android:summary="Change your Photo"
-        android:title="Photo"></EditTextPreference>
-
-    <EditTextPreference
-        android:key = "Personal Data"
-        android:title ="Data"
-        android:summary= "See Your Personal Data"></EditTextPreference>
-
-    <EditTextPreference
-        android:key="Recent Purchases"
-        android:summary="See recent purchases"
-        android:title="Purchases"></EditTextPreference>
-
-    <SwitchPreference>
-        android:key = "Touch ID"
-        android:title = "Touch ID"
-        android:defaultValue= "true"
-        android:summary = "Abilita touch ID"></SwitchPreference>
-
-    <SwitchPreference>
-        android:key = "Offerte"
-        android:title = "Offerte"
-        android:defaultValue= "true"
-        android:summary = "Abilita notifiche per prodotti scontati nelle vicinanze"></SwitchPreference>
-
-</PreferenceScreen>
+</RelativeLayout>

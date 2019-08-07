@@ -17,5 +17,14 @@ public class SettingsActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Settings");
+
+        if (findViewById(R.id.fragment_container)!= null){
+
+            if(savedInstanceState!= null){
+                return;
+            }
+
+            getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, new FragmentSettings()).commit();
+        }
     }
 }
