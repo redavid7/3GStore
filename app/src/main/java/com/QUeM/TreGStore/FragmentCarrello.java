@@ -12,10 +12,13 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.QUeM.TreGStore.DatabaseClass.ProdottiAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -40,6 +43,7 @@ public class FragmentCarrello extends Fragment {
     //vista del fragment
     private View fragmentHomeView;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -62,7 +66,6 @@ public class FragmentCarrello extends Fragment {
                         testoCarrelloVuoto.setVisibility(View.VISIBLE);
                         iconaCarrelloVuoto.setVisibility(View.VISIBLE);
                     } else {
-                        //se il documento non esiste, rendo invisibile la visualizzazione "carrello vuoto"
                         Log.d(TAG, "cancellami non esiste");
                         testoCarrelloVuoto.setVisibility(View.INVISIBLE);
                         iconaCarrelloVuoto.setVisibility(View.INVISIBLE);
@@ -73,7 +76,9 @@ public class FragmentCarrello extends Fragment {
             }
         });
         //chiamo il metodo per la settare la recycler view
+        Log.d(TAG, "mmm prima di setUpRecyclerView in home Fragment");
         setUpRecyclerView();
+        Log.d(TAG, "mmm dopo di setUpRecyclerView in home Fragment");
         return fragmentHomeView;
     }
 

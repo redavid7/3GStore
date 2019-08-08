@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import static android.support.constraint.Constraints.TAG;
 
 
 //debug message
@@ -220,13 +223,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_quit:
                 //Se viene cliccato il tasto logout, chiamo il metodo signOut()
                 auth.signOut();
+                break;
             case R.id.nav_settings:
                 //Se viene cliccato il tasto delle impostazioni, starto SettingsActivity
+                Log.d(TAG, "mmm prima di startActivity ");
                 startActivity(new Intent(this, SettingsActivity.class));
+                Log.d(TAG, "mmm dopo di startActivity");
+                break;
             default:
                 //Se viene cliccato un qualsiasi altro tasto, chiamo il metodo che gestisce
                 // i fragment per la scelta degli elementi del menu
                 ShowFragment(item.getItemId());
+                break;
         }
         return true;
     }
