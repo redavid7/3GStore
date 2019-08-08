@@ -2,21 +2,12 @@ package com.QUeM.TreGStore;
 
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.media.audiofx.DynamicsProcessing;
-import android.media.tv.TvContract;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.Settings;
-import android.se.omapi.Channel;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -39,9 +30,6 @@ import com.google.firebase.auth.FirebaseUser;
 //Toast.makeText(getContext(), "debug", Toast.LENGTH_LONG).show();
 //Log.d(TAG, "PRODOTTO "+ stringCode);
 
-
-
-
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //inizializzazioni variabili fab
@@ -53,6 +41,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //--------------------------INIZIO GESTIONE UTENTE------------------------------------
+
         auth = FirebaseAuth.getInstance();
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -67,6 +56,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         };
+
         //-----------------------------FINE GESTIONE UTENTE------------------------------------
 
         //--------------------INIZIO GESTIONE SETUP ACTIVITY-------------------------------
@@ -74,6 +64,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //inizializza Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         //--------------------FINE GESTIONE SETUP ACTIVITY-------------------------------
 
 
@@ -111,9 +102,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //inizializzazione del menu laterale
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        //TextView profilo = findViewById(R.id.nomeCognome);
-        // profilo.setText("ciao");
-
 
         //azione quando clicco l'icona del menù laterale
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -123,10 +111,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //funzione che gestisce la scelta effettuata nel menu
         navigationView.setNavigationItemSelectedListener(this);
-
-
-
-
 
         //--------------------FINE GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
 
@@ -154,11 +138,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //per inizializzare il pulsante del carrello
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.option_menu, menu);
         return true;
     }
 
+    //azione quando si preme l'icona del carrello
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -171,7 +157,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         return true;
     }
-
 
     //--------------------------------------------------------------------------------------------------
     //------------------------------FINE BLOCCO ONCREATE HOMEACTIVITY-----------------------------------
@@ -256,7 +241,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //in base alla selezione del menu assegno il fragment da mostrare
         switch (itemId) {
             case R.id.nav_home:
-                fragment=new FragmentHome();
+                fragment=new FragmentCarrello();
                 if(!fabMenu.isClickable()){
                     showFABs();
                 }
@@ -299,10 +284,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
     }
 
-
-
-
-
     //---------------------------------------------------------------------------
     //-------------------------FINE FUNZIONI MENU--------------------------------
     //---------------------------------------------------------------------------
@@ -312,7 +293,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //----------------------------------------------------------------------------
     //-------------------------INIZIO FUNZIONI FAB--------------------------------
     //----------------------------------------------------------------------------
-
 
     //metodo che rende visibile il bottone fotocamera
     @SuppressLint("RestrictedApi")
@@ -327,7 +307,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         fabMenu.setClickable(false);
         fabMenu.setVisibility(View.INVISIBLE);
     }
-
 
     //----------------------------------------------------------------------------
     //-------------------------FINE FUNZIONI FAB----------------------------------

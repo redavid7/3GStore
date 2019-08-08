@@ -44,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         if (auth.getCurrentUser() != null) {
             //l'utente si è già autenticato
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+            //controllo il carrello anche se l'utente è già utenticato
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
             controlloCarrello(db);
             finish();
@@ -120,7 +121,8 @@ public class LoginActivity extends AppCompatActivity {
                                     // prima di accedere alla Home Activity, controlla che sia stato creato il carrello relativo al cliente e la sezione MarangiCoin
                                     // accedo al database
                                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
+                                    //metodo di controllo del carrello
+                                    //controlla che il carrello sia satto creato, se esiste non fa nulla, se non esiste lo crea inserendo un prodotto temporaneo
                                     controlloCarrello(db);
 
                                     DocumentReference docRef2 = db.collection("conti").document(auth.getUid());
@@ -164,6 +166,34 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    //controlla che il carrello sia satto creato, se esiste non fa nulla, se non esiste lo crea inserendo un prodotto temporaneo
+    public void controlloCarrello(final FirebaseFirestore db){
+        //creo il riferimento per il documento che abbia come id l'user id dell'utente
+        final DocumentReference docRef = db.collection("carrelli").document(auth.getUid());
+        //crea collegamento alla collezione del carrello dell'utente
+        CollectionReference colref=db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello");
+        //si connette
+        colref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    //se il documento è più grande di 0 allora il carrello esiste già
+                    if(task.getResult().size() >0) {
+                        //se la collezione esiste non faccio nulla
+                        Log.d(TAG, "coll esiste");
+                    }else{
+                        Log.d(TAG, "coll non esiste ");
+                        //chiamo il metodo che ricrea il carrello vuoto
+                        ripristinaCarrrello(db, docRef);
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+
     public void ripristinaCarrrello(final FirebaseFirestore db, DocumentReference docRef){
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -191,30 +221,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void controlloCarrello(final FirebaseFirestore db){
-        //creo il riferimento per un documento che abbia come id l'user id dell'utente
-        final DocumentReference docRef = db.collection("carrelli").document(auth.getUid());
-        CollectionReference colref=db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello");
-
-        colref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    if(task.getResult().size() >0) {
-                        //se la collezione esiste non faccio nulla
-                        Log.d(TAG, "coll esiste");
-                    }else{
-                        Log.d(TAG, "coll non esiste ");
-
-                        ripristinaCarrrello(db, docRef);
-
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }
 
 }
 
