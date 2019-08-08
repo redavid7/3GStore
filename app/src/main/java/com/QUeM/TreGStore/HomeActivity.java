@@ -2,13 +2,21 @@ package com.QUeM.TreGStore;
 
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.media.audiofx.DynamicsProcessing;
+import android.media.tv.TvContract;
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
+import android.se.omapi.Channel;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -44,7 +52,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         //--------------------------INIZIO GESTIONE UTENTE------------------------------------
         auth = FirebaseAuth.getInstance();
 
