@@ -32,7 +32,7 @@
     <string name="forgot_password_msg">Insert your registered Email for receive password reset instrucion</string>
     <string name="btn_reset_password">Reset Password</string>
     <string name="btn_back">Back</string>
-
+    <string name="product_unavailable">The scanned product is unavailable</string>
     <string name="lista_vuota">Your shopping cart is empty</string>
 
     <!-- MarangiCoin -->

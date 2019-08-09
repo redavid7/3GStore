@@ -83,15 +83,18 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                                 if (document.exists()) {
                                     //se il documento esiste, creo un oggetto che corrisponde al prodotto legato al codice a barre
                                     Prodotti prod=document.toObject(Prodotti.class);
-                                    //inizializzo l'id del prodotto
-                                    prod.setId(codiceProdottoScannerizzato);
-                                    //imposto il contatore del numero di prodotti di quel tipo presenti nel carrello
-
-                                    prod.setTotalePezziCarrello(1);
-
-                                    //chiamo la funzione per inserirlo nel carrello dell'utente
-
-                                    aggiungiProdottoCarrello(prod, db);
+                                    //controllo se il prodotto è disponibile all'acquisto
+                                    if(prod.isDisponibile()){
+                                        //inizializzo l'id del prodotto
+                                        prod.setId(codiceProdottoScannerizzato);
+                                        //imposto il contatore del numero di prodotti di quel tipo presenti nel carrello
+                                        prod.setTotalePezziCarrello(1);
+                                        //chiamo la funzione per inserirlo nel carrello dell'utente
+                                        aggiungiProdottoCarrello(prod, db);
+                                    }else{
+                                        //per ora scrivo un toast di avviso che non è più disp
+                                        Toast.makeText(getApplicationContext(), R.string.product_unavailable, Toast.LENGTH_LONG).show();
+                                    }
                                 } else {
                                     Log.d(TAG, "No such document");
 
@@ -107,10 +110,11 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
             }
         });
     }
+
     //CICLO DI VITA FOTOCAMERA
     private void initialiseDetectorsAndSources() {
         //NOTIFICA AVVIO ACTIVITY
-        Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
+
         //INIZIALIZZO LE RISORSE NECESSARIE
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE|Barcode.CODABAR)
@@ -150,7 +154,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-                Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
             }
             //RILEVAZIONE DEL CODICE
             @Override

@@ -20,6 +20,7 @@
     <string name="killscreen_label">Kill Screen</string>
     <string name="exit_label">Exit</string>
     <string name="lista_vuota">Il tuo carrello è vuoto</string>
+    <string name="product_unavailable">Il prodotto scannerizzato non è al momento disponibile</string>
     <string name="menu_settings">Impostazioni</string>
 
     <!-- Login e Registrazione -->

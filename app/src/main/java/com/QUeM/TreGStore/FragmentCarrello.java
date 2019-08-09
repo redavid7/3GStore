@@ -1,7 +1,10 @@
 package com.QUeM.TreGStore;
 
+import com.QUeM.TreGStore.HomeActivity.*;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,6 +33,8 @@ import com.google.firebase.firestore.Query;
 import static android.support.constraint.Constraints.TAG;
 
 
+//todo: acquisto carrello, fab che si nasconde bene,
+
 public class FragmentCarrello extends Fragment {
 
     //collegamento del firestore
@@ -42,12 +47,27 @@ public class FragmentCarrello extends Fragment {
     private ProdottiAdapter adapter;
     //vista del fragment
     private View fragmentHomeView;
+    //inizializzazioni variabili fab
+    private FloatingActionButton fabMenu;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentHomeView=inflater.inflate(R.layout.fragment_layout_home, container, false);
+
+        //inizializza il pulsante floating action button che fa da menù
+        fabMenu = fragmentHomeView.findViewById(R.id.aggiungi_prodotto);
+
+        //azione del floating action button menu quando cliccato
+        fabMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), ScannedBarcodeActivity.class));
+            }
+        });
+
+
         //inizializzo le variabili che mostrano il carrello vuoto
         final TextView testoCarrelloVuoto=fragmentHomeView.findViewById(R.id.text_view_carrellovuoto);
         final ImageView iconaCarrelloVuoto=fragmentHomeView.findViewById(R.id.image_view_carrellovuoto);
@@ -119,6 +139,18 @@ public class FragmentCarrello extends Fragment {
         recyclerView.setHasFixedSize(true);
         //imposta la recyclerview nel layout
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //fab
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && fabMenu.getVisibility() == View.VISIBLE) {
+                    fabMenu.hide();
+                } else if (dy < 0 && fabMenu.getVisibility() != View.VISIBLE) {
+                    fabMenu.show();
+                }
+            }
+        });
         //applica l'adapter nel fragment
         recyclerView.setAdapter(adapter);
     }

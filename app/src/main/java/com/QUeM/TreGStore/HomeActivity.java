@@ -35,8 +35,7 @@ import static android.support.constraint.Constraints.TAG;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    //inizializzazioni variabili fab
-    FloatingActionButton fabMenu;
+
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -76,16 +75,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //--------------------INIZIO GESTIONE FLOATING ACTION BUTTON-------------------------------
 
-        //inizializza il pulsante floating action button che fa da menù
-        fabMenu = findViewById(R.id.aggiungi_prodotto);
 
-        //azione del floating action button menu quando cliccato
-        fabMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, ScannedBarcodeActivity.class));
-            }
-        });
 
         //--------------------FINE GESTIONE FLOATING ACTION BUTTON-------------------------------
 
@@ -250,33 +240,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switch (itemId) {
             case R.id.nav_home:
                 fragment=new FragmentCarrello();
-                if(!fabMenu.isClickable()){
-                    showFABs();
-                }
                 break;
             case R.id.nav_promozioni:
                 fragment = new FragmentPromozioni();
-                if(fabMenu.isClickable()) {
-                    hideFABs();
-                }
                 break;
             case R.id.nav_marangicoin:
                 fragment = new FragmentMarangicoin();
-                if(fabMenu.isClickable()) {
-                    hideFABs();
-                }
                 break;
             case R.id.nav_profilo:
                 fragment = new FragmentProfilo();
-                if(fabMenu.isClickable()) {
-                    hideFABs();
-                }
                 break;
             case R.id.nav_game:
                 fragment = new FragmentQuiz();
-                if(fabMenu.isClickable()){
-                    hideFABs();
-                }
                 break;
         }
 
@@ -298,27 +273,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    //----------------------------------------------------------------------------
-    //-------------------------INIZIO FUNZIONI FAB--------------------------------
-    //----------------------------------------------------------------------------
 
-    //metodo che rende visibile il bottone fotocamera
-    @SuppressLint("RestrictedApi")
-    public void showFABs(){
-        fabMenu.setClickable(true);
-        fabMenu.setVisibility(View.VISIBLE);
-    }
-
-    //metodo che rende invisibile il bottone fotocamera
-    @SuppressLint("RestrictedApi")
-    public void hideFABs(){
-        fabMenu.setClickable(false);
-        fabMenu.setVisibility(View.INVISIBLE);
-    }
-
-    //----------------------------------------------------------------------------
-    //-------------------------FINE FUNZIONI FAB----------------------------------
-    //----------------------------------------------------------------------------
 
 
 }

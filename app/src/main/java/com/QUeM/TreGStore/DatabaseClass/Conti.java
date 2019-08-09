@@ -5,7 +5,9 @@ public class Conti {
     private int coinAmount;
     private float currentDiscount;
 
-    public Conti(){}
+    public Conti(){
+
+    }
 
     public Conti(int coinAmount, float currentDiscount){
         this.coinAmount=coinAmount;

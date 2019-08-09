@@ -113,7 +113,6 @@ public class SignUpActivity extends AppCompatActivity {
                                     });
 
 
-
                                     //aggiungo Conti al DB per la gestione dei MarangiCoin
                                     DocumentReference conti = db.collection("conti").document(auth.getUid());
                                     //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
