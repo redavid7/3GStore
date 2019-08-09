@@ -22,6 +22,7 @@
     <string name="lista_vuota">Il tuo carrello è vuoto</string>
     <string name="product_unavailable">Il prodotto scannerizzato non è al momento disponibile</string>
     <string name="menu_settings">Impostazioni</string>
+    <string name="shopping_amount">Totale Carrello: </string>
 
     <!-- Login e Registrazione -->
     <string name="login">Login</string>

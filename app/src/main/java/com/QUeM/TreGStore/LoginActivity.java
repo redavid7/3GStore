@@ -38,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         //Get Firebase auth instance
         auth=FirebaseAuth.getInstance();
 
@@ -46,7 +47,8 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
             //controllo il carrello anche se l'utente è già utenticato
             final FirebaseFirestore db = FirebaseFirestore.getInstance();
-            controlloCarrello(db);
+
+            controlloConto(db);
             finish();
         }
 
@@ -123,39 +125,9 @@ public class LoginActivity extends AppCompatActivity {
                                     final FirebaseFirestore db = FirebaseFirestore.getInstance();
                                     //metodo di controllo del carrello
                                     //controlla che il carrello sia satto creato, se esiste non fa nulla, se non esiste lo crea inserendo un prodotto temporaneo
-                                    controlloCarrello(db);
 
-                                    DocumentReference docRef2 = db.collection("conti").document(auth.getUid());
-                                    docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            if (task.isSuccessful()) {
-                                                DocumentSnapshot document = task.getResult();
-                                                if (document.exists()) {
-                                                    //se la sezione conti esiste già non fa nulla
-                                                    Log.d(TAG, "CONTI esiste");
-                                                } else {
-                                                    //se non esiste la crea vuota
-                                                    Log.d(TAG, "CONTI non esiste");
-                                                    //operazione per scrivere sul db
-                                                    WriteBatch batch = db.batch();
-                                                    //creo riferimento da creare
-                                                    DocumentReference conti = db.collection("conti").document(auth.getUid());
-                                                    //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
-                                                    batch.set(conti, new Conti());
-                                                    //eseguo il comando di creazione
-                                                    batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                            // ...
-                                                        }
-                                                    });
-                                                }
-                                            } else {
-                                                Log.d(TAG, "get failed with ", task.getException());
-                                            }
-                                        }
-                                    });
+
+                                    controlloConto(db);
 
                                     startActivity(intent);
                                     finish();
@@ -166,61 +138,40 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    //controlla che il carrello sia satto creato, se esiste non fa nulla, se non esiste lo crea inserendo un prodotto temporaneo
-    public void controlloCarrello(final FirebaseFirestore db){
-        //creo il riferimento per il documento che abbia come id l'user id dell'utente
-        final DocumentReference docRef = db.collection("carrelli").document(auth.getUid());
-        //crea collegamento alla collezione del carrello dell'utente
-        CollectionReference colref=db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello");
-        //si connette
-        colref.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    //se il documento è più grande di 0 allora il carrello esiste già
-                    if(task.getResult().size() >0) {
-                        //se la collezione esiste non faccio nulla
-                        Log.d(TAG, "coll esiste");
-                    }else{
-                        Log.d(TAG, "coll non esiste ");
-                        //chiamo il metodo che ricrea il carrello vuoto
-                        ripristinaCarrrello(db, docRef);
-                    }
-                } else {
-                    Log.d(TAG, "Error getting documents: ", task.getException());
-                }
-            }
-        });
-    }
 
 
-    public void ripristinaCarrrello(final FirebaseFirestore db, DocumentReference docRef){
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+    public void controlloConto(final FirebaseFirestore db){
+        DocumentReference docRef2 = db.collection("conti").document(auth.getUid());
+        docRef2.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
-                    //se non esiste il carrello lo crea vuoto
-                    Log.d(TAG, "CCCC carrello non esiste");
-                    //operazione per scrivere sul db
-                    WriteBatch batch = db.batch();
-                    //creo riferimento da creare
-                    DocumentReference carrello = db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document("cancellami");
-                    //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
-                    batch.set(carrello, new Prodotti());
-                    //eseguo il comando di creazione
-                    batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            // ...
-                        }
-                    });
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        //se la sezione conti esiste già non fa nulla
+                        Log.d(TAG, "CONTI esiste");
+                    } else {
+                        //se non esiste la crea vuota
+                        Log.d(TAG, "CONTI non esiste");
+                        //operazione per scrivere sul db
+                        WriteBatch batch = db.batch();
+                        //creo riferimento da creare
+                        DocumentReference conti = db.collection("conti").document(auth.getUid());
+                        //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
+                        batch.set(conti, new Conti());
+                        //eseguo il comando di creazione
+                        batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                // ...
+                            }
+                        });
+                    }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
             }
         });
     }
-
-
 }
 

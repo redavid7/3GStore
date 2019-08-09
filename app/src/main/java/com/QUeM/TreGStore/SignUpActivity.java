@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.QUeM.TreGStore.DatabaseClass.Conti;
-import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -95,22 +94,12 @@ public class SignUpActivity extends AppCompatActivity {
                                     Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
+
                                     FirebaseFirestore db=FirebaseFirestore.getInstance();
                                     //se non esiste il carrello lo crea vuoto
                                     Log.d(TAG, "LOGIN carrello non esiste");
                                     //operazione per scrivere sul db
                                     WriteBatch batch = db.batch();
-                                    //creo riferimento da creare
-                                    DocumentReference carrello = db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document("cancellami");
-                                    //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
-                                    batch.set(carrello, new Prodotti());
-                                    //eseguo il comando di creazione
-                                    batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            // ...
-                                        }
-                                    });
 
 
                                     //aggiungo Conti al DB per la gestione dei MarangiCoin

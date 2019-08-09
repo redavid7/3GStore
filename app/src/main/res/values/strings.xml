@@ -34,6 +34,7 @@
     <string name="btn_back">Back</string>
     <string name="product_unavailable">The scanned product is unavailable</string>
     <string name="lista_vuota">Your shopping cart is empty</string>
+    <string name="shopping_amount">Total Amount: </string>
 
     <!-- MarangiCoin -->
     <string name="your_marangiCoin">You have *** MarangiCoin</string>

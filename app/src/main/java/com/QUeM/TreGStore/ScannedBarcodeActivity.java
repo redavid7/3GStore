@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import static android.support.constraint.Constraints.TAG;
+
+import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -229,18 +231,30 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
             }
         });
 
-        DocumentReference cancellami=db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document("cancellami");
-        cancellami.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+        //aggiungo al totale carrello il prezzo del nuovo prodotto
+        final DocumentReference totCarrelloRef=db.collection("conti").document(auth.getUid());
+        totCarrelloRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "LOGIN cancellami eliminato con successo");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "LOGIN cancellami non trovato/non eliminato", e);
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    //se la connessione è riuscita, vedo se il documento esiste o meno
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Conti contoDaAggiornare=document.toObject(Conti.class);
+                        double roundOff = Math.round((contoDaAggiornare.getTotaleCarrello()+prodottoUtente.getPrezzo()) * 100.0) / 100.0;
+                        //se il documento esiste, creo un oggetto che corrisponde al prodotto legato al codice a barre
+                        totCarrelloRef.update("totaleCarrello", roundOff);
+
+                    } else {
+                        Log.d(TAG, "SBC No such document");
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
             }
         });
+
 
     }
 
