@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.util.Log;
 import android.view.View;
-import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -27,7 +26,7 @@ public class FragmentSettings extends PreferenceFragmentCompat {
         Log.d(TAG, "mmm dentro FragmentSettings, prima di addPreferencesFromResource ");
         addPreferencesFromResource(R.xml.preferences);
         Log.d(TAG, "mmm dopo di addPreferencesFromResource ");
-        return inflater.inflate(R.layout.fragment_fragment_settings, container, false);
+        return inflater.inflate(R.layout.fragment_layout_settings, container, false);
     }
 
 

@@ -8,6 +8,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
@@ -15,7 +18,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.QUeM.TreGStore.DatabaseClass.ProdottiAdapter;
@@ -34,7 +37,7 @@ import com.google.firebase.firestore.Query;
 import static android.support.constraint.Constraints.TAG;
 
 
-//todo: acquisto carrello, click modifica?, recicler view vuota?
+//todo: acquisto carrello
 
 public class FragmentCarrello extends Fragment {
 
@@ -48,13 +51,15 @@ public class FragmentCarrello extends Fragment {
     private ProdottiAdapter adapter;
     //vista del fragment
     private View fragmentHomeView;
-    //inizializzazioni variabili fab
+    //inizializzazioni variabile floating Action button
     private FloatingActionButton fabAggiungiProdotto;
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        fragmentHomeView=inflater.inflate(R.layout.fragment_layout_home, container, false);
+        fragmentHomeView=inflater.inflate(R.layout.fragment_layout_carrello, container, false);
 
         //inizializza il pulsante floating action button che fa da menù
         fabAggiungiProdotto = fragmentHomeView.findViewById(R.id.aggiungi_prodotto);
@@ -75,7 +80,9 @@ public class FragmentCarrello extends Fragment {
         final TextView testoCarrello=fragmentHomeView.findViewById(R.id.totaleCarrello);
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         final DocumentReference totCarrelloRef=db.collection("conti").document(auth.getUid());
-        final String testoCarrelloResource=getString(R.string.shopping_amount);
+        final String testoCarrelloPieno=getString(R.string.shopping_amount);
+        final String testoCarrelloVuoto=getString(R.string.lista_vuota);
+        //listener per avere il testo settato responsivo ai cambiamenti del valore del db
         totCarrelloRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot snapshot,
@@ -84,42 +91,75 @@ public class FragmentCarrello extends Fragment {
                     Log.w(TAG, "Listen failed.", e);
                     return;
                 }
-
                 if (snapshot != null && snapshot.exists()) {
                     Log.d(TAG, "Current data: " + snapshot.getData());
                     Conti contoDaAggiornare=snapshot.toObject(Conti.class);
 
-                    testoCarrello.setText(testoCarrelloResource+" "+contoDaAggiornare.getTotaleCarrello());
+                    ImageView iconaCarrelloVuoto=fragmentHomeView.findViewById(R.id.image_view_carrellovuoto);
+
+                    if(contoDaAggiornare.getTotaleCarrello()==0){
+                        testoCarrello.setText(testoCarrelloVuoto);
+                        iconaCarrelloVuoto.setVisibility(View.VISIBLE);
+                    }else{
+                        testoCarrello.setText(testoCarrelloPieno+" "+contoDaAggiornare.getTotaleCarrello()+" €");
+                        iconaCarrelloVuoto.setVisibility(View.INVISIBLE);
+                    }
+
                 } else {
                     Log.d(TAG, "Current data: null");
                 }
             }
         });
+        //checkCarrelloVuoto();
+
 
         return fragmentHomeView;
     }
 
-    //debug message
-    //Toast.makeText(getContext(), "debug", Toast.LENGTH_LONG).show();
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    //metodi per evitare un ascolto continuo e che crashi
+    //alla creazione del menu opzione
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.option_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    //azione quando si preme l'icona del carrello
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // action with ID action_refresh was selected
+            case R.id.toolbar_acquista:
+                ((HomeActivity)getActivity()).ShowFragment(R.id.nav_hidden_acquista);
+                break;
+        }
+        return true;
+    }
+
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+
 
     @Override
     public void onStart() {
-        //inizia il collegamento
+        //inizia il collegamento per prendere i dati dal carrello dell'utente per la recycler view
         super.onStart();
         adapter.startListening();
     }
 
     @Override
     public void onStop() {
-        //smette di prendere i dati
+
         super.onStop();
+        //smette di prendere i dati dal carrello dell'utente per la recycler view
         adapter.stopListening();
     }
 
@@ -157,13 +197,14 @@ public class FragmentCarrello extends Fragment {
 
         //applica l'adapter nel fragment
         recyclerView.setAdapter(adapter);
-
+        //gestisce il tocco su un elemento della recycler view
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT ) {
             @Override
+            //gestisce l'azione di spostare a destra/sinistra un elemento della recycler view per rivelare un pulsante/eseguire un'azione
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder viewHolder1) {
                 return false;
             }
-
+            //gestisce lo swipe solo verso sinistra per l'eliminazione dell prodotto dalla recycler view e quindi dal carrello
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 adapter.deleteItem(viewHolder.getAdapterPosition());

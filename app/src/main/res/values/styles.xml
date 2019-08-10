@@ -4,6 +4,15 @@
 
     <!--utilizzare questo tema per i colori standard dell'app-->
 
+    <style name="italictext_summary">
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:color">#999999</item>
+
+    </style>
+
+
+
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">#d21920</item>
         <item name="colorPrimaryDark">#69140E</item>
@@ -19,7 +28,7 @@
         <item name="android:capitalize">characters</item>
         <item name="android:typeface">monospace</item>
         <item name="android:textSize">30pt</item>
-        <item name="android:textColor">#d21920</item>/>
+        <item name="android:textColor">#d21920</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

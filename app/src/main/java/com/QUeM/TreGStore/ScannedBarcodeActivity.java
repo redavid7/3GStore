@@ -93,6 +93,13 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                                         prod.setTotalePezziCarrello(1);
                                         //chiamo la funzione per inserirlo nel carrello dell'utente
                                         aggiungiProdottoCarrello(prod, db);
+                                        //vedo se è il numero di prodotti disponibili sono arrivati a 0
+                                        if(prod.getNdisp()==1){
+                                            docrefprodotti.update("disponibile", false);
+                                        }
+                                        //tolgo 1 prodotto dal numero delle disponibilità
+                                        docrefprodotti.update("ndisp", prod.getNdisp()-1);
+
                                     }else{
                                         //per ora scrivo un toast di avviso che non è più disp
                                         Toast.makeText(getApplicationContext(), R.string.product_unavailable, Toast.LENGTH_LONG).show();
@@ -194,6 +201,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     public void aggiungiProdottoCarrello(Prodotti prod, FirebaseFirestore db1){
         //prendo l'utente attualmente connesso
         FirebaseAuth auth= FirebaseAuth.getInstance();
+
         //imposto la variabile Prodotto da usare nella funzione asincrona
         final Prodotti prodottoUtente=prod;
         //imposto la variabile del collegamento del FireStore da usare nella funzione asincrona

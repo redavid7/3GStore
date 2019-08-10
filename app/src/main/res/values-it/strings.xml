@@ -63,7 +63,7 @@
     <string name="offers">Notifiche per le Offerte</string>
     <string name="offers_summary">Abilita/Disabilita le notifiche per prodotti in offerta nelle tue vicinanze</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="summary">Informazioni sull\'acquisto</string>
 
 
 </resources>

@@ -8,10 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.QUeM.TreGStore.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -108,12 +111,47 @@ public class ProdottiAdapter extends FirestoreRecyclerAdapter<Prodotti, Prodotti
                         Prodotti prod=document.toObject(Prodotti.class);
                         //faccio update del conto nel carrello
                         aggiornaContoCarrello(prod.getPrezzo()*prod.getTotalePezziCarrello());
+                        //riaggiungo al numero della disponibilità il numero di prodotti cancellati
+                        aggiornaNDispProdotti(prod);
                         //cancello effettivamente il prodotto dal carrello
                         getSnapshots().getSnapshot(position).getReference().delete();
                     }else{
                         Log.d(TAG, "No such document");
                     }
                 }else{
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
+    }
+
+    public void aggiornaNDispProdotti(final Prodotti prod){
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        final DocumentReference prodottoRef=db.collection("prodotti").document(prod.getId());
+        prodottoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    //se la connessione è riuscita, vedo se il documento esiste o meno
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        //se il documento esiste, creo un oggetto che corrisponde al prodotto legato al codice a barre
+                        Prodotti prodottoDB=document.toObject(Prodotti.class);
+                        //se prodotto disponibile riaggiungo il numero di prodotti che avevo nel carrello
+                        if(prodottoDB.isDisponibile()){
+                            prodottoRef.update("ndisp", prodottoDB.getNdisp()+prod.getTotalePezziCarrello());
+                        }else{
+                            //se prodotto non disponibile, aggiungo e reimposto la disponibilità
+                            prodottoRef.update("ndisp", prodottoDB.getNdisp()+prod.getTotalePezziCarrello());
+                            prodottoRef.update("disponibile", true);
+                        }
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                    }
+                } else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
             }
