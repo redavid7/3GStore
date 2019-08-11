@@ -2,34 +2,255 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:background="#E8E8E8"
+    >
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/acquisto_cardview_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginBottom="3dp"
+        card_view:cardElevation="2dp"
+        android:layout_margin="8dp"
+        card_view:cardCornerRadius="5dp"
+        card_view:strokeColor="	#696969"
+        card_view:strokeWidth="1dp"
+        >
 
-        card_view:cardElevation="1dp">
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/cardview_body">
+            android:layout_margin="4dp">
 
-            <TextView
-                android:layout_width="fill_parent"
+            <android.support.v7.widget.CardView
+                android:id="@+id/acquisto_cardview_info_intestazione"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/summary"
-                android:background="#fff"
-                style="@style/italictext_summary"
-                />
+                >
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/acquisto_cardview_info_intestazione_text1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/info_intestazione"
+                    android:background="@drawable/textview_sottolineato"
+                    style="@style/italictext_summary"
+                    />
 
-    </android.support.v7.widget.CardView>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/acquisto_cardview_info_tot_articoli"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/acquisto_cardview_info_intestazione"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/acquisto_cardview_info_tot_articoli_txt_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/info_totale_articoli"
+                        style="@style/acquisto_card_textview"
+                        android:layout_alignParentStart="true"
+                        android:ellipsize="end"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/acquisto_cardview_info_tot_articoli_txt_prezzo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        style="@style/acquisto_card_textview"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/acquisto_cardview_info_punti_guadagnati"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/acquisto_cardview_info_tot_articoli"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/acquisto_cardview_info_punti_guadagnati_txt_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/info_punti_guagnati"
+                        style="@style/acquisto_card_textview"
+                        android:layout_alignParentStart="true"
+                        android:ellipsize="end"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/acquisto_cardview_info_punti_guadagnati_txt_prezzo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        style="@style/acquisto_card_textview"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+        </RelativeLayout>
+
+    </android.support.design.card.MaterialCardView>
+
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/acquisto_cardview_impo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardElevation="2dp"
+        android:layout_margin="8dp"
+        card_view:cardCornerRadius="5dp"
+        card_view:strokeColor="	#696969"
+        card_view:strokeWidth="1dp"
+        android:layout_below="@id/acquisto_cardview_info"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp">
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/acquisto_cardview_impo_intestazione"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <TextView
+                    android:id="@+id/acquisto_cardview_impo_intestazione_text1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/impo_intestazione"
+                    android:background="@drawable/textview_sottolineato"
+                    style="@style/italictext_summary"
+                    />
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/acquisto_cardview_impo_carta_addebitata"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/acquisto_cardview_impo_intestazione"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/acquisto_cardview_impo_carta_addebitata_txt_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/impo_carta_addebitata"
+                        style="@style/acquisto_card_textview"
+                        android:layout_alignParentStart="true"
+                        android:ellipsize="end"
+                        android:layout_toStartOf="@id/acquisto_cardview_impo_carta_addebitata_txt_prezzo"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/acquisto_cardview_impo_carta_addebitata_txt_prezzo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Visa :x 5748"
+                        style="@style/acquisto_card_textview"
+                        android:layout_alignParentEnd="true"
+
+                        />
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/acquisto_cardview_impo_sconto_disponibile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/acquisto_cardview_impo_carta_addebitata"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/acquisto_cardview_impo_sconto_disponibile_txt_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/impo_sconto_disponibile"
+                        style="@style/acquisto_card_textview"
+                        android:layout_alignParentStart="true"
+                        android:ellipsize="end"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/acquisto_cardview_impo_sconto_disponibile_txt_prezzo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        style="@style/acquisto_card_textview"
+                        android:layout_alignParentEnd="true"
+                        />
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/acquisto_cardview_impo_checkbox_sconto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_below="@id/acquisto_cardview_impo_sconto_disponibile"
+                >
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <!--inserire checkbox qui-->
+
+                </RelativeLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+
+        </RelativeLayout>
+
+    </android.support.design.card.MaterialCardView>
 
 
 

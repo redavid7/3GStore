@@ -110,7 +110,6 @@ public class FragmentCarrello extends Fragment {
                 }
             }
         });
-        //checkCarrelloVuoto();
 
 
         return fragmentHomeView;
