@@ -105,12 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     //imposto il comando di creazione con .set dove inserisco percorso e campo del documento
                                     batch.set(carrello, new Prodotti());
                                     //eseguo il comando di creazione
-                                    batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            // ...
-                                        }
-                                    });
+
 
 
 
@@ -126,7 +121,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         }
                                     });
 
-                                    startActivity(new Intent(SignUpActivity.this, HomeActivity.class));
+                                    startActivity(new Intent(SignUpActivity.this, WelcomeActivity.class));
                                     finish();
                                 }
                             }

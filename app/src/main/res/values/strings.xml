@@ -63,6 +63,8 @@
     <string name="touchid_summary">Enable/Disable Touch ID</string>
     <string name="offers">Offers Notification</string>
     <string name="offers_summary">Enable/Disable notifications for offers on products near you</string>
+    <string name="start">Start</string>
+    <string name="next">Next</string>
 
 
 </resources>
