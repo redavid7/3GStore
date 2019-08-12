@@ -205,6 +205,4 @@ public class ProdottiAdapter extends FirestoreRecyclerAdapter<Prodotti, Prodotti
             prezzoCad=itemView.findViewById(R.id.text_view_cad);
         }
     }
-
-
 }

@@ -42,6 +42,7 @@ public class FragmentQuiz extends Fragment {
     private String choice;
     private int point=0;
     private int tmp;
+    private Calendar nowc;
 
     @Nullable
     @Override
@@ -59,7 +60,7 @@ public class FragmentQuiz extends Fragment {
         init();
         //creo variabili data corrente e data ultimo quiz
         Date last = null;
-        Calendar nowc = Calendar.getInstance();
+        nowc = Calendar.getInstance();
         //leggo la data dell'ultimo quiz
         try {
              last= leggiData();
@@ -78,7 +79,7 @@ public class FragmentQuiz extends Fragment {
          l = last.getMinutes();
         }
 
-        if(n>l||last==null){
+        if(n!=l||last==null||now.getHours()!=last.getHours()){
             try {
                 routine();
             } catch (IOException e) {
@@ -93,6 +94,11 @@ public class FragmentQuiz extends Fragment {
             D.setVisibility(View.INVISIBLE);
             Avanti.setVisibility(View.INVISIBLE);
         }
+    }
+    @Override
+    public void onResume() {
+        nowc = Calendar.getInstance();
+        super.onResume();
     }
 
     //Metodo controllo risposta corretta
@@ -333,9 +339,9 @@ public class FragmentQuiz extends Fragment {
 
     //Leggi data
     public Date leggiData() throws IOException, ClassNotFoundException {
-        ObjectInputStream ois = new ObjectInputStream(getContext().openFileInput("dat.txt"));
+       ObjectInputStream ois = new ObjectInputStream(getContext().openFileInput("dat.txt"));
        Date toRet = (Date) ois.readObject();
        ois.close();
-        return toRet;
+       return toRet;
     }
 }
