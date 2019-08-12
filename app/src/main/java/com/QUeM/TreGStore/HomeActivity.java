@@ -98,7 +98,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //angelo divertiti
         View innerview =  navigationView.getHeaderView(0);
         TextView user_view= (TextView)innerview.findViewById(R.id.nomeCognome); //any you need
-        user_view.setText(user.getDisplayName());
+        user_view.setText(user.getEmail());
 
         //--------------------FINE GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
 

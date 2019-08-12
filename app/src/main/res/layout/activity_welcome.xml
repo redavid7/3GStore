@@ -21,7 +21,7 @@
         android:gravity="center"
         android:orientation="horizontal"/>
 
-    <view
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:alpha=".5"
