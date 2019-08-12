@@ -64,6 +64,13 @@
     <string name="start">Start</string>
     <string name="next">Next</string>
 
-    <string name="summary">Purchase Informations</string>
+    <!-- Acquisto fragment -->
+    <string name="info_intestazione">Purchase Informations</string>
+    <string name="info_totale_articoli">Summary order:</string>
+    <string name="info_punti_guagnati">Points earned:</string>
+    <string name="impo_intestazione">Payment Settings</string>
+    <string name="impo_carta_addebitata">Payment method</string>
+    <string name="impo_sconto_disponibile">Available discount</string>
+    <string name="impo_checkbox_sconto">Check to use your discount</string>
 
 </resources>

@@ -63,7 +63,14 @@
     <string name="offers">Notifiche per le Offerte</string>
     <string name="offers_summary">Abilita/Disabilita le notifiche per prodotti in offerta nelle tue vicinanze</string>
 
-    <string name="summary">Informazioni sull\'acquisto</string>
+    <!-- Acquisto fragment -->
+    <string name="info_intestazione">Informazioni sull\'acquisto</string>
+    <string name="info_totale_articoli">Totale articoli:</string>
+    <string name="info_punti_guagnati">Punti guadagnati:</string>
+    <string name="impo_intestazione">Impostazioni pagamento</string>
+    <string name="impo_carta_addebitata">Metodo di pagamento:</string>
+    <string name="impo_sconto_disponibile">Sconto disponibile:</string>
+    <string name="impo_checkbox_sconto">Spunta per utilizzare lo sconto</string>
 
 
     <string name="start">Inizia</string>
