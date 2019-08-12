@@ -66,12 +66,17 @@
     <!-- Acquisto fragment -->
     <string name="info_intestazione">Informazioni sull\'acquisto</string>
     <string name="info_totale_articoli">Totale articoli:</string>
-    <string name="info_punti_guagnati">Punti guadagnati:</string>
+    <string name="info_punti_guagnati">MarangiCoin guadagnati:</string>
     <string name="impo_intestazione">Impostazioni pagamento</string>
     <string name="impo_carta_addebitata">Metodo di pagamento:</string>
     <string name="impo_sconto_disponibile">Sconto disponibile:</string>
-    <string name="impo_checkbox_sconto">Spunta per utilizzare lo sconto</string>
-
+    <string name="impo_checkbox_sconto">Vuoi utilizzare lo sconto?</string>
+    <string name="finale_intestazione">Conferma l\'ordine</string>
+    <string name="finale_totale_ordine">Totale ordine:</string>
+    <string name="finale_bottone_acquista">Acquista ora!</string>
+    <string name="on">Si</string>
+    <string name="off">No</string>
+    <string name="finale_sconto_rimasto">Sconto Rimanente:</string>
 
     <string name="start">Inizia</string>
     <string name="next">Prossimot</string>
