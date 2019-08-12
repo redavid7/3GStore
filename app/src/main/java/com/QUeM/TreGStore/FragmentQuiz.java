@@ -47,7 +47,7 @@ public class FragmentQuiz extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragmentHomeView;
-        fragmentHomeView=inflater.inflate(R.layout.fragment_fragment_quiz, container, false);
+        fragmentHomeView=inflater.inflate(R.layout.fragment_layout_quiz, container, false);
         return fragmentHomeView;
     }
     @Override

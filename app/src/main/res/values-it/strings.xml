@@ -20,7 +20,9 @@
     <string name="killscreen_label">Kill Screen</string>
     <string name="exit_label">Exit</string>
     <string name="lista_vuota">Il tuo carrello è vuoto</string>
+    <string name="product_unavailable">Il prodotto scannerizzato non è al momento disponibile</string>
     <string name="menu_settings">Impostazioni</string>
+    <string name="shopping_amount">Totale Carrello: </string>
 
     <!-- Login e Registrazione -->
     <string name="login">Login</string>
@@ -61,7 +63,7 @@
     <string name="offers">Notifiche per le Offerte</string>
     <string name="offers_summary">Abilita/Disabilita le notifiche per prodotti in offerta nelle tue vicinanze</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="summary">Informazioni sull\'acquisto</string>
 
 
     <string name="start">Inizia</string>

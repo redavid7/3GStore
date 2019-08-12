@@ -38,9 +38,7 @@
         layout="@layout/content_main" />
 
 
-    <include
-        android:id="@+id/include_fab_option"
-        layout="@layout/floating_action_button_option"/>
+
 
 
 </android.support.design.widget.CoordinatorLayout>

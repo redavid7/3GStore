@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -20,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -35,8 +35,7 @@ import static android.support.constraint.Constraints.TAG;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    //inizializzazioni variabili fab
-    FloatingActionButton fabMenu;
+
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
@@ -76,16 +75,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //--------------------INIZIO GESTIONE FLOATING ACTION BUTTON-------------------------------
 
-        //inizializza il pulsante floating action button che fa da menù
-        fabMenu = findViewById(R.id.aggiungi_prodotto);
 
-        //azione del floating action button menu quando cliccato
-        fabMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(HomeActivity.this, ScannedBarcodeActivity.class));
-            }
-        });
 
         //--------------------FINE GESTIONE FLOATING ACTION BUTTON-------------------------------
 
@@ -115,6 +105,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //funzione che gestisce la scelta effettuata nel menu
         navigationView.setNavigationItemSelectedListener(this);
 
+        //angelo divertiti
+        View innerview =  navigationView.getHeaderView(0);
+        TextView user_view= (TextView)innerview.findViewById(R.id.nomeCognome); //any you need
+        user_view.setText(user.getDisplayName());
+
         //--------------------FINE GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
 
 
@@ -139,27 +134,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        //per inizializzare il pulsante del carrello
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.option_menu, menu);
-        return true;
-    }
 
-    //azione quando si preme l'icona del carrello
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // action with ID action_refresh was selected
-            case R.id.toolbar_acquista:
-                Toast.makeText(this, "Acquisto", Toast.LENGTH_SHORT)
-                        .show();
-                break;
-        }
-
-        return true;
-    }
 
     //--------------------------------------------------------------------------------------------------
     //------------------------------FINE BLOCCO ONCREATE HOMEACTIVITY-----------------------------------
@@ -241,7 +216,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     @SuppressLint("RestrictedApi")
-    private void ShowFragment(int itemId) {
+    protected void ShowFragment(int itemId) {
 
         //inizializzo la variabile che conterrà il fragment da mostrare
         Fragment fragment = null;
@@ -250,33 +225,21 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         switch (itemId) {
             case R.id.nav_home:
                 fragment=new FragmentCarrello();
-                if(!fabMenu.isClickable()){
-                    showFABs();
-                }
                 break;
             case R.id.nav_promozioni:
                 fragment = new FragmentPromozioni();
-                if(fabMenu.isClickable()) {
-                    hideFABs();
-                }
                 break;
             case R.id.nav_marangicoin:
                 fragment = new FragmentMarangicoin();
-                if(fabMenu.isClickable()) {
-                    hideFABs();
-                }
                 break;
             case R.id.nav_profilo:
                 fragment = new FragmentProfilo();
-                if(fabMenu.isClickable()) {
-                    hideFABs();
-                }
                 break;
             case R.id.nav_game:
                 fragment = new FragmentQuiz();
-                if(fabMenu.isClickable()){
-                    hideFABs();
-                }
+                break;
+            case R.id.nav_hidden_acquista:
+                fragment = new FragmentAcquisto();
                 break;
         }
 
@@ -298,27 +261,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-    //----------------------------------------------------------------------------
-    //-------------------------INIZIO FUNZIONI FAB--------------------------------
-    //----------------------------------------------------------------------------
-
-    //metodo che rende visibile il bottone fotocamera
-    @SuppressLint("RestrictedApi")
-    public void showFABs(){
-        fabMenu.setClickable(true);
-        fabMenu.setVisibility(View.VISIBLE);
-    }
-
-    //metodo che rende invisibile il bottone fotocamera
-    @SuppressLint("RestrictedApi")
-    public void hideFABs(){
-        fabMenu.setClickable(false);
-        fabMenu.setVisibility(View.INVISIBLE);
-    }
-
-    //----------------------------------------------------------------------------
-    //-------------------------FINE FUNZIONI FAB----------------------------------
-    //----------------------------------------------------------------------------
 
 
 }

@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import static android.support.constraint.Constraints.TAG;
+
+import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -83,15 +85,25 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                                 if (document.exists()) {
                                     //se il documento esiste, creo un oggetto che corrisponde al prodotto legato al codice a barre
                                     Prodotti prod=document.toObject(Prodotti.class);
-                                    //inizializzo l'id del prodotto
-                                    prod.setId(codiceProdottoScannerizzato);
-                                    //imposto il contatore del numero di prodotti di quel tipo presenti nel carrello
+                                    //controllo se il prodotto è disponibile all'acquisto
+                                    if(prod.isDisponibile()){
+                                        //inizializzo l'id del prodotto
+                                        prod.setId(codiceProdottoScannerizzato);
+                                        //imposto il contatore del numero di prodotti di quel tipo presenti nel carrello
+                                        prod.setTotalePezziCarrello(1);
+                                        //chiamo la funzione per inserirlo nel carrello dell'utente
+                                        aggiungiProdottoCarrello(prod, db);
+                                        //vedo se è il numero di prodotti disponibili sono arrivati a 0
+                                        if(prod.getNdisp()==1){
+                                            docrefprodotti.update("disponibile", false);
+                                        }
+                                        //tolgo 1 prodotto dal numero delle disponibilità
+                                        docrefprodotti.update("ndisp", prod.getNdisp()-1);
 
-                                    prod.setTotalePezziCarrello(1);
-
-                                    //chiamo la funzione per inserirlo nel carrello dell'utente
-
-                                    aggiungiProdottoCarrello(prod, db);
+                                    }else{
+                                        //per ora scrivo un toast di avviso che non è più disp
+                                        Toast.makeText(getApplicationContext(), R.string.product_unavailable, Toast.LENGTH_LONG).show();
+                                    }
                                 } else {
                                     Log.d(TAG, "No such document");
 
@@ -107,10 +119,11 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
             }
         });
     }
+
     //CICLO DI VITA FOTOCAMERA
     private void initialiseDetectorsAndSources() {
         //NOTIFICA AVVIO ACTIVITY
-        Toast.makeText(getApplicationContext(), "Barcode scanner started", Toast.LENGTH_SHORT).show();
+
         //INIZIALIZZO LE RISORSE NECESSARIE
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .setBarcodeFormats(Barcode.QR_CODE|Barcode.CODABAR)
@@ -150,7 +163,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
             public void release() {
-                Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "To prevent memory leaks barcode scanner has been stopped", Toast.LENGTH_SHORT).show();
             }
             //RILEVAZIONE DEL CODICE
             @Override
@@ -188,6 +201,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     public void aggiungiProdottoCarrello(Prodotti prod, FirebaseFirestore db1){
         //prendo l'utente attualmente connesso
         FirebaseAuth auth= FirebaseAuth.getInstance();
+
         //imposto la variabile Prodotto da usare nella funzione asincrona
         final Prodotti prodottoUtente=prod;
         //imposto la variabile del collegamento del FireStore da usare nella funzione asincrona
@@ -225,18 +239,30 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
             }
         });
 
-        DocumentReference cancellami=db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello").document("cancellami");
-        cancellami.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+        //aggiungo al totale carrello il prezzo del nuovo prodotto
+        final DocumentReference totCarrelloRef=db.collection("conti").document(auth.getUid());
+        totCarrelloRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(TAG, "LOGIN cancellami eliminato con successo");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(TAG, "LOGIN cancellami non trovato/non eliminato", e);
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    //se la connessione è riuscita, vedo se il documento esiste o meno
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Conti contoDaAggiornare=document.toObject(Conti.class);
+                        double roundOff = Math.round((contoDaAggiornare.getTotaleCarrello()+prodottoUtente.getPrezzo()) * 100.0) / 100.0;
+                        //se il documento esiste, creo un oggetto che corrisponde al prodotto legato al codice a barre
+                        totCarrelloRef.update("totaleCarrello", roundOff);
+
+                    } else {
+                        Log.d(TAG, "SBC No such document");
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
             }
         });
+
 
     }
 
