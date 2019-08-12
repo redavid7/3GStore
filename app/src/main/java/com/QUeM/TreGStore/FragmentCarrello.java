@@ -207,6 +207,8 @@ public class FragmentCarrello extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
                 adapter.deleteItem(viewHolder.getAdapterPosition());
+                String mex=getActivity().getString(R.string.elimina_prodotto_successo);
+                Toast.makeText(getContext(), mex, Toast.LENGTH_SHORT).show();
             }
         }).attachToRecyclerView(recyclerView);
     }

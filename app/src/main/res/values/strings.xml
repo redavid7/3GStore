@@ -61,6 +61,10 @@
     <string name="touchid_summary">Enable/Disable Touch ID</string>
     <string name="offers">Offers Notification</string>
     <string name="offers_summary">Enable/Disable notifications for offers on products near you</string>
+    <string name="elimina_prodotto_successo">Product removed successfully</string>
+    <string name="carrello_vuoto">Your shopping cart is empty!</string>
+    <string name="saldo_insufficente_nosconto">The selected payment credit is insufficient</string>
+    <string name="saldo_insufficente_sisconto">The selected payment credit and your discount amount are insufficient</string>
     <string name="start">Start</string>
     <string name="next">Next</string>
 

@@ -62,7 +62,10 @@
     <string name="touchid_summary">Abilita/Disabilita Touch ID</string>
     <string name="offers">Notifiche per le Offerte</string>
     <string name="offers_summary">Abilita/Disabilita le notifiche per prodotti in offerta nelle tue vicinanze</string>
-
+    <string name="elimina_prodotto_successo">Prodotto rimosso con successo</string>
+    <string name="carrello_vuoto">Non hai nulla nel carrello!</string>
+    <string name="saldo_insufficente_nosconto">Il credito del pagamento selezionato è insufficente</string>
+    <string name="saldo_insufficente_sisconto">Il credito del pagamento selezionato e lo sconto disponibile sono insufficenti</string>
     <!-- Acquisto fragment -->
     <string name="info_intestazione">Informazioni sull\'acquisto</string>
     <string name="info_totale_articoli">Totale articoli:</string>

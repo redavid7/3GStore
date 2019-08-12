@@ -71,6 +71,7 @@ public class FragmentAcquisto extends Fragment {
                         acquistoPuntiGuadagnati.setText(String.valueOf(punti));
                         //imposto il testo che corrisponde allo sconto disponibile
                         TextView acquistoScontoDisponibile=fragmentView.findViewById(R.id.acquisto_cardview_impo_sconto_disponibile_txt_prezzo);
+                        Log.d(TAG, "CCCC "+conto.getCurrentDiscount());
                         acquistoScontoDisponibile.setText(conto.getCurrentDiscount()+" €");
                         //imposto il testo per il totale da pagare
                         final TextView acquistoTotaleOrdine=fragmentView.findViewById(R.id.acquisto_cardview_finale_totale_ordine_txt_prezzo);
@@ -112,13 +113,20 @@ public class FragmentAcquisto extends Fragment {
                         acquista.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                if(switchSconto.isChecked()){
-                                    //se lo sconto deve essere sottratto
-                                    pagamentoConSconto(conto, contoRef, db, punti);
+                                if(conto.getTotaleCarrello()==0){
+                                    String carrelloVuoto=getActivity().getString(R.string.carrello_vuoto);
+                                    Toast.makeText(getContext(), carrelloVuoto, Toast.LENGTH_SHORT).show();
+                                    ((HomeActivity)getActivity()).ShowFragment(R.id.nav_home);
                                 }else{
-                                    //se lo sconto non deve essere sottratto
-                                    pagamentoSenzaSconto(conto, contoRef, db, punti);
+                                    if(switchSconto.isChecked()){
+                                        //se lo sconto deve essere sottratto
+                                        pagamentoConSconto(conto, contoRef, db, punti);
+                                    }else{
+                                        //se lo sconto non deve essere sottratto
+                                        pagamentoSenzaSconto(conto, contoRef, db, punti);
+                                    }
                                 }
+
                             }
                         });
 
@@ -141,45 +149,67 @@ public class FragmentAcquisto extends Fragment {
         super.onViewCreated(view, savedInstanceState);
     }
 
-    //todo: implementare cronologia ordini, testare, non cancella ordini
+
 
     public void pagamentoSenzaSconto(Conti conto, DocumentReference contoRef, FirebaseFirestore db, int coinGuadagnati){
         //se i soldi disponibili sono maggiori della spesa
         if(conto.getSaldoDisponibile()>=conto.getTotaleCarrello()){
-            contoRef.update("saldoDisponibile", conto.getSaldoDisponibile()-conto.getTotaleCarrello());
+            double roundoff=Math.round((conto.getSaldoDisponibile()-conto.getTotaleCarrello())*100.0)/100.0;
+            contoRef.update("saldoDisponibile", roundoff);
             contoRef.update("totaleCarrello", 0);
             contoRef.update("coinAmount", conto.getCoinAmount()+coinGuadagnati);
 
-            //non cancella carrello
+            //cancella e crea la cronologia dell'ordine
             cancellaCollezione(db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello"));
 
             ((HomeActivity)getActivity()).ShowFragment(R.id.nav_home);
         }else{
             //se i soldi non sono abbastanza
-            Toast.makeText(getContext(), "Non puoi permettertelo", Toast.LENGTH_SHORT).show();
+            String text=getActivity().getString(R.string.saldo_insufficente_nosconto);
+            Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
             ((HomeActivity)getActivity()).ShowFragment(R.id.nav_home);
         }
     }
 
     public void pagamentoConSconto(Conti conto, DocumentReference contoRef, FirebaseFirestore db, int coinGuadagnati){
-        //se i soldi disponibili sono maggiori della spesa
-        if(conto.getSaldoDisponibile()>=(conto.getTotaleCarrello()-conto.getCurrentDiscount())){
-            contoRef.update("saldoDisponibile", conto.getSaldoDisponibile()-conto.getTotaleCarrello());
-            contoRef.update("totaleCarrello", 0);
-            if(conto.getTotaleCarrello()<=conto.getCurrentDiscount()){
-                //non ha tolto dalla spesa lo sconto
-                contoRef.update("currentDiscount", conto.getCurrentDiscount()-conto.getTotaleCarrello());
-            }else{
-                contoRef.update("currentDiscount", 0);
+
+        if(conto.getSaldoDisponibile()>=(conto.getTotaleCarrello()-conto.getCurrentDiscount())){ //se posso permettermi la spesa
+
+            if(conto.getSaldoDisponibile()==0 && conto.getCurrentDiscount()>=conto.getTotaleCarrello()){ //se il saldo è 0 ma lo sconto è maggiore della spesa
+                //saldo invariato
+                //carrello == 0
+                //sconto= sconto-carrello
+                double roundoff=Math.round((conto.getCurrentDiscount()-conto.getTotaleCarrello()) *100.0)/100.0;
+                contoRef.update("totaleCarrello", 0);
+                contoRef.update("currentDiscount", roundoff);
+            }else if(conto.getSaldoDisponibile()>0 &&
+                    (conto.getSaldoDisponibile()+conto.getCurrentDiscount())>=conto.getTotaleCarrello()){ //se conto esiste ma non è sufficiente a pagare, ma con lo sconto ce la faccio
+
+                //sconto=sconto-totale
+                //carrello=0
+                //saldo=saldo-(totcarrello-sconto)
+
+                if(conto.getCurrentDiscount()>=conto.getTotaleCarrello()){  //se sconto è maggiore della spesa totale
+                    double rd=Math.round((conto.getCurrentDiscount()-conto.getTotaleCarrello()) *100.0)/100.0;
+                    contoRef.update("currentDiscount", rd);
+                    contoRef.update("totaleCarrello", 0);
+                }else{  //se lo sconto non copre tutta la spesa
+                    contoRef.update("currentDiscount", 0);
+                    double roundoff=Math.round((conto.getSaldoDisponibile()-(conto.getTotaleCarrello()-conto.getCurrentDiscount())) *100.0)/100.0;
+                    contoRef.update("saldoDisponibile", roundoff);
+                    contoRef.update("totaleCarrello", 0);
+                }
             }
+
             contoRef.update("coinAmount", conto.getCoinAmount()+coinGuadagnati);
 
-            //non cancella
+            //cancella e crea la cronologia dell'ordine
             cancellaCollezione(db.collection("carrelli").document(auth.getUid()).collection("prodottiCarrello"));
 
         }else{
             //se i soldi non sono abbastanza
-            Toast.makeText(getContext(), "Non puoi permettertelo, anche con lo sconto", Toast.LENGTH_SHORT).show();
+            String text=getActivity().getString(R.string.saldo_insufficente_sisconto);
+            Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
 
         }
         ((HomeActivity)getActivity()).ShowFragment(R.id.nav_home);
@@ -190,7 +220,8 @@ public class FragmentAcquisto extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 GregorianCalendar gc = new GregorianCalendar();
-                String dataOrdine=""+gc.get(Calendar.DAY_OF_MONTH)+"/"+gc.get(Calendar.MONTH)+"/"+gc.get(Calendar.YEAR)+"_"+gc.get(Calendar.HOUR)+":"+gc.get(Calendar.MINUTE)+gc.get(Calendar.SECOND);
+                String dataOrdine=""+gc.get(Calendar.DAY_OF_MONTH)+"."+(gc.get(Calendar.MONTH)+1)+"."+gc.get(Calendar.YEAR)+"_"+gc.get(Calendar.HOUR)+":"+gc.get(Calendar.MINUTE)+"."+gc.get(Calendar.SECOND);
+
                 CollectionReference cronologia=FirebaseFirestore.getInstance().collection("cronologiaOrdini").document(auth.getUid()).collection(dataOrdine);
                 if (task.isSuccessful()) {
                     for(DocumentSnapshot document : task.getResult()){

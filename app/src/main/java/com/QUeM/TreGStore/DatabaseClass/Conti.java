@@ -3,7 +3,7 @@ package com.QUeM.TreGStore.DatabaseClass;
 public class Conti {
 
     private int coinAmount;
-    private float currentDiscount;
+    private double currentDiscount;
     private double totaleCarrello;
     private double saldoDisponibile;
 
@@ -14,7 +14,7 @@ public class Conti {
         this.totaleCarrello=0;
     }
 
-    public Conti(int coinAmount, float currentDiscount, double totCarrello, double saldoCorrente){
+    public Conti(int coinAmount, double currentDiscount, double totCarrello, double saldoCorrente){
         this.coinAmount=coinAmount;
         this.currentDiscount=currentDiscount;
         this.saldoDisponibile=saldoCorrente;
@@ -25,7 +25,7 @@ public class Conti {
         return this.coinAmount;
     }
 
-    public float getCurrentDiscount(){
+    public double getCurrentDiscount(){
         return this.currentDiscount;
     }
 
