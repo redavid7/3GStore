@@ -113,7 +113,6 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                             }
                         }
                     });
-
                     startActivity(cameraIntent);
                 }
             }
@@ -133,6 +132,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                 .setRequestedPreviewSize(1920, 1080)
                 .setAutoFocusEnabled(true) //you should add this feature
                 .build();
+
         //RICHIEDO AUTORIZZAZIONE E ATTIVAZIONE FOTOCAMERA
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             //RICHIESTA AUTORIZZAZIONE
@@ -145,6 +145,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                         ActivityCompat.requestPermissions(ScannedBarcodeActivity.this, new
                                 String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
                     }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
