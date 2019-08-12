@@ -39,6 +39,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+    private ActionBarDrawerToggle toggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,18 +72,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-
-
-        //--------------------INIZIO GESTIONE FLOATING ACTION BUTTON-------------------------------
-
-
-
-        //--------------------FINE GESTIONE FLOATING ACTION BUTTON-------------------------------
-
-
-
-
-
         //--------------------INIZIO GESTIONE TOOLBAR E NAVIGATION DRAWER------------------------
 
         //inizializza toolbar
@@ -92,12 +81,13 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //metodo per nascondere il titolo dell'app
         getSupportActionBar().setTitle(null);
 
+
         //inizializzazione del menu laterale
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         //azione quando clicco l'icona del menù laterale
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
@@ -193,7 +183,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     //gestisce il comportamento di ogni sezione per ogni item del menu
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        toggle.syncState();
         switch(item.getItemId()){
             case R.id.nav_quit:
                 //Se viene cliccato il tasto logout, chiamo il metodo signOut()
