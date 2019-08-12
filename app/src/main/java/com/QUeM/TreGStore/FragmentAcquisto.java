@@ -51,8 +51,8 @@ public class FragmentAcquisto extends Fragment {
         final Switch switchSconto= (Switch) fragmentView.findViewById(R.id.acquisto_cardview_impo_applica_sconto_switch);
         //prendo le informazioni del conto e le inserisco nel fragment
         final FirebaseFirestore db=FirebaseFirestore.getInstance();
-        final DocumentReference contoRef=db.collection("conti").document(auth.getUid());
         //prendo il documento del conto corrispondente all'utente connesso
+        final DocumentReference contoRef=db.collection("conti").document(auth.getUid());
         contoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
