@@ -103,7 +103,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:hint="@string/marangiCoin_exchange"
-            android:textSize="10sp"
+            android:textSize="20sp"
             android:inputType="number"
             app:layout_constraintBottom_toTopOf="@+id/marangiCoinTextView2"
             app:layout_constraintEnd_toStartOf="@+id/marangiCoinImageView2"
@@ -112,7 +112,7 @@
             app:layout_constraintTop_toBottomOf="@+id/marangiCoinTextView"
             app:layout_constraintVertical_bias="0.547" />
 
-        <EditText
+        <TextView
             android:id="@+id/marangiCoin_exchange"
             android:layout_width="105dp"
             android:layout_height="50dp"
@@ -121,7 +121,8 @@
             android:layout_marginBottom="8dp"
             android:hint="@string/euro_exchange"
             android:inputType="number"
-            android:textSize="10sp"
+            android:textSize="20sp"
+            android:gravity="center"
             app:layout_constraintBottom_toTopOf="@+id/marangiCoinTextView2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.481"

@@ -31,16 +31,16 @@ public class FragmentMarangicoin extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         fragmentMarangiCoin = inflater.inflate(R.layout.fragment_layout_marangicoin, container, false);
-        final TextView marangiCoinAmount = (TextView) fragmentMarangiCoin.findViewById(R.id.marangiCoinTextView);
-        final TextView marangiCoinAmount2 = (TextView) fragmentMarangiCoin.findViewById(R.id.marangiCoinTextView);
-        final TextView discountAmount = (TextView) fragmentMarangiCoin.findViewById(R.id.marangiCoin_exchange);
+        final TextView marangiCoinAmount = fragmentMarangiCoin.findViewById(R.id.marangiCoinTextView);
         //prendo le informazioni del conto e le inserisco nel fragment
         final FirebaseFirestore db=FirebaseFirestore.getInstance();
         //prendo il documento del conto corrispondente all'utente connesso
@@ -55,7 +55,8 @@ public class FragmentMarangicoin extends Fragment {
 
                         final Conti conto=document.toObject(Conti.class);
 
-                        marangiCoinAmount.setText("MarangiCoin: "+conto.getCoinAmount());
+                        String textToSet = "MarangiCoin: "+conto.getCoinAmount();
+                        marangiCoinAmount.setText(textToSet);
 
 
                     } else {
@@ -68,6 +69,8 @@ public class FragmentMarangicoin extends Fragment {
             }
         });
 
+        listenText();
+
         //returning our layout file
         return fragmentMarangiCoin;
 
@@ -77,6 +80,39 @@ public class FragmentMarangicoin extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    public void listenText(){
+        final EditText marangiCoin_amount = fragmentMarangiCoin.findViewById(R.id.marangiCoin_amount);
+        final TextView marangiCoin_exchange = fragmentMarangiCoin.findViewById(R.id.marangiCoin_exchange);
+
+        marangiCoin_amount.addTextChangedListener(new TextWatcher() {
+            boolean _ignore = false;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s.toString().trim().length()==0)
+                    return;
+                if (_ignore)
+                    return;
+
+                _ignore = true;
+                Integer value = Integer.parseInt(marangiCoin_amount.getText().toString());
+                String euro="€ ";
+                value = value / 20;
+                String textToSet = euro.concat(value.toString());
+                marangiCoin_exchange.setText(textToSet);
+                _ignore = false;
+            }
+        });
     }
 }
 

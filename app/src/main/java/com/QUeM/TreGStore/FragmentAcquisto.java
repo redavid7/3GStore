@@ -45,8 +45,6 @@ public class FragmentAcquisto extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView=inflater.inflate(R.layout.fragment_layout_acquisto, container, false);
-        //imposta la freccia per tornare indietro
-        ((HomeActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //inizializzo switch
         final Switch switchSconto= (Switch) fragmentView.findViewById(R.id.acquisto_cardview_impo_applica_sconto_switch);
         //prendo le informazioni del conto e le inserisco nel fragment
