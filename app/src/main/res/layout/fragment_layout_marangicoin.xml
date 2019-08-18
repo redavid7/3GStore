@@ -75,7 +75,7 @@
             android:layout_centerInParent="true"
             android:layout_gravity="center_horizontal"
             android:alpha="0.6"
-            app:srcCompat="@drawable/logo3gstore" />
+            app:srcCompat="@drawable/switch_marangicoin_image" />
 
         <TextView
             android:id="@+id/marangiCoin_exchange"
