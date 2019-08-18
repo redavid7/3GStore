@@ -43,7 +43,9 @@
     <string name="exchange_button">Scambia</string>
     <string name="marangiCoin">Simbolo dei MarangiCoin</string>
     <string name="marangiCoin_exchange">MarangiCoin da scambiare</string>
-    <string name="euro_exchange">Euro che puoi ottenere</string>
+    <string name="euro_exchange">Euro che ottieni</string>
+    <string name="current_discount">Sconto attuale</string>
+
 
     <!-- Settings -->
     <string name="username">Nome Utente</string>

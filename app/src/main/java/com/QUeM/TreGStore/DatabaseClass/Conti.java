@@ -33,7 +33,7 @@ public class Conti {
         this.coinAmount=newCoinAmount;
     }
 
-    public void setCurrentDiscount(int newCurrentDiscount){
+    public void setCurrentDiscount(double newCurrentDiscount){
         this.currentDiscount=newCurrentDiscount;
     }
 
