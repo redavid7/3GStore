@@ -64,14 +64,14 @@
     <string name="offers_summary">Abilita/Disabilita le notifiche per prodotti in offerta nelle tue vicinanze</string>
     <string name="elimina_prodotto_successo">Prodotto rimosso con successo</string>
     <string name="carrello_vuoto">Non hai nulla nel carrello!</string>
-    <string name="saldo_insufficente_nosconto">Il credito del pagamento selezionato è insufficente</string>
-    <string name="saldo_insufficente_sisconto">Il credito del pagamento selezionato e lo sconto disponibile sono insufficenti</string>
+    <string name="saldo_insufficente_nosconto">Il credito del pagamento selezionato è insufficiente</string>
+    <string name="saldo_insufficente_sisconto">Il credito del pagamento selezionato e lo sconto disponibile sono insufficienti</string>
     <!-- Acquisto fragment -->
     <string name="info_intestazione">Informazioni sull\'acquisto</string>
     <string name="info_totale_articoli">Totale articoli:</string>
     <string name="info_punti_guagnati">MarangiCoin guadagnati:</string>
     <string name="impo_intestazione">Impostazioni pagamento</string>
-    <string name="impo_carta_addebitata">Metodo di pagamento:</string>
+    <string name="impo_carta_addebitata">Saldo disponibile:</string>
     <string name="impo_sconto_disponibile">Sconto disponibile:</string>
     <string name="impo_checkbox_sconto">Vuoi utilizzare lo sconto?</string>
     <string name="finale_intestazione">Conferma l\'ordine</string>

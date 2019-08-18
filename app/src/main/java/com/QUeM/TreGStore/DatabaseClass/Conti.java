@@ -9,8 +9,8 @@ public class Conti {
 
     public Conti(){
         this.coinAmount=0;
-        this.currentDiscount=0;
-        this.saldoDisponibile=10000;
+        this.currentDiscount=0.0;
+        this.saldoDisponibile=10000.0;
         this.totaleCarrello=0;
     }
 
@@ -52,5 +52,15 @@ public class Conti {
 
     public void setSaldoDisponibile(double saldoDisponibile) {
         this.saldoDisponibile = saldoDisponibile;
+    }
+
+    @Override
+    public String toString() {
+        return "Conti{" +
+                "coinAmount=" + coinAmount +
+                ", currentDiscount=" + currentDiscount +
+                ", totaleCarrello=" + totaleCarrello +
+                ", saldoDisponibile=" + saldoDisponibile +
+                '}';
     }
 }

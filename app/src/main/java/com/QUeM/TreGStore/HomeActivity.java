@@ -8,8 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -184,7 +181,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     @SuppressLint("RestrictedApi")
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         toggle.syncState();
 
         //inizializzo la variabile che conterrà il fragment da mostrare

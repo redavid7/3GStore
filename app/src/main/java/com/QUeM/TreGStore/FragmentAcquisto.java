@@ -60,6 +60,7 @@ public class FragmentAcquisto extends Fragment {
                     if (document.exists()) {
                         //conto trovato ed esiste
                         final Conti conto=document.toObject(Conti.class);
+
                         //imposto il testo che corrisponde al totale del carrello
                         TextView acquistoTotPrezzo= fragmentView.findViewById(R.id.acquisto_cardview_info_tot_articoli_txt_prezzo);
                         acquistoTotPrezzo.setText(conto.getTotaleCarrello()+" €");
@@ -67,10 +68,12 @@ public class FragmentAcquisto extends Fragment {
                         final TextView acquistoPuntiGuadagnati=fragmentView.findViewById(R.id.acquisto_cardview_info_punti_guadagnati_txt_prezzo);
                         final int punti=((int)conto.getTotaleCarrello()/5);
                         acquistoPuntiGuadagnati.setText(String.valueOf(punti));
+                        //imposto il testo che corrisponde al saldo disponibile
+                        TextView acquistoSaldoDisponibile=fragmentView.findViewById(R.id.acquisto_cardview_impo_carta_addebitata_txt_prezzo);
+                        acquistoSaldoDisponibile.setText(conto.getSaldoDisponibile()+" €");
                         //imposto il testo che corrisponde allo sconto disponibile
                         TextView acquistoScontoDisponibile=fragmentView.findViewById(R.id.acquisto_cardview_impo_sconto_disponibile_txt_prezzo);
-                        Log.d(TAG, "CCCC "+conto.getCurrentDiscount());
-                        acquistoScontoDisponibile.setText(conto.getCurrentDiscount()+" €");
+                        acquistoScontoDisponibile.setText(((float)conto.getCurrentDiscount())+" €");
                         //imposto il testo per il totale da pagare
                         final TextView acquistoTotaleOrdine=fragmentView.findViewById(R.id.acquisto_cardview_finale_totale_ordine_txt_prezzo);
                         final TextView acquistoScontoRimanente=fragmentView.findViewById(R.id.acquisto_cardview_finale_totale_sconto_rimasto_txt_prezzo);
@@ -210,7 +213,7 @@ public class FragmentAcquisto extends Fragment {
             Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
 
         }
-        ((HomeActivity)getActivity()).ShowFragment(R.id.nav_home);
+        ((HomeActivity)getActivity()).recreate();
     }
 
     public void cancellaCollezione(final CollectionReference carrello){

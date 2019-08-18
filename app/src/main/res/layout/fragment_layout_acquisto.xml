@@ -190,7 +190,7 @@
                             android:id="@+id/acquisto_cardview_impo_carta_addebitata_txt_prezzo"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Visa :x 5748"
+                            android:text=""
                             style="@style/acquisto_card_textview"
                             android:layout_alignParentEnd="true"
 

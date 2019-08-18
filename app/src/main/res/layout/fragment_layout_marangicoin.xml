@@ -27,7 +27,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:contentDescription="@string/marangiCoin"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/logo3gstore"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
