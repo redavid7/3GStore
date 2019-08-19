@@ -38,13 +38,13 @@
     <string name="btn_back">Indietro</string>
 
     <!-- MarangiCoin -->
-    <string name="your_marangiCoin">Hai *** MarangiCoin</string>
+    <string name="your_marangiCoin">MarangiCoin disponibili: </string>
     <string name="exchange_marangiCoin">Ogni 20 MarangiCoin puoi ottenere 1€ di spesa gratis in uno qualsiasi dei nostri negozi</string>
     <string name="exchange_button">Scambia</string>
     <string name="marangiCoin">Simbolo dei MarangiCoin</string>
     <string name="marangiCoin_exchange">MarangiCoin da scambiare</string>
     <string name="euro_exchange">Euro che ottieni</string>
-    <string name="current_discount">Sconto attuale</string>
+    <string name="current_discount">Sconto attuale: </string>
 
 
     <!-- Settings -->

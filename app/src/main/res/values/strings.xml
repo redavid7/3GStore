@@ -37,13 +37,13 @@
     <string name="shopping_amount">Total Amount: </string>
 
     <!-- MarangiCoin -->
-    <string name="your_marangiCoin">Current MarangiCoin</string>
+    <string name="your_marangiCoin">Current MarangiCoin: </string>
     <string name="exchange_marangiCoin">Every 20 MarangiCoin you get 1€ of discount on any of our products</string>
     <string name="exchange_button">Exchange</string>
     <string name="marangiCoin">MarangiCoin symbol</string>
     <string name="marangiCoin_exchange">MarangiCoin to exchange</string>
     <string name="euro_exchange">Euro you get</string>
-    <string name="current_discount">Current discount</string>
+    <string name="current_discount">Current discount: </string>
 
 
     <!-- Settings -->

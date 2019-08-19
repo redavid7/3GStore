@@ -34,6 +34,7 @@ public class FragmentMarangicoin extends Fragment {
     private Context ctx;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -45,8 +46,10 @@ public class FragmentMarangicoin extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
         fragmentMarangiCoin = inflater.inflate(R.layout.fragment_layout_marangicoin, container, false);
-        final TextView marangiCoinAmount = fragmentMarangiCoin.findViewById(R.id.marangiCoinTextView);
-        final TextView current_discount = fragmentMarangiCoin.findViewById(R.id.current_discount);
+        final String textToViewMC = getActivity().getString(R.string.your_marangiCoin);
+        final String textToViewDisc = getActivity().getString(R.string.current_discount);
+        final TextView marangiCoinAmount = fragmentMarangiCoin.findViewById(R.id.current_MC);
+        final TextView current_discount = fragmentMarangiCoin.findViewById(R.id.current_discount_display);
         //prendo le informazioni del conto e le inserisco nel fragment
         final FirebaseFirestore db=FirebaseFirestore.getInstance();
         //prendo il documento del conto corrispondente all'utente connesso
@@ -61,9 +64,9 @@ public class FragmentMarangicoin extends Fragment {
 
                         final Conti conto=document.toObject(Conti.class);
 
-                        String textToSet = "" + conto.getCoinAmount();
+                        String textToSet = textToViewMC + conto.getCoinAmount();
                         marangiCoinAmount.setText(textToSet);
-                        String textToSet2 = "" + conto.getCurrentDiscount();
+                        String textToSet2 = textToViewDisc + conto.getCurrentDiscount();
                         current_discount.setText(textToSet2);
 
 
@@ -128,6 +131,9 @@ public class FragmentMarangicoin extends Fragment {
     }
 
     public void exchangeMarangiCoin(){
+        final String textToViewMC = getActivity().getString(R.string.your_marangiCoin);
+        final String textToViewDisc = getActivity().getString(R.string.current_discount);
+
         //prendo le informazioni del conto e le inserisco nel fragment
         final FirebaseFirestore db=FirebaseFirestore.getInstance();
         //prendo il documento del conto corrispondente all'utente connesso
@@ -141,8 +147,8 @@ public class FragmentMarangicoin extends Fragment {
                     if (document.exists()) {
                         int mc_available, mc_toExchange; double current_discount, discount_toAdd;
                         final EditText mc_exchange = fragmentMarangiCoin.findViewById(R.id.marangiCoin_amount);
-                        final TextView current_mc = fragmentMarangiCoin.findViewById(R.id.marangiCoinTextView);
-                        final TextView current_discount_view = fragmentMarangiCoin.findViewById(R.id.current_discount);
+                        final TextView current_mc = fragmentMarangiCoin.findViewById(R.id.current_MC);
+                        final TextView current_discount_view = fragmentMarangiCoin.findViewById(R.id.current_discount_display);
                         String mc_exchange_text, current_mc_text, current_discount_text;
 
                         final Conti conto=document.toObject(Conti.class);
@@ -160,8 +166,8 @@ public class FragmentMarangicoin extends Fragment {
                         contoRef.update("coinAmount", mc_available);
                         contoRef.update("currentDiscount", current_discount);
                         mc_exchange_text = "0";
-                        current_mc_text = "" + mc_available;
-                        current_discount_text = "" + current_discount;
+                        current_mc_text = textToViewMC + mc_available;
+                        current_discount_text = textToViewDisc + current_discount;
                         mc_exchange.setText(mc_exchange_text);
                         current_mc.setText(current_mc_text);
                         current_discount_view.setText(current_discount_text);
