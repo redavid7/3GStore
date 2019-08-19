@@ -1,5 +1,6 @@
 package com.QUeM.TreGStore;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -29,7 +30,6 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         auth = FirebaseAuth.getInstance();
 
         //inizializza Activity
@@ -54,32 +54,16 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         //funzione che gestisce la scelta effettuata nel menu
         navigationView.setNavigationItemSelectedListener(this);
 
+        //mostro fragment che voglio io
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame_layout, new FragmentSettings());
+        fragmentTransaction.commit();
 
-        Log.d(TAG, "mmm prima dell' IF");
-
-        if (findViewById(R.id.fragment_container)!= null){
-
-            Log.d(TAG, "mmm dentro primo if ");
-
-            if(savedInstanceState!= null){
-
-                Log.d(TAG, "mmm dentro secondo if ");
-                return;
-            }
-            Log.d(TAG, "mmm prima di getSupportFragmentManager ");
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentSettings()).commit();
-            Log.d(TAG, "mmm dopo di getSupportFragmentManager ");
-        }
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         toggle.syncState();
-
-        //inizializzo la variabile che conterrà il fragment da mostrare
-        Fragment fragment = null;
-
         //in base alla selezione del menu assegno il fragment da mostrare o l'activity da startare
         switch(item.getItemId()){
             case R.id.nav_quit:
@@ -88,11 +72,37 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
                 break;
             case R.id.nav_settings:
                 //Se viene cliccato il tasto delle impostazioni, starto SettingsActivity
-                Log.d(TAG, "mmm prima di startActivity ");
-                onPause();
-                startActivity(new Intent(this, SettingsActivity.class));
-                Log.d(TAG, "mmm dopo di startActivity");
+                //non faccio niente perchè sto già
                 break;
+            case R.id.nav_home:
+                ShowFragment(item.getItemId());
+                break;
+            case R.id.nav_promozioni:
+                ShowFragment(item.getItemId());
+                break;
+            case R.id.nav_marangicoin:
+                ShowFragment(item.getItemId());
+                break;
+            case R.id.nav_profilo:
+                ShowFragment(item.getItemId());
+                break;
+            case R.id.nav_game:
+                ShowFragment(item.getItemId());
+                break;
+        }
+
+        return true;
+    }
+
+
+    @SuppressLint("RestrictedApi")
+    protected void ShowFragment(int itemId) {
+
+        //inizializzo la variabile che conterrà il fragment da mostrare
+        Fragment fragment = null;
+
+        //in base alla selezione del menu assegno il fragment da mostrare
+        switch (itemId) {
             case R.id.nav_home:
                 fragment=new FragmentCarrello();
                 break;
@@ -108,6 +118,9 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
             case R.id.nav_game:
                 fragment = new FragmentQuiz();
                 break;
+            case R.id.nav_hidden_acquista:
+                fragment = new FragmentAcquisto();
+                break;
         }
 
         //imposta il nuovo fragment
@@ -120,7 +133,5 @@ public class SettingsActivity extends AppCompatActivity implements NavigationVie
         //reimposto il menù laterale
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
-
-        return true;
     }
 }
