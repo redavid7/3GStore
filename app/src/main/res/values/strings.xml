@@ -84,5 +84,6 @@
     <string name="on">Yes</string>
     <string name="off">No</string>
     <string name="finale_sconto_rimasto">Remaining discount:</string>
+    <string name="acquisto_riuscito">Purchase successful!</string>
 
 </resources>

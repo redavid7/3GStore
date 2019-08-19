@@ -36,7 +36,7 @@ public class ProdottiAdapterProm extends FirestoreRecyclerAdapter<Prodotti, Prod
         //imposto il prezzo senza sconto
         roundOff = Math.round((model.getPrezzo()*1.2) * 100.0) / 100.0;
         holder.prezzoPieno.setText(String.valueOf(roundOff)+"€");
-
+        //imposto la barratura del prezzo e il colore rosso
         holder.prezzoPieno.setTextColor(Color.parseColor("#FF3232"));
         holder.prezzoPieno.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         //imposto la data di scadenza della promozione

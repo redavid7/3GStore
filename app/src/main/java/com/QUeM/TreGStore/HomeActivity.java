@@ -182,10 +182,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @SuppressLint("RestrictedApi")
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         toggle.syncState();
-
-        //inizializzo la variabile che conterrà il fragment da mostrare
-        Fragment fragment = null;
-
         //in base alla selezione del menu assegno il fragment da mostrare o l'activity da startare
         switch(item.getItemId()){
             case R.id.nav_quit:
@@ -195,37 +191,25 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_settings:
                 //Se viene cliccato il tasto delle impostazioni, starto SettingsActivity
                 Log.d(TAG, "mmm prima di startActivity ");
-               onPause();
                 startActivity(new Intent(this, SettingsActivity.class));
                 Log.d(TAG, "mmm dopo di startActivity");
                 break;
             case R.id.nav_home:
-                fragment=new FragmentCarrello();
+                ShowFragment(item.getItemId());
                 break;
             case R.id.nav_promozioni:
-                fragment = new FragmentPromozioni();
+                ShowFragment(item.getItemId());
                 break;
             case R.id.nav_marangicoin:
-                fragment = new FragmentMarangicoin();
+                ShowFragment(item.getItemId());
                 break;
             case R.id.nav_profilo:
-                fragment = new FragmentProfilo();
+                ShowFragment(item.getItemId());
                 break;
             case R.id.nav_game:
-                fragment = new FragmentQuiz();
+                ShowFragment(item.getItemId());
                 break;
         }
-
-        //imposta il nuovo fragment
-        if (fragment != null) {
-            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frame_layout, fragment);
-            fragmentTransaction.commit();
-        }
-
-        //reimposto il menù laterale
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
 
         return true;
     }
