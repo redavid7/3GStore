@@ -50,14 +50,17 @@ public class FragmentMarangicoin extends Fragment {
         final String textToViewDisc = getActivity().getString(R.string.current_discount);
         final TextView marangiCoinAmount = fragmentMarangiCoin.findViewById(R.id.current_MC);
         final TextView current_discount = fragmentMarangiCoin.findViewById(R.id.current_discount_display);
+
         //prendo le informazioni del conto e le inserisco nel fragment
         final FirebaseFirestore db=FirebaseFirestore.getInstance();
+
         //prendo il documento del conto corrispondente all'utente connesso
         final DocumentReference contoRef=db.collection("conti").document(auth.getUid());
         contoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
+
                     //se la connessione è riuscita, vedo se il documento esiste o meno
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
@@ -100,6 +103,7 @@ public class FragmentMarangicoin extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
     }
+
     //listener per la modifica dinamica del testo
     public void listenText(){
         final EditText marangiCoin_amount = fragmentMarangiCoin.findViewById(R.id.marangiCoin_amount);
@@ -130,41 +134,52 @@ public class FragmentMarangicoin extends Fragment {
         });
     }
 
+    //scambio effettivo di MarangiCoin in buono spesa
     public void exchangeMarangiCoin(){
         final String textToViewMC = getActivity().getString(R.string.your_marangiCoin);
         final String textToViewDisc = getActivity().getString(R.string.current_discount);
 
         //prendo le informazioni del conto e le inserisco nel fragment
         final FirebaseFirestore db=FirebaseFirestore.getInstance();
+
         //prendo il documento del conto corrispondente all'utente connesso
         final DocumentReference contoRef=db.collection("conti").document(auth.getUid());
         contoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
+
                     //se la connessione è riuscita, vedo se il documento esiste o meno
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         int mc_available, mc_toExchange; double current_discount, discount_toAdd;
+                        String mc_exchange_text, current_mc_text, current_discount_text;
                         final EditText mc_exchange = fragmentMarangiCoin.findViewById(R.id.marangiCoin_amount);
                         final TextView current_mc = fragmentMarangiCoin.findViewById(R.id.current_MC);
                         final TextView current_discount_view = fragmentMarangiCoin.findViewById(R.id.current_discount_display);
-                        String mc_exchange_text, current_mc_text, current_discount_text;
 
                         final Conti conto=document.toObject(Conti.class);
+
                         //ottengo i dati su cui agire
                         mc_available = conto.getCoinAmount();
                         current_discount = conto.getCurrentDiscount();
                         mc_toExchange = Integer.parseInt(mc_exchange.getText().toString());
                         discount_toAdd = mc_toExchange/20;
 
+                        //controllo se lo scambio si può fare. return ASAP per alleggerire l'operazione.
                         if(mc_available < mc_toExchange){
                             return;
                         }
                         current_discount = current_discount + discount_toAdd;
+
+                        /* effettuo questo calcolo per evitare di scalare quantità di MC diverse da multipli di 20 */
                         mc_available -= discount_toAdd*20;
+
+                        //aggiorno il DB
                         contoRef.update("coinAmount", mc_available);
                         contoRef.update("currentDiscount", current_discount);
+
+                        //azzero il campo dei marangicoin da scambiare e, quindi, anche del buono; aggiorno il campo dei MarangiCoin attuali
                         mc_exchange_text = "0";
                         current_mc_text = textToViewMC + mc_available;
                         current_discount_text = textToViewDisc + current_discount;

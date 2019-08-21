@@ -86,4 +86,8 @@
     <string name="finale_sconto_rimasto">Remaining discount:</string>
     <string name="acquisto_riuscito">Purchase successful!</string>
 
+    <!-- Notifiche -->
+    <string name="titolo_notifica">A new article is for sale!</string>
+    <string name="contenuto_notifica">Click to check out what is it!</string>
+
 </resources>

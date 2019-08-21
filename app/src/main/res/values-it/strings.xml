@@ -68,6 +68,8 @@
     <string name="carrello_vuoto">Non hai nulla nel carrello!</string>
     <string name="saldo_insufficente_nosconto">Il credito del pagamento selezionato è insufficiente</string>
     <string name="saldo_insufficente_sisconto">Il credito del pagamento selezionato e lo sconto disponibile sono insufficienti</string>
+
+
     <!-- Acquisto fragment -->
     <string name="info_intestazione">Informazioni sull\'acquisto</string>
     <string name="info_totale_articoli">Totale articoli:</string>
@@ -85,6 +87,10 @@
     <string name="acquisto_riuscito">Acquisto effettuato con successo!</string>
     <string name="start">Inizia</string>
     <string name="next">Prossimot</string>
+
+    <!-- Notifiche -->
+    <string name="titolo_notifica">C\'è un nuovo articolo in sconto!</string>
+    <string name="contenuto_notifica">Clicca per maggiori informazioni!</string>
 
 
 </resources>
