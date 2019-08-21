@@ -106,9 +106,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //---------------------------INIZIO GESTIONE NOTIFICHE PUSH-----------------------------------
 
-        Intent notificationIntent = new Intent(this, NotificaProdotti.class);
+      /*  Intent notificationIntent = new Intent(this, NotificaProdotti.class);
         //Se API lv 26+, inizio in foreground, altrimenti inizio il servizio.
-        ContextCompat.startForegroundService(this, notificationIntent);
+        ContextCompat.startForegroundService(this, notificationIntent);*/
 
         //---------------------------FINE GESTIONE NOTIFICHE PUSH-------------------------------------
 
