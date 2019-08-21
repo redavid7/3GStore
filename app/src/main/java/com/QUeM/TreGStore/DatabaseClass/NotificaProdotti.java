@@ -47,7 +47,7 @@ public class NotificaProdotti extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
 
-        //Costruisco la notifica.
+        /*Costruisco la notifica.
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle(getString(com.QUeM.TreGStore.R.string.titolo_notifica))
                 .setSmallIcon(com.QUeM.TreGStore.R.drawable.logo3gstore)
@@ -57,7 +57,7 @@ public class NotificaProdotti extends Service {
 
         //faccio in modo che il servizio non venga distrutto dopo 1 minuto
         startForeground(1, notification);
-
+*/
     }
 
     //Metodo che viene chiamato nonappena viene chiamato startService
