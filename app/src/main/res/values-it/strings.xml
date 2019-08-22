@@ -91,6 +91,8 @@
     <!-- Notifiche -->
     <string name="titolo_notifica">C\'è un nuovo articolo in sconto!</string>
     <string name="contenuto_notifica">Clicca per maggiori informazioni!</string>
+    <string name="firstName">Nome</string>
+    <string name="secondName">Cognome</string>
 
 
 </resources>

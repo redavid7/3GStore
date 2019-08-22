@@ -112,10 +112,12 @@ public class LoginActivity extends AppCompatActivity {
                                     // there was an error
                                     if (password.length() < 6) {
                                         inputPassword.setError(getString(R.string.minimum_password));
-                                    } else {
+                                    }
+                                    else {
                                         Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
-                                } else {
+                                }
+                                else {
                                     final Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                     // prima di accedere alla Home Activity, controlla che sia stato creato il carrello relativo al cliente e la sezione MarangiCoin
                                     // accedo al database
@@ -147,7 +149,8 @@ public class LoginActivity extends AppCompatActivity {
                     if (document.exists()) {
                         //se la sezione conti esiste già non fa nulla
                         Log.d(TAG, "CONTI esiste");
-                    } else {
+                    }
+                    else {
                         //se non esiste la crea vuota
                         Log.d(TAG, "CONTI non esiste");
                         //operazione per scrivere sul db
@@ -164,7 +167,8 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         });
                     }
-                } else {
+                }
+                else {
                     Log.d(TAG, "get failed with ", task.getException());
                 }
             }

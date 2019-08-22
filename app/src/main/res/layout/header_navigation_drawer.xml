@@ -19,12 +19,12 @@
 
     <ImageView
         android:id="@+id/nav_profilo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:contentDescription="@string/nav_header_desc"
         android:clickable="true"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@mipmap/ic_profile_navbar_round" />
+        app:srcCompat="@drawable/logo3gstore" />
 
     <!--Nome e cognome-->
 

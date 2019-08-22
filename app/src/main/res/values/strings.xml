@@ -89,5 +89,7 @@
     <!-- Notifiche -->
     <string name="titolo_notifica">A new article is for sale!</string>
     <string name="contenuto_notifica">Click to check out what is it!</string>
+    <string name="firstName">First Name</string>
+    <string name="secondName">Second Name</string>
 
 </resources>
