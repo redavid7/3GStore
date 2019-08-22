@@ -86,7 +86,7 @@
     <string name="finale_sconto_rimasto">Sconto Rimanente:</string>
     <string name="acquisto_riuscito">Acquisto effettuato con successo!</string>
     <string name="start">Inizia</string>
-    <string name="next">Prossimot</string>
+    <string name="next">Prossimo</string>
 
     <!-- Notifiche -->
     <string name="titolo_notifica">C\'è un nuovo articolo in sconto!</string>
