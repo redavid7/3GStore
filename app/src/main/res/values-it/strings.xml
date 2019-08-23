@@ -48,18 +48,12 @@
 
 
     <!-- Settings -->
-    <string name="username">Nome Utente</string>
-    <string name="username_summary">Modifica il tuo Nome Utente</string>
+    <string name="profile_settings">Impostazioni</string>
+    <string name="email_summary">Modifica la tua Email</string>
     <string name="password">Password</string>
     <string name="password_summary">Modifica la tua Password</string>
-    <string name="photo">Foto Profilo</string>
-    <string name="photo_summary">Modifica la tua Foto Profilo</string>
     <string name="cards">Carte</string>
     <string name="cards_summary">Gestisci le tue carte per il pagamento</string>
-    <string name="purchases">Acquisti</string>
-    <string name="purchases_summary">Controlla i tuoi acquisti recenti</string>
-    <string name="personal_data">Informazioni Personali</string>
-    <string name="personal_data_summary">Controlla tutte le tue informazioni personali</string>
     <string name="touchid">Touch ID</string>
     <string name="touchid_summary">Abilita/Disabilita Touch ID</string>
     <string name="offers">Notifiche per le Offerte</string>
@@ -94,5 +88,7 @@
     <string name="firstName">Nome</string>
     <string name="secondName">Cognome</string>
 
+    <!-- Fragment cambio password -->
+    <string name="example_text1">Fragment Cambio Password</string>
 
 </resources>
