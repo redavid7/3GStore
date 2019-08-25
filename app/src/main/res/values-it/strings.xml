@@ -6,7 +6,7 @@
     <string name="navigation_drawer_open">Apri menu laterale</string>
     <string name="navigation_drawer_close">Chiudi menu laterale</string>
     <string name="nav_header_title">Nome Cognome</string>
-    <string name="nav_header_subtitle">Punti: XXX</string>
+    <string name="nav_header_subtitle">Punti: </string>
     <string name="nav_header_desc">Testa Navigazione</string>
     <string name="action_settings">Impostazioni</string>
     <string name="menu_home">Carrello</string>

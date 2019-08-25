@@ -24,9 +24,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.QUeM.TreGStore.DatabaseClass.NotificaProdotti;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -97,10 +102,38 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //funzione che gestisce la scelta effettuata nel menu
         navigationView.setNavigationItemSelectedListener(this);
 
-        //angelo divertiti
+        //imposto l'header del menu con i dati dell'utente
         View innerview =  navigationView.getHeaderView(0);
-        TextView user_view= (TextView)innerview.findViewById(R.id.nomeCognome); //any you need
-        user_view.setText(user.getEmail());
+        TextView user_view= (TextView)innerview.findViewById(R.id.nomeCognome);
+        String email=user.getEmail();
+        email=(String)email.subSequence(0, email.indexOf("@"));
+        user_view.setText(email);
+        final TextView punti_view= (TextView)innerview.findViewById(R.id.punti_textview);
+
+
+
+        FirebaseFirestore.getInstance().collection("conti").document(auth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    //se la connessione è riuscita, vedo se il documento esiste o meno
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Conti conto=document.toObject(Conti.class);
+                        String puntiMostrati=getString(R.string.nav_header_subtitle);
+
+                        punti_view.setText(puntiMostrati.concat(" "+String.valueOf(conto.getCoinAmount())));
+
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
 
         //--------------------FINE GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
 
