@@ -30,7 +30,6 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -46,7 +45,6 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA_PERMISSION = 201;
     Button btnAction;
     String intentData = "";
-
     //AZIONI DA ESEGUIRE ALLA CREAZIONE
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +52,9 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_scanned_barcode);
         initViews();
     }
-    //INIZIALIZZAZIONE VARIABLILI
+    //INIZIALIZZAZIONE LAYOUT
     private void initViews() {
+        //INIZIALIZZO GLI OGGETTI A SCERMO
         txtBarcodeValue = findViewById(R.id.txtBarcodeValue);
         surfaceView = findViewById(R.id.surfaceView);
         btnAction = findViewById(R.id.btnAction);
@@ -99,7 +98,6 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                                         }
                                         //tolgo 1 prodotto dal numero delle disponibilità
                                         docrefprodotti.update("ndisp", prod.getNdisp()-1);
-
                                     }else{
                                         //per ora scrivo un toast di avviso che non è più disp
                                         Toast.makeText(getApplicationContext(), R.string.product_unavailable, Toast.LENGTH_LONG).show();
@@ -174,9 +172,9 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                     txtBarcodeValue.post(new Runnable() {
                         @Override
                         public void run() {
-                                btnAction.setText("AGGIUNGI AL CARRELLO");
                                 intentData = barcodes.valueAt(0).displayValue;
-                                txtBarcodeValue.setText(intentData); }
+                                cercaProdotto();
+                        }
                     });
 
                 }
@@ -197,7 +195,11 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         initialiseDetectorsAndSources();
     }
 
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.finish();
+    }
 
     public void aggiungiProdottoCarrello(Prodotti prod, FirebaseFirestore db1){
         //prendo l'utente attualmente connesso
@@ -263,9 +265,34 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
+    public void cercaProdotto(){
+        //mi salvo il codice del prodotto scannerizzato
+        final String codiceProdottoScannerizzato=String.valueOf(intentData);
+        //creo la connessione al documento dell'utente che contiene il carrello
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final DocumentReference docrefprodotti = db.collection("prodotti").document(codiceProdottoScannerizzato);
+        //provo ad aprire la connessione
+        docrefprodotti.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    //se la connessione è riuscita, vedo se il documento esiste o meno
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        //se il documento esiste, creo un oggetto che corrisponde al prodotto legato al codice a barre
+                        Prodotti prod=document.toObject(Prodotti.class);
+                                btnAction.setText("AGGIUNGI AL CARRELLO:"+" "+prod.getNome().toUpperCase());
+                                txtBarcodeValue.setText(prod.getNome());
+                    } else {
+                        Log.d(TAG, "No such document");
 
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
 
 }

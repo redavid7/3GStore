@@ -24,7 +24,7 @@ public class FragmentPromozioni extends Fragment {
     //collegamento al firestore
     private FirebaseFirestore db=FirebaseFirestore.getInstance();
     //imposto il riferimento alla collezione che contiene i prodotti da mostrare
-    private CollectionReference carrelloRef=db.collection("prodotti");
+    private CollectionReference prodottiRef=db.collection("prodotti");
     //inizializzo la classe che serve ad adattare il contenuto di ogni occorenza di un documento al mio schema
     private ProdottiAdapterProm adapter;
     //vista del fragment
@@ -56,7 +56,7 @@ public class FragmentPromozioni extends Fragment {
     }
     //Set up reciclerView
     private void setUpRecyclerView(){
-        Query query=carrelloRef.whereEqualTo("promozione",true);
+        Query query=prodottiRef.whereEqualTo("promozione",true);
         FirestoreRecyclerOptions<Prodotti> opzioni=new FirestoreRecyclerOptions.Builder<Prodotti>().setQuery(query, Prodotti.class).build();
         adapter= new ProdottiAdapterProm(opzioni);
         RecyclerView recyclerView= fragmentProdView.findViewById(R.id.recyclerviewP);

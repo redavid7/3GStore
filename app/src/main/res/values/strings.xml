@@ -45,10 +45,8 @@
     <string name="euro_exchange">Euro you get</string>
     <string name="current_discount">Current discount: </string>
 
-
     <!-- Settings -->
     <string name="profile_settings">Settings</string>
-    <string name="email">Email</string>
     <string name="email_summary">Change your Email</string>
     <string name="password">Password</string>
     <string name="password_summary">Change your Password</string>
@@ -93,4 +91,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Cronologia Ordini -->
+    <string name="ordini">Your order: </string>
 </resources>

@@ -236,7 +236,7 @@ public class FragmentAcquisto extends Fragment {
                 //imposto il nome dell'ordine corrispondente alla data odierna fino ai secondi
                 String dataOrdine=""+gc.get(Calendar.DAY_OF_MONTH)+"."+(gc.get(Calendar.MONTH)+1)+"."+gc.get(Calendar.YEAR)+"_"+gc.get(Calendar.HOUR)+":"+gc.get(Calendar.MINUTE)+"."+gc.get(Calendar.SECOND);
                 //creo riferimento del nuovo ordine
-                CollectionReference cronologia=FirebaseFirestore.getInstance().collection("cronologiaOrdini").document(auth.getUid()).collection(dataOrdine);
+                CollectionReference cronologia=FirebaseFirestore.getInstance().collection("cronologiaOrdini").document(auth.getUid()).collection("dataOrdine").document(dataOrdine).collection("prodottiAcquistati");
                 if (task.isSuccessful()) {
                     for(DocumentSnapshot document : task.getResult()){
                         Prodotti prodottoAttuale = document.toObject(Prodotti.class);
