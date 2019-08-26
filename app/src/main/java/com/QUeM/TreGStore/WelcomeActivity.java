@@ -43,8 +43,7 @@ public class WelcomeActivity extends AppCompatActivity {
         layouts = new int[] {
                 R.layout.layout_tutorial1,
                 R.layout.layout_tutorial2,
-                R.layout.layout_tutorial3,
-                R.layout.layout_tutorial4
+                R.layout.layout_tutorial3
         };
 
         // metodo che aggiunge i pallini sotto le immagini, mettendo in evidenza il pallino

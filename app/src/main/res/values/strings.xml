@@ -88,9 +88,17 @@
     <!-- Fragment cambio password -->
     <string name="example_text1">Change Password Fragment</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <!-- Cronologia Ordini -->
     <string name="ordini">Your order: </string>
+
+
+    <!-- Tutorial -->
+    <string name="titolo_1">Scansiona il codice del prodotto</string>
+    <string name="titolo_2">Aggiungi al tuo carrello</string>
+    <string name="titolo_3">Paga in completa tranquillità</string>
+
+    <string name="descrizione_1">Clicca sul pulsante per aprire la fotocamera</string>
+    <string name="descrizione_2">Clicca sul pulsante per aggiungere il prodotto al carrello</string>
+    <string name="descrizione_3">Clicca sul pulsante del carrello per pagare</string>
+
 </resources>
