@@ -72,6 +72,7 @@ public class FragmentQuiz extends Fragment {
         //prendo gli interi per fare il confronto delle date in questo caso prendo i minuti per far vedere  che una volta terminato il quiz viene reso prima indisponibile poi rireso disponibile
         Date now=nowc.getTime();
         // se la data in cui si sta facendo il quiz e maggiore dell'ultimo quiz eseguito ti viene concesso di eseguire un nuovo quiz
+        // NB per mostrare il funzionamento di questa funzionalita nel suo complesso il quiz si riattiverà dopo un minuto
         int n = 0;
         int l = 0;
         if(last!=null){
