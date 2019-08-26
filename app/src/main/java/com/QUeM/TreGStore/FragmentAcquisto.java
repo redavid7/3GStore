@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -23,8 +25,12 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.WriteBatch;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.support.constraint.Constraints.TAG;
 
@@ -229,12 +235,13 @@ public class FragmentAcquisto extends Fragment {
 
     //funzione che serve a cancellare l'intero carrello anche nella recycler view
     public void cancellaCollezione(final CollectionReference carrello){
+        GregorianCalendar gc = new GregorianCalendar();
+        //imposto il nome dell'ordine corrispondente alla data odierna fino ai secondi
+        final String dataOrdine=""+gc.get(Calendar.DAY_OF_MONTH)+"."+(gc.get(Calendar.MONTH)+1)+"."+gc.get(Calendar.YEAR)+"_"+gc.get(Calendar.HOUR)+":"+gc.get(Calendar.MINUTE)+"."+gc.get(Calendar.SECOND);
         carrello.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                GregorianCalendar gc = new GregorianCalendar();
-                //imposto il nome dell'ordine corrispondente alla data odierna fino ai secondi
-                String dataOrdine=""+gc.get(Calendar.DAY_OF_MONTH)+"."+(gc.get(Calendar.MONTH)+1)+"."+gc.get(Calendar.YEAR)+"_"+gc.get(Calendar.HOUR)+":"+gc.get(Calendar.MINUTE)+"."+gc.get(Calendar.SECOND);
+
                 //creo riferimento del nuovo ordine
                 CollectionReference cronologia=FirebaseFirestore.getInstance().collection("cronologiaOrdini").document(auth.getUid()).collection("dataOrdine").document(dataOrdine).collection("prodottiAcquistati");
                 if (task.isSuccessful()) {
@@ -251,6 +258,30 @@ public class FragmentAcquisto extends Fragment {
                 }
             }
         });
+
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+
+        //operazione per scrivere sul db
+        WriteBatch batch = db.batch();
+
+        DocumentReference cronologiaText=FirebaseFirestore.getInstance().collection("cronologiaOrdini").document(auth.getUid()).collection("dataOrdine").document(dataOrdine);
+
+        Map<String, String> city = new HashMap<>();
+        city.put("data", dataOrdine);
+
+
+        cronologiaText.set(city).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
     }
 
 }
