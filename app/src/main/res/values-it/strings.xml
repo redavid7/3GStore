@@ -23,6 +23,8 @@
     <string name="product_unavailable">Il prodotto scannerizzato non è al momento disponibile</string>
     <string name="menu_settings">Impostazioni</string>
     <string name="shopping_amount">Totale Carrello: </string>
+    <string name="badge_qty"></string>
+
 
     <!-- Login e Registrazione -->
     <string name="login">Login</string>
@@ -36,6 +38,8 @@
     <string name="forgot_password_msg">Inserisci la tua Email di registrazione per ricevere le istruzioni di reset password</string>
     <string name="btn_reset_password">Reset Password</string>
     <string name="btn_back">Indietro</string>
+    <string name="firstName">Nome</string>
+    <string name="secondName">Cognome</string>
 
     <!-- MarangiCoin -->
     <string name="your_marangiCoin">MarangiCoin disponibili: </string>
@@ -81,12 +85,6 @@
     <string name="acquisto_riuscito">Acquisto effettuato con successo!</string>
     <string name="start">Inizia</string>
     <string name="next">Prossimo</string>
-
-    <!-- Notifiche -->
-    <string name="titolo_notifica">C\'è un nuovo articolo in sconto!</string>
-    <string name="contenuto_notifica">Clicca per maggiori informazioni!</string>
-    <string name="firstName">Nome</string>
-    <string name="secondName">Cognome</string>
 
     <!-- Fragment cambio password -->
     <string name="example_text1">Fragment Cambio Password</string>

@@ -1,35 +1,27 @@
 package com.QUeM.TreGStore;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.QUeM.TreGStore.DatabaseClass.Prodotti;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
-
-import static android.support.constraint.Constraints.TAG;
+import java.util.Iterator;
 
 public class FragmentProfilo extends Fragment {
 
@@ -39,12 +31,13 @@ public class FragmentProfilo extends Fragment {
     private FirebaseAuth auth=FirebaseAuth.getInstance();
     //imposto il riferimento alla collezione che contiene le cronologie degli ordini
     private CollectionReference cronOrdiniRef=db.collection("cronologiaOrdini").document(auth.getUid()).collection("dataOrdine");
+    //riferimento ai prodotti di un determinato ordine
+    private CollectionReference prodottiRef;
     //inizializzo la classe che serve ad adattare il contenuto di ogni occorenza di un documento al mio schema
     //vista del fragment
     private View fragmentProfilo;
     //lista delle stringe degli ordini trovati nella cronologia
     private ArrayList<String> list;
-    private TextView txt;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -56,26 +49,64 @@ public class FragmentProfilo extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        txt=getActivity().findViewById(R.id.Bella);
         list = new ArrayList<>();
         //riempio la lista degli ordini con quelli trovati nella cronologia
         cronOrdiniRef.get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            txt.setText("Documento trovato");//questo lo fa
-                            list.add("Completo");//questi no
-                            list.add("Finito");//questi no
-                        } else {
-                            txt.setText("Errore");
-                        }
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Iterator<DocumentSnapshot> q = queryDocumentSnapshots.iterator();
+                       while (q.hasNext()) {
+                           //aggiungo gli id alla lista
+                           addToList(q.next().getId());
+                       }
+                       //riempio la lista
+                        creaListaAdapter1();
                     }
                 });
+    }
+    public void addToList(String s){
+        list.add(s);
+    }
+    public void creaListaAdapter1(){
         //oggetto contenente la lista da mostrare nel layout
         final ListView mylist =  getActivity().findViewById(R.id.listView1);
-        final ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
-        mylist.setAdapter(adapter);
+        //creo l'adapter delle date
+        final ArrayAdapter<String> adapterS = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+        //imposto la lista
+        mylist.setAdapter(adapterS);
+        //imposto cosa fare quando viene cliccato un certo ordine
+        mylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = mylist.getItemAtPosition(position).toString();
+                prodottiRef = db.collection("cronologiaOrdini").document(auth.getUid()).collection("dataOrdine").document(item).collection("prodottiAcquistati");
+               prodottiRef.get()
+                       .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                           @Override
+                           public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                               Iterator<DocumentSnapshot> q = queryDocumentSnapshots.iterator();
+                               list.clear();
+                               while (q.hasNext()) {
+                                   //aggiungo gli id alla lista
+                                   addToList(q.next().toObject(Prodotti.class).toString());
+                               }
+                               //rendo invisibile la prima lista in modo da mostrare solamente la seconda
+                               mylist.setVisibility(View.INVISIBLE);
+                               //riempio la lista
+                               creaListaAdapter2();
+                           }
+                       });
+            }
+        });
+    }
+    public void creaListaAdapter2(){
+        //oggetto contenente la lista da mostrare nel layout
+        final ListView mylist =  getActivity().findViewById(R.id.listView2);
+        //creo l'adapter delle date
+        final ArrayAdapter<String> adapterS = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+        //imposto la lista
+        mylist.setAdapter(adapterS);
     }
     @Override
     public void onStart() {
@@ -86,6 +117,5 @@ public class FragmentProfilo extends Fragment {
     public void onStop() {
         super.onStop();
     }
-
 
 }

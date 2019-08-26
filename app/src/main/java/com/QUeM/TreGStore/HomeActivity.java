@@ -4,14 +4,22 @@ package com.QUeM.TreGStore;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,12 +28,13 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.QUeM.TreGStore.DatabaseClass.BadgeDrawable;
 import com.QUeM.TreGStore.DatabaseClass.Conti;
-import com.QUeM.TreGStore.DatabaseClass.NotificaProdotti;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +42,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.w3c.dom.Text;
+
 import static android.support.constraint.Constraints.TAG;
+import static android.view.View.inflate;
 
 
 //debug message
@@ -47,6 +59,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
     private ActionBarDrawerToggle toggle;
+    private TextView badge;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,59 +108,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         NavigationView navigationView = findViewById(R.id.nav_view);
 
         //azione quando clicco l'icona del menù laterale
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         //funzione che gestisce la scelta effettuata nel menu
         navigationView.setNavigationItemSelectedListener(this);
 
-        //imposto l'header del menu con i dati dell'utente
+        //angelo divertiti
         View innerview =  navigationView.getHeaderView(0);
-        TextView user_view= (TextView)innerview.findViewById(R.id.nomeCognome);
-        String email=user.getEmail();
-        email=(String)email.subSequence(0, email.indexOf("@"));
-        user_view.setText(email);
-        final TextView punti_view= (TextView)innerview.findViewById(R.id.punti_textview);
-
-
-
-        FirebaseFirestore.getInstance().collection("conti").document(auth.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    //se la connessione è riuscita, vedo se il documento esiste o meno
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Conti conto=document.toObject(Conti.class);
-                        String puntiMostrati=getString(R.string.nav_header_subtitle);
-
-                        punti_view.setText(puntiMostrati.concat(" "+String.valueOf(conto.getCoinAmount())));
-
-                    } else {
-                        Log.d(TAG, "No such document");
-
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-
+        TextView user_view= (TextView)innerview.findViewById(R.id.nomeCognome); //any you need
+        user_view.setText(user.getEmail());
 
         //--------------------FINE GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
-
-        //---------------------------INIZIO GESTIONE NOTIFICHE PUSH-----------------------------------
-
-      /*  Intent notificationIntent = new Intent(this, NotificaProdotti.class);
-        //Se API lv 26+, inizio in foreground, altrimenti inizio il servizio.
-        ContextCompat.startForegroundService(this, notificationIntent);*/
-
-        //---------------------------FINE GESTIONE NOTIFICHE PUSH-------------------------------------
-
-
-
 
 
         //--------------------INIZIO GESTIONE FRAGMENT-------------------------------
@@ -300,6 +274,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //reimposto il menù laterale
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
+        //---------------------------INIZIO GESTIONE BADGE PROMOZIONI---------------------------------
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        //Inititalise items to add count value/badge value
+        badge = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
+                findItem(R.id.nav_promozioni));
+
+        setCountDrawer();
+
+        //---------------------------FINE GESTIONE BADGE PROMOZIONI-----------------------------------
+
     }
 
     //---------------------------------------------------------------------------
@@ -308,12 +295,27 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     //---------------------------------------------------------------------------
-    //-------------------------INIZIO FUNZIONI NOTIFICHE-------------------------
+    //-------------------------INIZIO FUNZIONI PROMOZIONI------------------------
     //---------------------------------------------------------------------------
 
 
+    private void setCountDrawer() {
+        badge.setGravity(Gravity.CENTER_VERTICAL);
+        badge.setTypeface(null, Typeface.BOLD);
+        badge.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryLight));
+        badge.setText(String.valueOf(checkPromotions()));
+    }
+
+    private int checkPromotions(){
+        int qty = 0;
+
+        return qty;
+    }
+
+
+
     //---------------------------------------------------------------------------
-    //-------------------------FINE FUNZIONI NOTIFICHE---------------------------
+    //-------------------------FINE FUNZIONI PROMOZIONI--------------------------
     //---------------------------------------------------------------------------
 
 

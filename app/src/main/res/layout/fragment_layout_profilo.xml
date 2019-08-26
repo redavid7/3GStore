@@ -4,22 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/Bella"
-        android:layout_width="95dp"
-        android:layout_height="65dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/ordini" />
-
     <ListView
         android:id="@+id/listView1"
-        android:layout_width="256dp"
+        android:layout_width="103dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textList"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:visibility="visible"
         tools:visibility="visible" />
+
+    <ListView
+        android:id="@+id/listView2"
+        android:layout_width="299dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textList"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:visibility="visible"
+        tools:visibility="visible" />
+
+
 </LinearLayout>
