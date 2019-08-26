@@ -3,8 +3,10 @@
 <!--definizione degli elementi del menu-->
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
+    tools:showIn="navigation_view"
+    tools:context=".HomeActivity">
 
     <group android:checkableBehavior="single">
         <item
@@ -14,7 +16,12 @@
         <item
             android:id="@+id/nav_promozioni"
             android:icon="@drawable/info_icon"
-            android:title="@string/menu_promozioni" />
+            android:title="@string/menu_promozioni"
+            android:drawable="@drawable/badge_promotions"
+            app:actionLayout="@layout/promozioni_badge"
+            app:actionViewClass="android.widget.TextView"
+            app:showAsAction="always"/>
+
         <item
             android:id="@+id/nav_game"
             android:icon="@drawable/ic_menu_gioco"

@@ -59,7 +59,7 @@
                 android:layout_toStartOf="@id/marangiCoinImageView2"
                 android:hint="@string/marangiCoin_exchange"
                 android:inputType="number"
-                android:textSize="24dp" />
+                android:textSize="14dp" />
 
             <ImageView
                 android:id="@+id/marangiCoinImageView2"
@@ -84,7 +84,7 @@
                 android:hint="@string/euro_exchange"
 
                 android:inputType="number"
-                android:textSize="24dp" />
+                android:textSize="14dp" />
 
         </RelativeLayout>
 
