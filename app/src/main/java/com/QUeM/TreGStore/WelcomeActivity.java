@@ -2,7 +2,6 @@ package com.QUeM.TreGStore;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -36,7 +35,9 @@ public class WelcomeActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
         dotsLayout = findViewById(R.id.layoutDots);
         btnSkip = findViewById(R.id.btn_skip);
+        btnSkip.setTextColor(getColor(R.color.colorPrimary));
         btnNext = findViewById(R.id.btn_next);
+        btnNext.setTextColor(getColor(R.color.colorPrimary));
 
 
         // vettore dei layout del tutorial
@@ -125,6 +126,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 // last page. make button text to GOT IT
                 btnNext.setText(getString(R.string.start));
                 btnSkip.setVisibility(View.GONE);
+
             }
             else {
                 btnNext.setText(getString(R.string.next));
@@ -147,7 +149,7 @@ public class WelcomeActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.GRAY);
+            window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
     }
 
