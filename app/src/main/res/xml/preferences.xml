@@ -20,6 +20,7 @@
             android:key = "psw"
             android:title ="@string/password"
             android:summary= "@string/password_summary"
+            android:fragment="com.QUeM.TreGStore.FragmentCambioPassword"
             />
 
         <Preference
