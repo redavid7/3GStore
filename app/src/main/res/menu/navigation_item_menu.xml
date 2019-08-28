@@ -18,7 +18,7 @@
             android:icon="@drawable/info_icon"
             android:title="@string/menu_promozioni"
             android:drawable="@drawable/badge_promotions"
-            app:actionLayout="@layout/promozioni_badge"
+            app:actionLayout="@layout/promozioni_badge_placeholder"
             app:actionViewClass="android.widget.TextView"
             app:showAsAction="always"/>
 

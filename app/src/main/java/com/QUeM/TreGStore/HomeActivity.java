@@ -1,15 +1,15 @@
 package com.QUeM.TreGStore;
+import static android.support.constraint.Constraints.TAG;
 
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,8 +18,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -28,24 +26,35 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 
 
-import com.QUeM.TreGStore.DatabaseClass.BadgeDrawable;
-import com.QUeM.TreGStore.DatabaseClass.Conti;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+/*
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;*/
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Text;
+import com.QUeM.TreGStore.DatabaseClass.Prodotti;
+import com.QUeM.TreGStore.DatabaseClass.Conti;
+import com.google.firebase.firestore.QuerySnapshot;
+
 
 import static android.support.constraint.Constraints.TAG;
-import static android.view.View.inflate;
 
 
 //debug message
@@ -62,8 +71,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private TextView badge;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         //--------------------------INIZIO GESTIONE UTENTE------------------------------------
 
         auth = FirebaseAuth.getInstance();
@@ -90,7 +101,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_home);
 
         //--------------------FINE GESTIONE SETUP ACTIVITY-------------------------------
-
 
 
         //--------------------INIZIO GESTIONE TOOLBAR E NAVIGATION DRAWER------------------------
@@ -120,6 +130,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         TextView user_view= (TextView)innerview.findViewById(R.id.nomeCognome); //any you need
         user_view.setText(user.getEmail());
 
+
         //--------------------FINE GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
 
 
@@ -140,6 +151,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //--------------------FINE GESTIONE FRAGMENT---------------------------------
 
+        //---------------------------INIZIO GESTIONE BADGE PROMOZIONI---------------------------------
+        NavigationView navigationViewBadge = findViewById(R.id.nav_view);
+        navigationViewBadge.setNavigationItemSelectedListener(this);
+
+        //Inititalise items to add count value/badge value
+        badge = (TextView) MenuItemCompat.getActionView(navigationViewBadge.getMenu().
+                findItem(R.id.nav_promozioni));
+
+        setCountDrawer();
+
+        //---------------------------FINE GESTIONE BADGE PROMOZIONI-----------------------------------
     }
 
 
@@ -173,7 +195,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         super.onStart();
         auth.addAuthStateListener(authListener);
         ShowFragment(R.id.nav_home);
-
     }
 
     @Override
@@ -202,6 +223,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     @SuppressLint("RestrictedApi")
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        setCountDrawer();
         toggle.syncState();
         //in base alla selezione del menu assegno il fragment da mostrare o l'activity da startare
         switch(item.getItemId()){
@@ -231,6 +253,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 ShowFragment(item.getItemId());
                 break;
         }
+
 
         return true;
     }
@@ -272,20 +295,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         }
 
         //reimposto il menù laterale
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
 
-        //---------------------------INIZIO GESTIONE BADGE PROMOZIONI---------------------------------
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
-        //Inititalise items to add count value/badge value
-        badge = (TextView) MenuItemCompat.getActionView(navigationView.getMenu().
-                findItem(R.id.nav_promozioni));
-
-        setCountDrawer();
-
-        //---------------------------FINE GESTIONE BADGE PROMOZIONI-----------------------------------
 
     }
 
@@ -300,19 +313,62 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
     private void setCountDrawer() {
-        badge.setGravity(Gravity.CENTER_VERTICAL);
-        badge.setTypeface(null, Typeface.BOLD);
-        badge.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryLight));
-        badge.setText(String.valueOf(checkPromotions()));
+
+        checkPromotions();
+
+        if(badgeTxt.equals("0")) {
+            badge.setVisibility(View.INVISIBLE);
+        }else{
+            badge.setGravity(Gravity.CENTER_VERTICAL);
+            badge.setTypeface(null, Typeface.BOLD);
+            badge.setTextColor(ContextCompat.getColor(this, R.color.colorPrimaryLight));
+            badge.setVisibility(View.VISIBLE);
+            if(promotionQty < 99){
+                badge.setText(badgeTxt);
+            }else{
+                badge.setText("99+");
+            }
+        }
     }
 
-    private int checkPromotions(){
-        int qty = 0;
+    //variabili che uso in checkPromotions
 
-        return qty;
+    private int promotionQty = 0;
+    private String badgeTxt = "";
+
+
+    //creo il mio ArrayList che conterrà i prodotti
+    private ArrayList<Prodotti> prodottiArrayList = new ArrayList<>();
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private void checkPromotions(){
+
+        db.collection("prodotti").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot documentSnapshots) {
+                for(DocumentSnapshot documentSnapshot : documentSnapshots.getDocuments()){
+                    final Prodotti prodotto = documentSnapshot.toObject(Prodotti.class);
+                    addToArrayList(prodotto);
+                }
+            }
+        });
+
+
+        for(Prodotti prodotto : prodottiArrayList){
+            if(prodotto.isPromozione()){
+                promotionQty++;
+            }
+        }
+
+        badgeTxt = String.valueOf(promotionQty);
+        prodottiArrayList.clear();
+        promotionQty = 0;
     }
 
-
+    private void addToArrayList(Prodotti prodotto){
+        prodottiArrayList.add(prodotto);
+    }
 
     //---------------------------------------------------------------------------
     //-------------------------FINE FUNZIONI PROMOZIONI--------------------------

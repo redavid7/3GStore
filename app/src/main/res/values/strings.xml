@@ -46,7 +46,7 @@
     <string name="marangiCoin">MarangiCoin symbol</string>
     <string name="marangiCoin_exchange">MarangiCoin to exchange</string>
     <string name="euro_exchange">Euro you get</string>
-    <string name="current_discount">Current discount: </string>
+    <string name="current_discount">Current discount: €</string>
 
     <!-- Settings -->
     <string name="profile_settings">Settings</string>
