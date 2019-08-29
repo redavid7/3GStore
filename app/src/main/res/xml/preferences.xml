@@ -3,11 +3,10 @@
     <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
 
         android:key="first_preferencescreen"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <PreferenceCategory android:title="@string/profile_settings"/>
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout="@layout/activity_settings"
+        >
 
 
         <Preference
@@ -26,18 +25,9 @@
         <Preference
             android:key = "cards"
             android:title ="@string/cards"
-            android:summary= "@string/cards_summary"/>
+            android:summary= "@string/cards_summary"
+            android:selectable="true"
+            android:fragment="com.QUeM.TreGStore.FragmentCarte"/>
 
-        <SwitchPreference
-            android:key = "touchid"
-            android:title = "@string/touchid"
-            android:defaultValue= "true"
-            android:summary = "string/touchid_summary"/>
-
-        <SwitchPreference
-            android:key = "offerte"
-            android:title = "@string/offers"
-            android:defaultValue= "true"
-            android:summary = "@string/offers_summary"/>
 
 </PreferenceScreen>

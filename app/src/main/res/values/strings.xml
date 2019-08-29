@@ -99,4 +99,9 @@
     <string name="descrizione_2">Clicca sul pulsante per aggiungere il prodotto al carrello</string>
     <string name="descrizione_3">Clicca sul pulsante del carrello per pagare</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="cambia">Cambia</string>
+    <string name="new_email">New E-mail</string>
+
 </resources>

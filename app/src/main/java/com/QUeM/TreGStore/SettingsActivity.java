@@ -16,7 +16,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.preference.Preference;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import java.util.zip.Inflater;
@@ -30,8 +32,8 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-         SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        setContentView(R.layout.activity_settings);
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
         //Gestione della switch per ricevere le notifiche riguardandi le offerte
         boolean promozioni = settings.getBoolean("offerte", false);
@@ -56,7 +58,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
 
 
-        //setContentView(R.layout.activity_settings);
+
         //ToDo: capire perchè crasha con questo errore ( serve per includere navView e toolbar nella
         //ToDo: pagina delle impostazioni
        // java.lang.RuntimeException: Unable to start activity ComponentInfo{com.QUeM.TreGStore/com.QUeM.TreGStore.SettingsActivity}:
@@ -77,11 +79,11 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
 
     @SuppressLint("ValidFragment")
     class MainSettingsFragment extends PreferenceFragment{
+
         private static final String TAG_SETTINGS__ACTIVITY = SettingsActivity.class.getSimpleName();
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
         }
 
         @Override
@@ -97,7 +99,7 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
                            Log.d(TAG_SETTINGS__ACTIVITY, "---------------------------psw---------------------------------");
                            FragmentCambioPassword fragment = new FragmentCambioPassword();
                            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                           fragmentTransaction.add(0, fragment);
+                           fragmentTransaction.replace(R.id.fragment_container, fragment);
                            fragmentTransaction.addToBackStack(null);
                            fragmentTransaction.commit();
                            return true;
@@ -108,7 +110,12 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
                 @Override
                 public boolean onPreferenceClick(Preference email) {
                     Log.d(TAG_SETTINGS__ACTIVITY, "-----------------------------email-------------------------------");
-                    return false;
+                    FragmentCambiaEmail fragment = new FragmentCambiaEmail();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    return true;
                 }
             });
 
@@ -116,12 +123,15 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
                 @Override
                 public boolean onPreferenceClick(Preference cards) {
                     Log.d(TAG_SETTINGS__ACTIVITY, "-----------------------------cards-------------------------------");
-                    return false;
+                    FragmentCarte fragment = new FragmentCarte();
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.fragment_container, fragment);
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.commit();
+                    return true;
                 }
             });
 
-    }
-
-
+        }
     }
 
