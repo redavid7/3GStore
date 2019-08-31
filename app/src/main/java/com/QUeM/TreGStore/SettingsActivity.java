@@ -1,29 +1,15 @@
 package com.QUeM.TreGStore;
 
-
-import com.QUeM.TreGStore.HomeActivity;
-
 import android.annotation.SuppressLint;
 import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
-import android.preference.PreferenceScreen;
 import android.support.v14.preference.PreferenceFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.preference.Preference;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.Toast;
-
-import java.util.zip.Inflater;
-
-import static android.support.constraint.Constraints.TAG;
+import android.widget.LinearLayout;
 
 public class SettingsActivity extends PreferenceActivity implements Preference.OnPreferenceClickListener{
 
@@ -32,38 +18,20 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //imposto il layout
         setContentView(R.layout.activity_settings);
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 
-        //Gestione della switch per ricevere le notifiche riguardandi le offerte
-        boolean promozioni = settings.getBoolean("offerte", false);
-            //settings.registerOnSharedPreferenceChangeListener();
-        if(promozioni){
-            //qui va il codice per ricevere le notifiche sulle promozioni
-            Toast.makeText(getApplicationContext(), "Switch offerte acceso", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "Switch offerte spento", Toast.LENGTH_SHORT).show();
-        }
-
-
-/**        Preference myPref =  findPreference("myKey");
-*        myPref.setOnPreferenceClickListener(new OnPreferenceClickListener() {
- *           public boolean onPreferenceClick(Preference preference) {
-  *              //open browser or intent here
-   *             return true;
-    *        }
-     *   });
-      */
-
-
-
-
-        //ToDo: capire perchè crasha con questo errore ( serve per includere navView e toolbar nella
-        //ToDo: pagina delle impostazioni
-       // java.lang.RuntimeException: Unable to start activity ComponentInfo{com.QUeM.TreGStore/com.QUeM.TreGStore.SettingsActivity}:
-        //java.lang.RuntimeException: Your content must have a ListView whose id attribute is 'android.R.id.list'
-
+        //implementazione della toolbar
+        LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
+        android.support.v7.widget.Toolbar bar = (android.support.v7.widget.Toolbar) LayoutInflater.from(this).inflate(R.layout.setting_toolbar, root, false);
+        root.addView(bar, 0);
+        bar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         //caricamento del settings fragment
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MainSettingsFragment()).commit();
@@ -76,24 +44,27 @@ public class SettingsActivity extends PreferenceActivity implements Preference.O
     }
 }
 
-
+    // fragment che gestisce le preferences
     @SuppressLint("ValidFragment")
     class MainSettingsFragment extends PreferenceFragment{
 
         private static final String TAG_SETTINGS__ACTIVITY = SettingsActivity.class.getSimpleName();
         @Override
+
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
         }
 
         @Override
         public void onCreatePreferences(Bundle bundle, String s) {
+            //carica le preferences dal file preferences.xml
             addPreferencesFromResource(R.xml.preferences);
 
             Preference psw =  findPreference("psw");
             Preference email = findPreference("email");
             Preference cards = findPreference("cards");
 
+            //imposto i listener su ogni preference, in modo tale da aprire un fragment on click
             psw.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                public boolean onPreferenceClick(Preference psw) {
                            Log.d(TAG_SETTINGS__ACTIVITY, "---------------------------psw---------------------------------");
