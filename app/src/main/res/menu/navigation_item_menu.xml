@@ -23,6 +23,11 @@
             app:showAsAction="always"/>
 
         <item
+            android:id="@+id/nav_cronologia"
+            android:icon="@drawable/ic_cronologia"
+            android:title="@string/cronologia" />
+
+        <item
             android:id="@+id/nav_game"
             android:icon="@drawable/ic_menu_gioco"
             android:title="@string/menu_gioco" />

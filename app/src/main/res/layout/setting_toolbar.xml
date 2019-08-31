@@ -8,4 +8,4 @@
     android:layout_width="match_parent"
     app:navigationIcon="?attr/homeAsUpIndicator"
     app:title="@string/profile_settings"
-    app:titleTextColor=""/>
+    app:titleTextColor="#FFFFFF"/>

@@ -170,17 +170,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         //carica il fragment di default
         ShowFragment(R.id.nav_home);
-
-        //creo possibilità di usare l'icona profilo come pulsante per accedere al fragment profilo
-
-        ImageView imageViewProfile= (ImageView) innerview.findViewById(R.id.nav_profilo);
-        imageViewProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ShowFragment(R.id.nav_profilo);
-            }
-        });
-
+        
         //--------------------FINE GESTIONE FRAGMENT---------------------------------
 
         //---------------------------INIZIO GESTIONE BADGE PROMOZIONI---------------------------------
@@ -284,6 +274,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_game:
                 ShowFragment(item.getItemId());
                 break;
+            case R.id.nav_cronologia:
+                ShowFragment(item.getItemId());
+                break;
         }
 
 
@@ -308,7 +301,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_marangicoin:
                 fragment = new FragmentMarangicoin();
                 break;
-            case R.id.nav_profilo:
+            case R.id.nav_cronologia:
                 fragment = new FragmentProfilo();
                 break;
             case R.id.nav_game:
