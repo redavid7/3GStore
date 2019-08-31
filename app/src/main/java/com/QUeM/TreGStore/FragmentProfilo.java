@@ -1,8 +1,6 @@
 package com.QUeM.TreGStore;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
@@ -11,7 +9,6 @@ import android.view.LayoutInflater;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,11 +30,17 @@ public class FragmentProfilo extends Fragment {
     private CollectionReference cronOrdiniRef=db.collection("cronologiaOrdini").document(auth.getUid()).collection("dataOrdine");
     //riferimento ai prodotti di un determinato ordine
     private CollectionReference prodottiRef;
-    //inizializzo la classe che serve ad adattare il contenuto di ogni occorenza di un documento al mio schema
     //vista del fragment
     private View fragmentProfilo;
-    //lista delle stringe degli ordini trovati nella cronologia
-    private ArrayList<String> list;
+    //Array delle stringe degli ordini trovati nella cronologia
+    private ArrayList<String> arrayList1;
+    //Array delle stringe dei prodotti trovati nel singolo ordine
+    private ArrayList<String> arrayList2;
+    //lista dei prodotti da mostrare nel layout
+    ListView mylist2 ;
+    //adapter delle date
+    ArrayAdapter<String> adapterS2 ;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -49,64 +52,80 @@ public class FragmentProfilo extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        list = new ArrayList<>();
-        //riempio la lista degli ordini con quelli trovati nella cronologia
+        //inizializzo l'array  degli ordini
+        arrayList1 = new ArrayList<>();
+        //riempio l'array degli ordini con quelli trovati nella cronologia e chiamo il metodo che inizializzera la lista dei prodotti
         cronOrdiniRef.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        //iteratore degli ordini trovati nel database
                         Iterator<DocumentSnapshot> q = queryDocumentSnapshots.iterator();
                        while (q.hasNext()) {
-                           //aggiungo gli id alla lista
-                           addToList(q.next().getId());
+                           //aggiungo gli id all'array
+                           addToArrayList1(q.next().getId());
                        }
-                       //riempio la lista
+                       //riempio la lista dei prodotti
                         creaListaAdapter1();
                     }
                 });
     }
-    public void addToList(String s){
-        list.add(s);
+    //metodo che inserisce il valore della data sottoforma di stringa
+    public void addToArrayList1(String s){
+        arrayList1.add(s);
     }
+    //metodo che inserisce il valore del prodotto sottoforma di stringa
+    public void addToArrayList2(String s){
+        arrayList2.add(s);
+    }
+
+    //metodo per impostare la lista dei prodotti
     public void creaListaAdapter1(){
-        //oggetto contenente la lista da mostrare nel layout
+        //inizializzo l'array dei prodotti
+        arrayList2 = new ArrayList<>();
+        //oggetto contenente la lista degli ordini da mostrare nel layout
         final ListView mylist =  getActivity().findViewById(R.id.listView1);
-        //creo l'adapter delle date
-        final ArrayAdapter<String> adapterS = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
+        //creo l'adapter delle date degli ordini
+        final ArrayAdapter<String> adapterS = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, arrayList1);
         //imposto la lista
         mylist.setAdapter(adapterS);
         //imposto cosa fare quando viene cliccato un certo ordine
         mylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String item = mylist.getItemAtPosition(position).toString();
+                //prendo il valore sottoforma di stringa dell'oggetto cliccato
+                String item= mylist.getItemAtPosition(position).toString();
+                //prendo il riferimento ai prodotti associati alla data cliccata
                 prodottiRef = db.collection("cronologiaOrdini").document(auth.getUid()).collection("dataOrdine").document(item).collection("prodottiAcquistati");
-               prodottiRef.get()
+                //prendo tutti prodotti associati al riferimento
+                prodottiRef.get()
                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                            @Override
                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                               //prendo l'iterator dei prodotti trovati
                                Iterator<DocumentSnapshot> q = queryDocumentSnapshots.iterator();
-                               list.clear();
-                               while (q.hasNext()) {
-                                   //aggiungo gli id alla lista
-                                   addToList(q.next().toObject(Prodotti.class).toString());
+                               //controllo se l'array non è vuoto
+                               if(!arrayList2.isEmpty()){
+                               //pulisco l'array
+                                   arrayList2.clear();
+                               //invio una notifica alla lista dei prodotti avvisando che i dati da inserire cambieranno
+                               adapterS2.notifyDataSetChanged();
                                }
-                               //rendo invisibile la prima lista in modo da mostrare solamente la seconda
-                               mylist.setVisibility(View.INVISIBLE);
-                               //riempio la lista
-                               creaListaAdapter2();
+                               //inizializzo la lista dei prodotti acquistati
+                               mylist2 =  getActivity().findViewById(R.id.listView2);
+                               //riempio la lista dei prodotti tramite l'iterator
+                               while (q.hasNext()) {
+                                   //aggiungo gli id  del prodotto all'array
+                                   addToArrayList2(q.next().toObject(Prodotti.class).toString());
+                               }
+                               //inizializzo l'adapter della lista dei prodotti
+                               adapterS2 = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, arrayList2);
+                               //riempio la lista dei prodotti
+                               mylist2.setAdapter(adapterS2);
                            }
                        });
             }
         });
-    }
-    public void creaListaAdapter2(){
-        //oggetto contenente la lista da mostrare nel layout
-        final ListView mylist =  getActivity().findViewById(R.id.listView2);
-        //creo l'adapter delle date
-        final ArrayAdapter<String> adapterS = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1, list);
-        //imposto la lista
-        mylist.setAdapter(adapterS);
     }
     @Override
     public void onStart() {

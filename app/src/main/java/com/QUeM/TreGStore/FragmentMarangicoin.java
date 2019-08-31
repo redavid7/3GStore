@@ -67,9 +67,9 @@ public class FragmentMarangicoin extends Fragment {
 
                         final Conti conto=document.toObject(Conti.class);
 
-                        String textToSet = textToViewMC + conto.getCoinAmount();
+                        String textToSet = textToViewMC +" "+ conto.getCoinAmount();
                         marangiCoinAmount.setText(textToSet);
-                        String textToSet2 = textToViewDisc + conto.getCurrentDiscount();
+                        String textToSet2 = textToViewDisc +" "+ conto.getCurrentDiscount();
                         current_discount.setText(textToSet2);
 
 
