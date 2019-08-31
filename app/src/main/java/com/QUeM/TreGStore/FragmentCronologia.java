@@ -20,7 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class FragmentProfilo extends Fragment {
+public class FragmentCronologia extends Fragment {
 
     //collegamento al firestore
     private FirebaseFirestore db=FirebaseFirestore.getInstance();

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent" android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        android:id="@+id/relativeview_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        >
+
+        <RelativeLayout
+            android:id="@+id/emailtesto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/email_principale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                />
+
+            <TextView
+                android:id="@+id/email_sottotitolo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/email_principale"
+                android:text="@string/email_summary"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/emailfreccia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_centerInParent="true"
+            >
+
+            <ImageView
+                android:id="@+id/imageView_freccia1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/chevron_right"
+                />
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeview_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        >
+
+        <RelativeLayout
+            android:id="@+id/passwordtesto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/password_principale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/password"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                />
+
+            <TextView
+                android:id="@+id/password_sottotitolo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/password_principale"
+                android:text="@string/password_summary"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/passwordfreccia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_centerInParent="true"
+            >
+
+            <ImageView
+                android:id="@+id/imageView_freccia2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/chevron_right"
+                />
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeview_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        >
+
+        <RelativeLayout
+            android:id="@+id/cardtesto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/card_principale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cards"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                />
+
+            <TextView
+                android:id="@+id/card_sottotitolo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/card_principale"
+                android:text="@string/cards_summary"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/cardfreccia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_centerInParent="true"
+            >
+
+            <ImageView
+                android:id="@+id/imageView_freccia3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/chevron_right"
+                />
+
+        </RelativeLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>

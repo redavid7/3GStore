@@ -1,7 +1,7 @@
 package com.QUeM.TreGStore;
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,12 +12,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class FragmentCambiaEmail extends Fragment {
 
-    private EditText newEmail;
+    private EditText newEmail, password, confermaPassword;
     private Button change;
     private View fragmentCambiaEmail;
 
@@ -25,30 +27,7 @@ public class FragmentCambiaEmail extends Fragment {
         //returning our layout file
         fragmentCambiaEmail = inflater.inflate(R.layout.fragment_cambia_email, container, false);
 
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        newEmail = fragmentCambiaEmail.findViewById(R.id.etNewEmail);
-        change = fragmentCambiaEmail.findViewById(R.id.btnChangeEmail);
-
-        change.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (user != null && !newEmail.getText().toString().trim().equals("")) {
-                    user.updateEmail(newEmail.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(getActivity(), "E-mail modificata con successo", Toast.LENGTH_SHORT).show();
-                                FirebaseAuth.getInstance().signOut();
-                            }
-                            else{
-                                Toast.makeText(getActivity(), "Cambio mail fallito!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
-            }
-        });
 
 
         return fragmentCambiaEmail;
@@ -57,5 +36,66 @@ public class FragmentCambiaEmail extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        newEmail = fragmentCambiaEmail.findViewById(R.id.nuova_mail_text);
+        password = fragmentCambiaEmail.findViewById(R.id.password_cambioemail);
+        confermaPassword = fragmentCambiaEmail.findViewById(R.id.conf_password_cambioemail);
+        change = fragmentCambiaEmail.findViewById(R.id.btnChangeEmail);
+
+        change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String passwordInput = password.getText().toString().trim();
+                final String passwordConfermaInput = confermaPassword.getText().toString().trim();
+                final String nuovaEmailInput = newEmail.getText().toString().trim();
+                if(nuovaEmailInput.length()>0 && passwordInput.length()>0 && passwordConfermaInput.length()>0){
+                    if(passwordInput.equals(passwordConfermaInput)){
+                        final String email = user.getEmail();
+                        AuthCredential credential = EmailAuthProvider.getCredential(email,passwordInput);
+
+                        if (user != null ) {
+
+                            user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        user.updateEmail(nuovaEmailInput).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(!task.isSuccessful()){ Toast.makeText(getActivity(), "Cambio email fallito!", Toast.LENGTH_SHORT).show();
+                                                }else {
+                                                    Toast.makeText(getActivity(),"Email cambiata con successo!", Toast.LENGTH_SHORT).show();
+                                                }
+
+                                            }
+                                        });
+                                    }else {
+                                        Toast.makeText(getActivity(),"Errore nell'autenticazione, forse hai inserito la password e/o mail sbagliata", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                    Fragment fragment = new FragmentImpostazioni();
+                                    android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                    fragmentTransaction.replace(R.id.frame_layout, fragment);
+                                    fragmentTransaction.addToBackStack(null);
+                                    fragmentTransaction.commit();
+                                }
+                            });
+
+                        }
+                    }else{
+                        Toast.makeText(getActivity(), "Password Sbagliata", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getActivity(), "Riempi i campi", Toast.LENGTH_SHORT).show();
+                }
+
+
+
+            }
+        });
+
     }
 }

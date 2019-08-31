@@ -56,6 +56,8 @@
     <string name="profile_settings">Impostazioni</string>
     <string name="email_summary">Modifica la tua Email</string>
     <string name="password">Password</string>
+    <string name="password_nuova">Nuova Password</string>
+    <string name="password_vecchia">Vecchia Password</string>
     <string name="password_summary">Modifica la tua Password</string>
     <string name="cards">Carte</string>
     <string name="cards_summary">Gestisci le tue carte per il pagamento</string>
@@ -101,8 +103,9 @@
     <string name="descrizione_1">Clicca sul pulsante per aprire la fotocamera</string>
     <string name="descrizione_2">Clicca sul pulsante per aggiungere il prodotto al carrello</string>
     <string name="descrizione_3">Clicca sul pulsante del carrello per pagare</string>
-    <string name="cambia">Cambia</string>
-    <string name="new_email">New E-mail</string>
+    <string name="cambia">Cambia Password</string>
+    <string name="new_email">Nuova E-mail</string>
+    <string name="cambia_email">Cambia E-mail</string>
 
 
 

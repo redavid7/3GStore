@@ -2,10 +2,7 @@ package com.QUeM.TreGStore;
 import static android.support.constraint.Constraints.TAG;
 
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -26,11 +23,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
 
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,9 +36,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;*/
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -53,9 +44,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.QUeM.TreGStore.DatabaseClass.Conti;
 import com.google.firebase.firestore.QuerySnapshot;
-
-
-import static android.support.constraint.Constraints.TAG;
 
 
 //debug message
@@ -255,9 +243,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_settings:
                 //Se viene cliccato il tasto delle impostazioni, starto SettingsActivity
-                Log.d(TAG, "mmm prima di startActivity ");
-                startActivity(new Intent(this, SettingsActivity.class));
-                Log.d(TAG, "mmm dopo di startActivity");
+                ShowFragment(item.getItemId());
                 break;
             case R.id.nav_home:
                 ShowFragment(item.getItemId());
@@ -302,13 +288,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new FragmentMarangicoin();
                 break;
             case R.id.nav_cronologia:
-                fragment = new FragmentProfilo();
+                fragment = new FragmentCronologia();
                 break;
             case R.id.nav_game:
                 fragment = new FragmentQuiz();
                 break;
             case R.id.nav_hidden_acquista:
                 fragment = new FragmentAcquisto();
+                break;
+            case R.id.nav_settings:
+                fragment = new FragmentImpostazioni();
                 break;
         }
 
