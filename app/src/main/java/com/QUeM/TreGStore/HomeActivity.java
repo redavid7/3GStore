@@ -77,7 +77,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
 
         //--------------------------INIZIO GESTIONE UTENTE------------------------------------
-
         auth = FirebaseAuth.getInstance();
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

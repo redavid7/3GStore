@@ -265,7 +265,7 @@ public class FragmentAcquisto extends Fragment {
         WriteBatch batch = db.batch();
 
         DocumentReference cronologiaText=FirebaseFirestore.getInstance().collection("cronologiaOrdini").document(auth.getUid()).collection("dataOrdine").document(dataOrdine);
-
+        //Agginta data dal db del valore della data come attributo per facilitare la lettura del dato
         Map<String, String> city = new HashMap<>();
         city.put("data", dataOrdine);
 

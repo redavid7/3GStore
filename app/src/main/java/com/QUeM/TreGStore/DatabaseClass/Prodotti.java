@@ -24,8 +24,8 @@ public class Prodotti {
     }
 
     public String toString(){
-        String text="Codice="+this.id+", Nome= "+this.nome+", Disponibile? "+this.disponibile+ ", Numero pezzi= "+this.ndisp+", Prezzo Singolo= "+
-                this.prezzo+", Totale pezzi nel carrello= "+this.totalePezziCarrello+", Promozione? "+this.promozione+ ", Tempo Promozione Rimanente= "+this.tempoPromozione;
+        String text="Nome: "+this.nome+"\nPrezzo Singolo: "+
+                this.prezzo+"€"+"\nNumero articoli comprati: "+this.totalePezziCarrello;
         return text;
     }
 

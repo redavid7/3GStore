@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import com.QUeM.TreGStore.DatabaseClass.Prodotti;
 import com.QUeM.TreGStore.DatabaseClass.ProdottiAdapterProm;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
