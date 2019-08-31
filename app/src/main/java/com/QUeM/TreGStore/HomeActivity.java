@@ -46,6 +46,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -125,10 +126,42 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         //funzione che gestisce la scelta effettuata nel menu
         navigationView.setNavigationItemSelectedListener(this);
 
-        //angelo divertiti
+        //inizializzo textview dell'header con i dati dell'utente
         View innerview =  navigationView.getHeaderView(0);
+        //nome
         TextView user_view= (TextView)innerview.findViewById(R.id.nomeCognome); //any you need
-        user_view.setText(user.getEmail());
+        String mail=user.getEmail();
+        mail=mail.substring(0, mail.indexOf("@"));
+
+        user_view.setText(mail);
+
+        //punti
+        final TextView user_punti= innerview.findViewById(R.id.punti_textview);
+        DocumentReference contoRef=db.collection("conti").document(auth.getUid());
+        contoRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+
+                    //se la connessione è riuscita, vedo se il documento esiste o meno
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Conti conto=document.toObject(Conti.class);
+                        String punti= getString(R.string.nav_header_subtitle);
+                        punti=punti.concat(" "+String.valueOf(conto.getCoinAmount()));
+                        user_punti.setText(punti);
+
+                    } else {
+                        Log.d(TAG, "No such document");
+
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+
 
 
         //--------------------FINE GESTIONE TOOLBAR E NAVIGATION DRAWER-------------------------------
@@ -140,8 +173,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         ShowFragment(R.id.nav_home);
 
         //creo possibilità di usare l'icona profilo come pulsante per accedere al fragment profilo
-        View headerView= navigationView.getHeaderView(0);
-        ImageView imageViewProfile= (ImageView) headerView.findViewById(R.id.nav_profilo);
+
+        ImageView imageViewProfile= (ImageView) innerview.findViewById(R.id.nav_profilo);
         imageViewProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
