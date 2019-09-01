@@ -65,15 +65,15 @@ public class FragmentCambiaEmail extends Fragment {
                                         user.updateEmail(nuovaEmailInput).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
-                                                if(!task.isSuccessful()){ Toast.makeText(getActivity(), "Cambio email fallito!", Toast.LENGTH_SHORT).show();
+                                                if(!task.isSuccessful()){ Toast.makeText(getActivity(), R.string.email_change_failed, Toast.LENGTH_SHORT).show();
                                                 }else {
-                                                    Toast.makeText(getActivity(),"Email cambiata con successo!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(getActivity(),R.string.email_change_success, Toast.LENGTH_SHORT).show();
                                                 }
 
                                             }
                                         });
                                     }else {
-                                        Toast.makeText(getActivity(),"Errore nell'autenticazione, forse hai inserito la password e/o mail sbagliata", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(),R.string.auth_error_mail, Toast.LENGTH_SHORT).show();
 
                                     }
                                     Fragment fragment = new FragmentImpostazioni();
@@ -86,10 +86,11 @@ public class FragmentCambiaEmail extends Fragment {
 
                         }
                     }else{
-                        Toast.makeText(getActivity(), "Password Sbagliata", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.wrong_psw, Toast.LENGTH_SHORT).show();
                     }
                 }else{
-                    Toast.makeText(getActivity(), "Riempi i campi", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.camps, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.camps, Toast.LENGTH_SHORT).show();
                 }
 
 

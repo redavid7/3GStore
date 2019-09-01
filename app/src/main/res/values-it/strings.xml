@@ -75,6 +75,20 @@
     <string name="saldo_insufficente_nosconto">Il credito del pagamento selezionato è insufficiente</string>
     <string name="saldo_insufficente_sisconto">Il credito del pagamento selezionato e lo sconto disponibile sono insufficienti</string>
 
+    <!-- Toast Settings-->
+    <!-- password-->
+    <string name="camps">Compila tutti i campi</string>
+    <string name="psw_short">La nuova password è troppo corta! Inserisci almeno 6 caratteri</string>
+    <string name="psw_not_equal">Le password non sono uguali</string>
+    <string name="psw_change_failed">Cambio password fallito!</string>
+    <string name="psw_change_success">Password cambiata con successo!</string>
+    <string name="auth_error_psw">Errore nell\'autenticazione, forse hai inserito la password sbagliata</string>
+    <!-- mail-->
+    <string name="email_change_failed">Cambio email fallito!</string>
+    <string name="email_change_success">Email cambiata con successo!</string>
+    <string name="auth_error_mail">Errore nell\'autenticazione, forse hai inserito la password e/o mail sbagliata</string>
+    <string name="wrong_psw">Password Sbagliata</string>
+
 
     <!-- Acquisto fragment -->
     <string name="info_intestazione">Informazioni sull\'acquisto</string>

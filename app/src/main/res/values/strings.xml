@@ -75,6 +75,19 @@
     <string name="start">Start</string>
     <string name="next">Next</string>
 
+    <!-- Toast Settings-->
+    <string name="camps">Compile all camps</string>
+    <string name="psw_short">The new password is too short! Insert at least 6 characters</string>
+    <string name="psw_not_equal">The two passwords don\'t match</string>
+    <string name="psw_change_failed">Password change failed</string>
+    <string name="psw_change_success">Password succesfully changed!</string>
+    <string name="auth_error_psw">Authentication error, maybe your password is wrong</string>
+    <!-- mail-->
+    <string name="email_change_failed">Email change failed!</string>
+    <string name="email_change_success">Email succesfully changed!</string>
+    <string name="auth_error_mail">Authentication error, maybe your email/password is wrong</string>
+    <string name="wrong_psw">Wrong password</string>
+
     <!-- Acquisto fragment -->
     <string name="info_intestazione">Purchase Informations</string>
     <string name="info_totale_articoli">Summary order:</string>

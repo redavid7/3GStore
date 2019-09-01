@@ -52,17 +52,17 @@ public class FragmentCambioPassword extends Fragment {
                 String passwordNuovaConferma = confPsw.getText().toString().trim();
 
                 if (TextUtils.isEmpty(passwordVecchia) || TextUtils.isEmpty(passwordNuova) || TextUtils.isEmpty(passwordNuovaConferma)) {
-                    Toast.makeText(getActivity(), "Compila tutti i campi", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.camps, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (passwordNuova.length() < 6) {
-                    Toast.makeText(getActivity(), "La nuova password è troppo corta! Inserisci almeno 6 caratteri", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.psw_short, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (!passwordNuova.equals(passwordNuovaConferma)) {
-                    Toast.makeText(getActivity(), "Le password non sono uguali", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.psw_not_equal, Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (user != null){
@@ -77,15 +77,15 @@ public class FragmentCambioPassword extends Fragment {
                                 user.updatePassword(passwordNuova).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        if(!task.isSuccessful()){ Toast.makeText(getActivity(), "Cambio password fallito!", Toast.LENGTH_SHORT).show();
+                                        if(!task.isSuccessful()){ Toast.makeText(getActivity(),R.string.psw_change_failed, Toast.LENGTH_SHORT).show();
                                         }else {
-                                            Toast.makeText(getActivity(),"Password cambiata con successo!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(getActivity(),R.string.psw_change_success, Toast.LENGTH_SHORT).show();
                                         }
 
                                     }
                                 });
                             }else {
-                                Toast.makeText(getActivity(),"Errore nell'autenticazione, forse hai inserito la password sbagliata", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(),R.string.auth_error_psw, Toast.LENGTH_SHORT).show();
 
                             }
                             Fragment fragment = new FragmentImpostazioni();
