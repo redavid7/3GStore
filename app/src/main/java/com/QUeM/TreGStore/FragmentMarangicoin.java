@@ -32,7 +32,7 @@ public class FragmentMarangicoin extends Fragment {
     private View fragmentMarangiCoin;
     private FirebaseAuth auth=FirebaseAuth.getInstance();
     private Context ctx;
-
+    private boolean done= false;
 
 
     @Override
@@ -86,7 +86,11 @@ public class FragmentMarangicoin extends Fragment {
         final Button button = fragmentMarangiCoin.findViewById(R.id.exchange_button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                exchangeMarangiCoin();
+                if(done){
+                exchangeMarangiCoin();}
+                else{
+                    Toast.makeText(getContext(), "Impossibile eseguire l'operazione prego inserire un numero valido di Marangicoin", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -130,6 +134,7 @@ public class FragmentMarangicoin extends Fragment {
                 value = value / 20;
                 String textToSet = euro.concat(value.toString());
                 marangiCoin_exchange.setText(textToSet);
+                done=true;
             }
         });
     }
