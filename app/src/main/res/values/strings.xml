@@ -58,6 +58,11 @@
     <string name="password_nuova">New Password</string>
     <string name="password_summary">Change your Password</string>
     <string name="cards">Cards</string>
+    <string name="card1">**** **** **** 1234</string>
+    <string name="card2">**** **** **** 5678</string>
+    <string name="addCard">Add Card</string>
+    <string name="cardNum">Card Number</string>
+    <string name="tos">Terms of Service</string>
     <string name="cards_summary">Manage your payment cards</string>
     <string name="touchid">Touch ID</string>
     <string name="touchid_summary">Enable/Disable Touch ID</string>
@@ -107,5 +112,8 @@
     <string name="cambia">Change Password</string>
     <string name="new_email">New E-mail</string>
     <string name="cambia_email">Change E-mail</string>
+
+
+    <string name="termini_di_servizio">Terms of Service</string>
 
 </resources>

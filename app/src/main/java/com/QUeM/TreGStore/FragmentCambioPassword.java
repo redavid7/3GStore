@@ -41,6 +41,8 @@ public class FragmentCambioPassword extends Fragment {
         confPsw = fragmentCambiaPsw.findViewById(R.id.confPassword);
         change = fragmentCambiaPsw.findViewById(R.id.changePsw);
 
+
+
         change.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

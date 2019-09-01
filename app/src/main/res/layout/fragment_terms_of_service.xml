@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<ScrollView
+    android:id="@+id/scroll_tos"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="100dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="16dp"
+        android:text="@string/termini_di_servizio"
+        />
+</ScrollView>
+
+    <Button
+        android:id="@+id/btnBackTos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@color/colorPrimary"
+        android:padding="16dp"
+        android:text="@string/btn_back"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/scroll_tos"
+        tools:layout_editor_absoluteX="16dp" />
+
+</android.support.constraint.ConstraintLayout>

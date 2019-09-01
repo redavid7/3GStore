@@ -60,6 +60,11 @@
     <string name="password_vecchia">Vecchia Password</string>
     <string name="password_summary">Modifica la tua Password</string>
     <string name="cards">Carte</string>
+    <string name="card1">1234 5678 9012 3456</string>
+    <string name="card2">3456 7890 1234 5678</string>
+    <string name="addCard">Aggiungi Carta</string>
+    <string name="cardNum">Numero Carta</string>
+    <string name="tos">Termini di Servizio</string>
     <string name="cards_summary">Gestisci le tue carte per il pagamento</string>
     <string name="touchid">Touch ID</string>
     <string name="touchid_summary">Abilita/Disabilita Touch ID</string>
@@ -107,6 +112,6 @@
     <string name="new_email">Nuova E-mail</string>
     <string name="cambia_email">Cambia E-mail</string>
 
-
+    <string name="termini_di_servizio">Termini di Servizio</string>
 
 </resources>

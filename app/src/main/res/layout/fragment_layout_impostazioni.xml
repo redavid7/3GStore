@@ -167,6 +167,59 @@
 
 
 
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeview_tos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        >
+
+        <RelativeLayout
+            android:id="@+id/tostesto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tos_principale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tos"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                />
+
+            <TextView
+                android:id="@+id/tos_sottotitolo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tos_principale"
+                android:text="@string/cards_summary"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/tosfreccia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_centerInParent="true"
+            >
+
+            <ImageView
+                android:id="@+id/imageView_freccia4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/chevron_right"
+                />
+
+        </RelativeLayout>
+
+
 
     </RelativeLayout>
 

@@ -1,10 +1,10 @@
 package com.QUeM.TreGStore;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +45,31 @@ public class FragmentImpostazioni extends Fragment {
             public void onClick(View view) {
                 Fragment fragment = new FragmentCambioPassword();
                 android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame_layout, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+        RelativeLayout carte = fragmentImpostazioniView.findViewById(R.id.relativeview_card);
+        carte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new FragmentCarte();
+                android.support.v4.app.FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frame_layout, fragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+            }
+        });
+
+        RelativeLayout tos = fragmentImpostazioniView.findViewById(R.id.relativeview_tos);
+        tos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new FragmentTerminiDiServizio();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.frame_layout, fragment);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
