@@ -41,6 +41,11 @@
     <string name="btn_back">Indietro</string>
     <string name="firstName">Nome</string>
     <string name="secondName">Cognome</string>
+    <string name="enter_email">Inserire indirizzo email!</string>
+    <string name="enter_psw">Inserire password!</string>
+    <string name="reset_email_success">Ti abbiamo inviato una mail con le istruzione per recuperare la tua password!</string>
+    <string name="reset_email_fail">Invio email di recupero fallito</string>
+    <string name="registration_fail">Registrazione fallita!</string>
 
     <!-- MarangiCoin -->
     <string name="your_marangiCoin">MarangiCoin disponibili: </string>

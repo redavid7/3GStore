@@ -30,7 +30,7 @@ public class SplashActivity extends Activity {
         private static final long MIN_WAIT_INTERVAL = 2999L;
         private static final long MAX_WAIT_INTERVAL = 3000L;
         //caratterizzaziome del tipo di messaggio da dare all'handler
-        private static final int GO_AHEAD_WHAT = 1;
+    private static final int GO_AHEAD_WHAT = 1;
         //segna l'inizio del conteggio dei secondi
         private long mStartTime;
         //flag per dichiarare se siamo pronti a switchare activity

@@ -71,38 +71,33 @@ public class SignUpActivity extends AppCompatActivity {
 
 
                 if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplicationContext(), "Inserisci un indirizzo email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.enter_email, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(getApplicationContext(), "Inserisci una password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.enter_psw, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (password.length() < 6) {
-                    Toast.makeText(getApplicationContext(), "Password troppo corta! Inserisci almeno 6 caratteri", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.psw_short, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (password.compareTo(confPassword) != 0) {
-                    Toast.makeText(getApplicationContext(), "Le passwords non sono uguali", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.psw_not_equal, Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
-                //create user
                 auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressBar.setVisibility(View.GONE);
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
                                 if (!task.isSuccessful()) {
-                                    Toast.makeText(SignUpActivity.this, "Registrazione fallita" + task.getException(),
-                                            Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignUpActivity.this, R.string.registration_fail, Toast.LENGTH_SHORT).show();
                                 }
                                 else {
 

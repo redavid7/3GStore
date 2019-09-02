@@ -123,7 +123,6 @@ public class WelcomeActivity extends AppCompatActivity {
             // se si arriva all'ultimo layout, il pulsante NEXT viene modificato con START
             // e viene disabilitato il pulsante SKIP
             if (position == layouts.length - 1) {
-                // last page. make button text to GOT IT
                 btnNext.setText(getString(R.string.start));
                 btnSkip.setVisibility(View.GONE);
 

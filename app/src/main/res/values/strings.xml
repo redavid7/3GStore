@@ -40,6 +40,11 @@
     <string name="shopping_amount">Total Amount: </string>
     <string name="firstName">First name</string>
     <string name="secondName">Second name</string>
+    <string name="enter_email">Enter email address!</string>
+    <string name="enter_psw">Enter password!</string>
+    <string name="reset_email_success">We have sent you instructions to reset your password!</string>
+    <string name="reset_email_fail">Failed to send reset email!</string>
+    <string name="registration_fail">Registration failed!</string>
 
     <!-- MarangiCoin -->
     <string name="your_marangiCoin">Current MarangiCoin: </string>
@@ -77,7 +82,7 @@
 
     <!-- Toast Settings-->
     <string name="camps">Compile all camps</string>
-    <string name="psw_short">The new password is too short! Insert at least 6 characters</string>
+    <string name="psw_short">The password is too short! Insert at least 6 characters</string>
     <string name="psw_not_equal">The two passwords don\'t match</string>
     <string name="psw_change_failed">Password change failed</string>
     <string name="psw_change_success">Password succesfully changed!</string>
