@@ -1,6 +1,7 @@
 package com.QUeM.TreGStore;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.support.v4.app.Fragment;
 import android.view.ViewGroup;
@@ -19,6 +20,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class FragmentCronologia extends Fragment {
 
@@ -63,7 +66,10 @@ public class FragmentCronologia extends Fragment {
                         Iterator<DocumentSnapshot> q = queryDocumentSnapshots.iterator();
                        while (q.hasNext()) {
                            //aggiungo gli id all'array
-                           addToArrayList1(q.next().getId());
+                           String dataOrdine="Giorno ";
+                           dataOrdine=dataOrdine.concat(q.next().getId());
+                           dataOrdine=dataOrdine.replace("_", ", Ora:");
+                           addToArrayList1(dataOrdine);
                        }
                        //riempio la lista dei prodotti
                         creaListaAdapter1();
@@ -95,6 +101,10 @@ public class FragmentCronologia extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //prendo il valore sottoforma di stringa dell'oggetto cliccato
                 String item= mylist.getItemAtPosition(position).toString();
+                item=item.substring(7);
+
+                item=item.replace(", Ora:", "_");
+                Log.d(TAG, item);
                 //prendo il riferimento ai prodotti associati alla data cliccata
                 prodottiRef = db.collection("cronologiaOrdini").document(auth.getUid()).collection("dataOrdine").document(item).collection("prodottiAcquistati");
                 //prendo tutti prodotti associati al riferimento

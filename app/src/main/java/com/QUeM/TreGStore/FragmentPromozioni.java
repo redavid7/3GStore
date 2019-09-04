@@ -40,7 +40,6 @@ public class FragmentPromozioni extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initNotif();
     }
     @Override
     public void onStart() {
@@ -63,17 +62,6 @@ public class FragmentPromozioni extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }
-    //inizializzazione notifica
-    public void initNotif(){
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_dialog_email)
-                .setContentTitle("C'è un nuovo prodotto in sconto!!")
-                .setContentText("sostituire con il nome del prodotto")
-                .setStyle(new NotificationCompat.BigTextStyle()
-                        .bigText("Much longer text that cannot fit one line..."))
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(getContext());
-        notificationManager.notify(getTag(),0,builder.build());
-    }
+
 
 }
